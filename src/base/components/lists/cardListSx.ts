@@ -18,22 +18,20 @@ const mixAccent = (theme: Theme, amount: number) =>
 export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
     pt: 0.75,
     pb: 5,
-    // centered, pill-shaped section header - same width/inset as the cards below so it reads as their group label
+    // plain (not tinted like the rows below, so it stays visually distinct from them), vertically-centered label.
+    // full width, no inset - an inset here leaves gaps where the sticky header's own backdrop shows through
+    // while scrolling, which is the "old header showing in the back" artifact the pill version had.
     '& .MuiListSubheader-root': {
+        background: 'transparent',
         color: theme.palette.primary.main,
         fontSize: '0.76rem',
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: '0.05em',
-        lineHeight: 1.4,
-        textAlign: 'center',
-        margin: '10px 14px 6px 14px',
-        padding: '7px 18px',
-        width: 'calc(100% - 28px)',
-        boxSizing: 'border-box',
-        borderRadius: '10px',
-        backgroundColor: mixAccent(theme, 10),
-        border: `1px solid ${alpha(theme.palette.primary.main, 0.18)}`,
+        display: 'flex',
+        alignItems: 'center',
+        minHeight: 36,
+        padding: '10px 18px 6px 18px',
     },
     '& .MuiListItemButton-root, & .MuiListItem-root:not(.MuiListSubheader-root)': {
         margin: '4px 14px',
