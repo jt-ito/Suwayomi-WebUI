@@ -45,10 +45,13 @@ export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
         padding: '10px 18px',
     },
     // plain rows (a label next to an inline Switch/Select/etc.) - only the control itself is interactive,
-    // so the row doesn't need to be as tall or padded as a full tappable button
+    // so the row doesn't need to be as tall or padded as a full tappable button. The controls default to MUI's
+    // "medium" size regardless of the row's own padding, so they're shrunk here too, not just the row.
     '& .MuiListItem-root:not(.MuiListItemButton-root):not(.MuiListSubheader-root)': {
         minHeight: 44,
         padding: '6px 18px',
+        '& .MuiSelect-select': { paddingTop: 6, paddingBottom: 6, fontSize: '0.875rem' },
+        '& .MuiSwitch-root': { transform: 'scale(0.85)', transformOrigin: 'right center' },
     },
     '& .MuiListItemButton-root:hover': {
         backgroundColor: mixAccent(theme, 20),
