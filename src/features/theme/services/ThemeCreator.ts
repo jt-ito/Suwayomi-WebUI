@@ -21,6 +21,7 @@ import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { FORK_COMPONENT_OVERRIDES } from '@/features/theme/services/ForkComponentOverrides.ts';
 
 const SCROLLBAR_SIZE = 14;
 
@@ -198,7 +199,7 @@ export const createTheme = (
                 ...appTheme.muiTheme.typography,
             },
             components: {
-                ...appTheme.muiTheme.components,
+                ...deepmerge(FORK_COMPONENT_OVERRIDES, appTheme.muiTheme.components ?? {}),
                 MuiUseMediaQuery: {
                     defaultProps: {
                         noSsr: true,

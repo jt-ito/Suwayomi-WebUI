@@ -13,6 +13,7 @@ import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import Divider from '@mui/material/Divider';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { UpdateState } from '@/lib/graphql/generated/graphql-base.types.ts';
@@ -75,7 +76,7 @@ export function About() {
     const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <List
                 sx={{ padding: 0 }}
                 subheader={

@@ -14,7 +14,6 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -29,17 +28,7 @@ import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.co
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
 
 export function DefaultNavBar() {
-    const {
-        title,
-        hideTitle,
-        action,
-        override,
-        isCollapsed,
-        setIsCollapsed,
-        setAppBarHeight,
-        navBarWidth,
-        setNavBarWidth,
-    } = useNavBarContext();
+    const { title, hideTitle, action, override, setAppBarHeight, navBarWidth, setNavBarWidth } = useNavBarContext();
 
     const theme = useTheme();
     const getOptionForDirection = useGetOptionForDirection();
@@ -64,7 +53,8 @@ export function DefaultNavBar() {
 
         return path === pathname;
     });
-    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
+    // the collapsed sidebar stays visible as an icon rail, so the app bar always sits next to it
+    const actualNavBarWidth = isMobileWidth ? 0 : navBarWidth;
 
     const visibleNavBarItems = useMemo(
         () =>
@@ -129,25 +119,9 @@ export function DefaultNavBar() {
                 }}
             >
                 <Toolbar sx={{ position: 'relative' }}>
-                    {!isMobileWidth && (
-                        <Stack
-                            sx={{
-                                position: 'absolute',
-                                left: 0,
-                                width: `calc(${navBarWidth}px + env(safe-area-inset-left))`,
-                                ...(!isCollapsed && { display: 'none' }),
-                                alignItems: 'center',
-                            }}
-                        >
-                            <IconButton aria-label="open drawer" onClick={() => setIsCollapsed(false)} color="inherit">
-                                <MenuIcon />
-                            </IconButton>
-                        </Stack>
-                    )}
                     <Stack
                         sx={{
-                            ml: `${isCollapsed ? navBarWidth : 0}px`,
-                            width: `calc(100% - (${isCollapsed ? navBarWidth : 0}px + env(safe-area-inset-left)))`,
+                            width: 'calc(100% - env(safe-area-inset-left))',
                             flexDirection: 'row',
                             alignItems: 'center',
                         }}

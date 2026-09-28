@@ -956,6 +956,10 @@ msgstr "Close"
 msgid "Cloudflare bypass"
 msgstr "Cloudflare bypass"
 
+#: src/features/navigation-bar/components/DesktopSideBar.tsx
+msgid "Collapse sidebar"
+msgstr "Collapse sidebar"
+
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Color filter blend mode"
 msgstr "Color filter blend mode"
@@ -1765,6 +1769,10 @@ msgstr "Exit to manga page"
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Exit to previous page"
 msgstr "Exit to previous page"
+
+#: src/features/navigation-bar/components/DesktopSideBar.tsx
+msgid "Expand sidebar"
+msgstr "Expand sidebar"
 
 #: src/features/browse/screens/Browse.tsx
 msgid "Extension"

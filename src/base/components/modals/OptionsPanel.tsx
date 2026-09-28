@@ -8,6 +8,7 @@
 
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import { alpha } from '@mui/material/styles';
 import React from 'react';
 
 interface IProps {
@@ -23,13 +24,32 @@ export const OptionsPanel: React.FC<IProps> = ({ open, onClose, children, minHei
         open={open}
         onClose={onClose}
         slotProps={{
+            backdrop: { sx: { backdropFilter: 'blur(2px)', backgroundColor: 'rgba(0, 0, 0, 0.45)' } },
             paper: {
-                sx: {
+                sx: (theme) => ({
                     maxWidth: 600,
                     marginLeft: 'auto',
                     marginRight: 'auto',
                     minHeight,
-                },
+                    backgroundImage: 'none',
+                    borderRadius: '22px 22px 0 0',
+                    border: `1px solid ${alpha(theme.palette.primary.main, 0.18)}`,
+                    borderTop: `1.5px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+                    borderBottom: 'none',
+                    boxShadow: `0 -10px 40px rgba(0, 0, 0, 0.45), 0 -2px 10px ${alpha(theme.palette.primary.main, 0.15)}`,
+                    '& .MuiTabs-root': {
+                        borderBottom: `1px solid ${theme.palette.divider}`,
+                        borderRadius: '22px 22px 0 0',
+                    },
+                    '& .MuiTab-root:hover': { backgroundColor: alpha(theme.palette.text.primary, 0.06) },
+                    '& .MuiFormControlLabel-root': {
+                        borderRadius: '8px',
+                        userSelect: 'none',
+                        transition: 'background-color 130ms ease',
+                        '&:hover': { backgroundColor: alpha(theme.palette.primary.main, 0.1) },
+                    },
+                    '& .MuiFormControlLabel-label': { fontWeight: 500, fontSize: '0.9rem' },
+                }),
             },
         }}
     >

@@ -22,6 +22,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import HistoryIcon from '@mui/icons-material/History';
 import ImageIcon from '@mui/icons-material/Image';
 import { useLingui } from '@lingui/react/macro';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
@@ -32,7 +33,7 @@ export function Settings() {
     useAppTitle(t`Settings`);
 
     return (
-        <List sx={{ padding: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <ListItemLink to={AppRoutes.settings.children.appearance.path}>
                 <ListItemIcon>
                     <PaletteIcon />

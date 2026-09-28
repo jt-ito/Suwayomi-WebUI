@@ -15,6 +15,7 @@ import Divider from '@mui/material/Divider';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.constants.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -63,7 +64,7 @@ export const More = () => {
     };
 
     return (
-        <List sx={{ p: 0 }}>
+        <List sx={CARD_LIST_SX}>
             {Object.entries(finalHiddenNavBarItemsByGroup).map(([group, items], index, list) => (
                 <Fragment key={group}>
                     {items.map((item) => (
