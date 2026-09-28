@@ -1837,6 +1837,10 @@ msgstr "Extension stores"
 msgid "Extensions"
 msgstr "Extensions"
 
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "failed"
+msgstr "failed"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Failed to connect to KOReader Sync server."
@@ -2808,6 +2812,10 @@ msgid "No downloads"
 msgstr "No downloads"
 
 #: src/features/global-search/screens/SearchAll.tsx
+msgid "No exact match, showing results for \"{activeQuery}\""
+msgstr "No exact match, showing results for \"{activeQuery}\""
+
+#: src/features/global-search/screens/SearchAll.tsx
 #: src/features/manga/components/MangaGrid.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/tracker/components/TrackerSearch.tsx
@@ -3435,6 +3443,17 @@ msgstr "Search results"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Search results will include manga that do not match the current filters"
 msgstr "Search results will include manga that do not match the current filters"
+
+#. placeholder {0}: searchSummary.total
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Searched {0} sources"
+msgstr "Searched {0} sources"
+
+#. placeholder {0}: searchSummary.done
+#. placeholder {1}: searchSummary.total
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Searching: {0} of {1} sources done"
+msgstr "Searching: {0} of {1} sources done"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Searching…"
@@ -4423,6 +4442,10 @@ msgstr "White"
 #: src/features/settings/Settings.constants.ts
 msgid "With \"Completed\" status"
 msgstr "With \"Completed\" status"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "with results"
+msgstr "with results"
 
 #: src/features/settings/Settings.constants.ts
 msgid "With unread chapter(s)"

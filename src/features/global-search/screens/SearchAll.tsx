@@ -64,6 +64,7 @@ import groupBy from 'lodash/fp/groupBy';
 import mapValues from 'lodash/fp/mapValues';
 import type { TMigratableSource } from '@/features/migration/Migration.types.ts';
 import { plural } from '@lingui/core/macro';
+import { getSearchQueryCandidates } from '@/features/global-search/GlobalSearch.util.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -161,7 +162,19 @@ const SourceSearchPreview = React.memo(
             [searchString, id, name],
         );
 
-        const [refetch, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
+        // Sources match the query on their own terms (e.g. some only find a manga by its shorter title, without the
+        // subtitle), so if nothing is found, simplified versions of the query are tried one after another.
+        const queryCandidates = useMemo(() => getSearchQueryCandidates(searchString), [searchString]);
+        const [fallbackQueryState, setFallbackQueryState] = useState<{
+            forQuery: typeof searchString;
+            index: number;
+        }>();
+        const candidateIndex =
+            fallbackQueryState && fallbackQueryState.forQuery === searchString ? fallbackQueryState.index : 0;
+        const activeQuery = queryCandidates[candidateIndex] ?? searchString ?? '';
+        const hasNextCandidate = candidateIndex < queryCandidates.length - 1;
+
+        const [refetch, results] = requestManager.useSourceSearch(id, activeQuery, undefined, 1, {
             skipRequest: !searchString,
             addAbortSignal: true,
         });
@@ -180,20 +193,29 @@ const SourceSearchPreview = React.memo(
                 SOURCE_SEARCH_TIMEOUT,
             );
             return () => clearTimeout(timeout);
-        }, [searchString, isLoading]);
+        }, [searchString, activeQuery, isLoading]);
 
         const tmpMangas = searchResult?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
         const mangas = tmpMangas.filter((manga) => manga.id !== mangaId);
-        const noMangasFound = !error && !isLoading && !mangas.length;
+        const isNothingFoundForQuery = !error && !isLoading && !mangas.length;
+        // while there is another query to try, the source is still being searched
+        const isSearching = isLoading || (isNothingFoundForQuery && hasNextCandidate);
+        const noMangasFound = isNothingFoundForQuery && !hasNextCandidate;
+
+        useEffect(() => {
+            if (isNothingFoundForQuery && hasNextCandidate) {
+                setFallbackQueryState({ forQuery: searchString, index: candidateIndex + 1 });
+            }
+        }, [isNothingFoundForQuery, hasNextCandidate, searchString, candidateIndex]);
 
         useEffect(() => {
             onSearchRequestFinished(source, {
-                isLoading,
+                isLoading: isSearching,
                 hasResults: !noMangasFound,
                 emptySearch: !searchString,
                 error,
             });
-        }, [isLoading, noMangasFound, searchString, error]);
+        }, [isSearching, noMangasFound, searchString, error]);
 
         let errorMessage: string | undefined;
         if (error) {
@@ -202,7 +224,7 @@ const SourceSearchPreview = React.memo(
             errorMessage = t`No manga found`;
         }
 
-        if ((!isLoading && !searchString) || emptyQuery) {
+        if ((!isSearching && !searchString) || emptyQuery) {
             return null;
         }
 
@@ -215,7 +237,7 @@ const SourceSearchPreview = React.memo(
                 <Card sx={{ mb: 1 }}>
                     <CardActionArea
                         component={Link}
-                        to={AppRoutes.sources.children.browse.path(id, searchString)}
+                        to={AppRoutes.sources.children.browse.path(id, activeQuery)}
                         state={AppRoutes.sources.children.browse.state({
                             mode,
                             mangaId,
@@ -232,6 +254,11 @@ const SourceSearchPreview = React.memo(
                                         other: '# entries in library',
                                     })}`}
                             </Typography>
+                            {!!searchString && activeQuery !== searchString && !!mangas.length && (
+                                <Typography variant="caption" component="div" color="text.secondary">
+                                    {t`No exact match, showing results for "${activeQuery}"`}
+                                </Typography>
+                            )}
                         </Box>
                         <CustomTooltip title={t`Show more`}>
                             <IconButton {...MUIUtil.preventRippleProp()}>
@@ -258,10 +285,10 @@ const SourceSearchPreview = React.memo(
                 ) : (
                     <BaseMangaGrid
                         // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
-                        key={searchString}
+                        key={activeQuery}
                         gridWrapperProps={{ sx: { px: 0 } }}
                         mangas={mangas}
-                        isLoading={isLoading}
+                        isLoading={isSearching}
                         hasNextPage={false}
                         loadMore={() => undefined}
                         horizontal
@@ -344,6 +371,21 @@ export const SearchAll = ({
             ),
         [sourcesSortedByName, debouncedSourceToLoadingStateMap],
     );
+
+    // only sources that were actually searched are counted, e.g. no skipped ones due to an empty query
+    const searchSummary = useMemo(() => {
+        const finishedStates = sourcesSortedByResult
+            .map((source) => sourceToLoadingStateMap.get(source.id))
+            .filter((loadingState): loadingState is SourceLoadingState => !!loadingState && !loadingState.emptySearch)
+            .filter((loadingState) => !loadingState.isLoading);
+
+        return {
+            total: sourcesSortedByResult.length,
+            done: finishedStates.length,
+            withResults: finishedStates.filter((loadingState) => !loadingState.error && loadingState.hasResults).length,
+            failed: finishedStates.filter((loadingState) => !!loadingState.error).length,
+        };
+    }, [sourcesSortedByResult, sourceToLoadingStateMap]);
 
     const updateSourceLoadingState = useCallback(
         ({ id }: SourceIdInfo, loadState: SourceLoadingState) => {
@@ -464,6 +506,17 @@ export const SearchAll = ({
                 </Button>
             </Stack>
             <Box sx={{ pt: `${filterHeaderHeight}px` }}>
+                {!!query && !!searchSummary.total && (
+                    <Typography variant="caption" component="div" color="text.secondary" sx={{ pb: 1 }}>
+                        {searchSummary.done < searchSummary.total
+                            ? t`Searching: ${searchSummary.done} of ${searchSummary.total} sources done`
+                            : t`Searched ${searchSummary.total} sources`}
+                        {` · ${searchSummary.withResults} `}
+                        {t`with results`}
+                        {!!searchSummary.failed && ` · ${searchSummary.failed} `}
+                        {!!searchSummary.failed && t`failed`}
+                    </Typography>
+                )}
                 {sourcesSortedByResult.map((source) => (
                     <SourceSearchPreview
                         key={source.id}
