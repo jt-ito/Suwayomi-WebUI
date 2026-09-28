@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { useLingui } from '@lingui/react/macro';
 import {
     updateMetadataServerSettings,
@@ -74,7 +75,7 @@ export const DeviceSetting = () => {
     }
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <MutableListSetting
                 settingName={t`Devices`}
                 description={t`Manage your existing devices.\nUI specific settings that are stored on the server are per device.\nThis makes it possible to have e.g. different settings on a desktop and a smartphone`}

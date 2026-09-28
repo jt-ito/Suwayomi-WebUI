@@ -7,6 +7,7 @@
  */
 
 import List from '@mui/material/List';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -82,7 +83,7 @@ export const TrackingSettings = () => {
 
     return (
         <>
-            <List sx={{ pt: 0 }}>
+            <List sx={CARD_LIST_SX}>
                 <ListItem>
                     <ListItemText primary={t`Update progress after reading`} />
                     <Switch
@@ -104,6 +105,7 @@ export const TrackingSettings = () => {
                 </ListItem>
             </List>
             <List
+                sx={CARD_LIST_SX}
                 subheader={
                     <ListSubheader component="div" id="tracking-trackers">
                         {t`Trackers`}

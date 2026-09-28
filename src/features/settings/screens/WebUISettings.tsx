@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
@@ -102,7 +103,7 @@ export const WebUISettings = () => {
     const isCustomWebUI = webUISettings.webUIFlavor === WebUiFlavor.Custom;
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <SelectSetting<WebUiFlavor>
                 settingName={t`Flavor`}
                 value={webUISettings.webUIFlavor}

@@ -11,6 +11,7 @@ import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import Switch from '@mui/material/Switch';
 import { d } from 'koration';
 import { Trans, useLingui } from '@lingui/react/macro';
@@ -243,7 +244,7 @@ export const ServerSettings = () => {
     const isSyncing = !!syncState && ![SyncState.Success, SyncState.Error].includes(syncState);
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             {localSettings}
             <List
                 subheader={

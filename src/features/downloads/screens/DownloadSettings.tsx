@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
@@ -115,7 +116,7 @@ export const DownloadSettings = () => {
     );
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <TextSetting
                 settingName={t`Download location`}
                 dialogDescription={t`The path to the directory on the server where downloaded files should get saved in`}

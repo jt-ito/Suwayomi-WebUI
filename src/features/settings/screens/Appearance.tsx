@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
@@ -73,7 +74,7 @@ export const Appearance = () => {
     }
 
     return (
-        <List>
+        <List sx={CARD_LIST_SX}>
             <List
                 subheader={
                     <ListSubheader component="div" id="appearance-theme" customOffsetProps={{ sx: { zIndex: 2 } }}>

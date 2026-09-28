@@ -10,6 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -80,7 +81,7 @@ export const BrowseSettings = () => {
     const serverSettings = data!.settings;
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <List
                 subheader={
                     <ListSubheader component="div" id="browse-settings-source">

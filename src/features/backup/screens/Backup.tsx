@@ -12,6 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
 import { AwaitableComponent } from 'awaitable-component';
@@ -250,7 +251,7 @@ export function Backup() {
 
     return (
         <>
-            <List sx={{ padding: 0 }}>
+            <List sx={CARD_LIST_SX}>
                 <ListItemButton onClick={createBackup}>
                     <ListItemText primary={t`Create backup`} secondary={t`Back up library as a Tachiyomi backup`} />
                 </ListItemButton>

@@ -97,6 +97,57 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
             root: { borderRadius: 10, transition: 'border-color 150ms ease, box-shadow 150ms ease' },
         },
     },
+    MuiSwitch: {
+        styleOverrides: {
+            switchBase: { transition: `transform 150ms ${TACTILE_EASING}, color 150ms ease` },
+            thumb: { boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' },
+            track: { borderRadius: 999, transition: 'background-color 150ms ease, opacity 150ms ease' },
+        },
+    },
+    MuiCheckbox: {
+        styleOverrides: {
+            root: {
+                transition: `transform 100ms ${TACTILE_EASING}, color 150ms ease`,
+                '&:active': { transform: 'scale(0.9)' },
+            },
+        },
+    },
+    MuiRadio: {
+        styleOverrides: {
+            root: {
+                transition: `transform 100ms ${TACTILE_EASING}, color 150ms ease`,
+                '&:active': { transform: 'scale(0.9)' },
+            },
+        },
+    },
+    MuiSlider: {
+        styleOverrides: {
+            root: { height: 6 },
+            track: { borderRadius: 4 },
+            rail: { borderRadius: 4, opacity: 0.3 },
+            thumb: ({ theme }) => ({
+                width: 18,
+                height: 18,
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.25)',
+                transition: `box-shadow 150ms ease, transform 100ms ${TACTILE_EASING}`,
+                '&:hover, &.Mui-focusVisible': { boxShadow: `0 0 0 8px ${alpha(theme.palette.primary.main, 0.16)}` },
+                '&.Mui-active': { transform: 'scale(1.15)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' },
+            }),
+        },
+    },
+    MuiListSubheader: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                background: 'transparent',
+                color: theme.palette.primary.main,
+                fontSize: '0.76rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                lineHeight: 1.4,
+            }),
+        },
+    },
     MuiDialog: {
         styleOverrides: {
             paper: ({ theme }) => ({

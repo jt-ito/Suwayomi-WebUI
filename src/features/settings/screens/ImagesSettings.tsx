@@ -8,6 +8,7 @@
 
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
+import { CARD_LIST_SX } from '@/base/components/lists/cardListSx.ts';
 import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useLingui } from '@lingui/react/macro';
@@ -39,7 +40,7 @@ export const ImagesSettings = () => {
     };
 
     return (
-        <List sx={{ pt: 0 }}>
+        <List sx={CARD_LIST_SX}>
             <ListItemButton disabled={isClearingServerCache} onClick={clearCache}>
                 <ListItemText
                     primary={t`Clear cache`}
