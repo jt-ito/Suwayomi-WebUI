@@ -2082,6 +2082,7 @@ export type PartialSettingsType = Settings & {
     webUIFlavor?: Maybe<WebUiFlavor>;
     webUIInterface?: Maybe<WebUiInterface>;
     webUIUpdateCheckInterval?: Maybe<Scalars['Float']['output']>;
+    webViewAdBlockEnabled?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type PartialSettingsTypeInput = {
@@ -2170,6 +2171,7 @@ export type PartialSettingsTypeInput = {
     webUIFlavor?: InputMaybe<WebUiFlavor>;
     webUIInterface?: InputMaybe<WebUiInterface>;
     webUIUpdateCheckInterval?: InputMaybe<Scalars['Float']['input']>;
+    webViewAdBlockEnabled?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type PlatformInfo = {
@@ -2739,6 +2741,7 @@ export type Settings = {
     webUIFlavor?: Maybe<WebUiFlavor>;
     webUIInterface?: Maybe<WebUiInterface>;
     webUIUpdateCheckInterval?: Maybe<Scalars['Float']['output']>;
+    webViewAdBlockEnabled?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SettingsDownloadConversion = {
@@ -2894,6 +2897,7 @@ export type SettingsType = Settings & {
     webUIFlavor: WebUiFlavor;
     webUIInterface: WebUiInterface;
     webUIUpdateCheckInterval: Scalars['Float']['output'];
+    webViewAdBlockEnabled: Scalars['Boolean']['output'];
 };
 
 export type SortFilter = {

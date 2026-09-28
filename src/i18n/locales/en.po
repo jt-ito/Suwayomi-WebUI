@@ -674,6 +674,14 @@ msgstr "Binary file size"
 msgid "Black"
 msgstr "Black"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Block ads and trackers"
+msgstr "Block ads and trackers"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Block requests to known ad and tracker domains in the WebView. Makes pages load faster, but can occasionally break a site"
+msgstr "Block requests to known ad and tracker domains in the WebView. Makes pages load faster, but can occasionally break a site"
+
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Blue"
 msgstr "Blue"

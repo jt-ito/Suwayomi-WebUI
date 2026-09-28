@@ -1276,6 +1276,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'webUIFlavor'
     | 'webUIInterface'
     | 'webUIUpdateCheckInterval'
+    | 'webViewAdBlockEnabled'
     | PartialSettingsTypeKeySpecifier
 )[];
 export type PartialSettingsTypeFieldPolicy = {
@@ -1375,6 +1376,7 @@ export type PartialSettingsTypeFieldPolicy = {
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+    webViewAdBlockEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type PlatformInfoKeySpecifier = ('arch' | 'headless' | 'jvm' | 'os' | PlatformInfoKeySpecifier)[];
 export type PlatformInfoFieldPolicy = {
@@ -1711,6 +1713,7 @@ export type SettingsKeySpecifier = (
     | 'webUIFlavor'
     | 'webUIInterface'
     | 'webUIUpdateCheckInterval'
+    | 'webViewAdBlockEnabled'
     | SettingsKeySpecifier
 )[];
 export type SettingsFieldPolicy = {
@@ -1810,6 +1813,7 @@ export type SettingsFieldPolicy = {
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+    webViewAdBlockEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type SettingsDownloadConversionKeySpecifier = (
     | 'callTimeout'
@@ -1960,6 +1964,7 @@ export type SettingsTypeKeySpecifier = (
     | 'webUIFlavor'
     | 'webUIInterface'
     | 'webUIUpdateCheckInterval'
+    | 'webViewAdBlockEnabled'
     | SettingsTypeKeySpecifier
 )[];
 export type SettingsTypeFieldPolicy = {
@@ -2059,6 +2064,7 @@ export type SettingsTypeFieldPolicy = {
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+    webViewAdBlockEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type SortFilterKeySpecifier = ('default' | 'name' | 'values' | SortFilterKeySpecifier)[];
 export type SortFilterFieldPolicy = {

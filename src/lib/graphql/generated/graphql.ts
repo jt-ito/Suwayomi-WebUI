@@ -3172,6 +3172,7 @@ export type ServerSettingsFragment = {
     databasePassword: string;
     useHikariConnectionPool: boolean;
     kcefEnabled: boolean;
+    webViewAdBlockEnabled: boolean;
     syncDataCategories: boolean;
     syncDataChapters: boolean;
     syncDataHistory: boolean;
@@ -3285,6 +3286,7 @@ export type ResetServerSettingsMutation = {
             databasePassword: string;
             useHikariConnectionPool: boolean;
             kcefEnabled: boolean;
+            webViewAdBlockEnabled: boolean;
             syncDataCategories: boolean;
             syncDataChapters: boolean;
             syncDataHistory: boolean;
@@ -3408,6 +3410,7 @@ export type UpdateServerSettingsMutation = {
             databasePassword: string;
             useHikariConnectionPool: boolean;
             kcefEnabled: boolean;
+            webViewAdBlockEnabled: boolean;
             syncDataCategories: boolean;
             syncDataChapters: boolean;
             syncDataHistory: boolean;
@@ -3527,6 +3530,7 @@ export type GetServerSettingsQuery = {
         databasePassword: string;
         useHikariConnectionPool: boolean;
         kcefEnabled: boolean;
+        webViewAdBlockEnabled: boolean;
         syncDataCategories: boolean;
         syncDataChapters: boolean;
         syncDataHistory: boolean;

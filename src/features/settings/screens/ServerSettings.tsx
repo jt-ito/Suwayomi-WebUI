@@ -745,6 +745,17 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('kcefEnabled', e.target.checked)}
                     />
                 </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Block ads and trackers`}
+                        secondary={t`Block requests to known ad and tracker domains in the WebView. Makes pages load faster, but can occasionally break a site`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.webViewAdBlockEnabled}
+                        onChange={(e) => updateSetting('webViewAdBlockEnabled', e.target.checked)}
+                    />
+                </ListItem>
                 <ListItemButton
                     onClick={() =>
                         clearWebViewCookiesCache[0]()

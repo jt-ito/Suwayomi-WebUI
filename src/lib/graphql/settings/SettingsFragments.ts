@@ -136,6 +136,7 @@ export const SERVER_SETTINGS = gql`
 
         # WebView
         kcefEnabled
+        webViewAdBlockEnabled
 
         # Sync
         syncDataCategories
