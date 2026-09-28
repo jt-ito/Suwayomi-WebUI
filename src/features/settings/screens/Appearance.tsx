@@ -85,6 +85,7 @@ export const Appearance = () => {
                 <ListItem>
                     <ListItemText primary={t`Theme mode`} />
                     <Select<ThemeMode>
+                        size="small"
                         value={actualThemeMode}
                         onChange={(e) => {
                             const newMode = e.target.value as 'system' | 'light' | 'dark';
@@ -150,6 +151,7 @@ export const Appearance = () => {
                         }
                     />
                     <Select
+                        size="small"
                         value={locale}
                         onChange={({ target: { value: newLocale } }) => {
                             updateMetadataSetting('locale', newLocale).catch((e) =>

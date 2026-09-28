@@ -97,7 +97,11 @@ export const DeviceSetting = () => {
                     primary={t`Active device`}
                     secondary={t`Select a device to use its server stored UI settings`}
                 />
-                <Select value={activeDevice} onChange={({ target: { value: device } }) => setActiveDevice(device)}>
+                <Select
+                    size="small"
+                    value={activeDevice}
+                    onChange={({ target: { value: device } }) => setActiveDevice(device)}
+                >
                     {devices.map((device) => (
                         <MenuItem key={device} value={device}>
                             {device === DEFAULT_DEVICE ? t`Default` : device}
