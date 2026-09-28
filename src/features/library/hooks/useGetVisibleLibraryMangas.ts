@@ -145,6 +145,11 @@ const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: MangaSt
 const sourceFilter = (sourceFilters: LibraryOptions['hasSource'], manga: MangaSourceIdInfo): boolean =>
     listTriStateBooleanFilter(FilterMode.OR, sourceFilters, (sourceId) => sourceId === manga.sourceId);
 
+const genreFilter = (genreFilterOption: LibraryOptions['hasGenre'], manga: MangaGenreInfo): boolean =>
+    listTriStateBooleanFilter(genreFilterOption.mode, genreFilterOption.filters, (genre) =>
+        manga.genre.includes(genre),
+    );
+
 type TMangaFilterOptions = Pick<
     LibraryOptions,
     | 'hasUnreadChapters'
@@ -155,11 +160,13 @@ type TMangaFilterOptions = Pick<
     | 'hasTrackerBinding'
     | 'hasStatus'
     | 'hasSource'
+    | 'hasGenre'
 >;
 type TMangaFilter = Pick<MangaType, 'bookmarkCount' | 'hasDuplicateChapters'> &
     TMangaTrackerFilter &
     MangaStatusInfo &
     MangaSourceIdInfo &
+    MangaGenreInfo &
     MangaChapterCountInfo &
     MangaDownloadInfo &
     MangaUnreadInfo;
@@ -174,6 +181,7 @@ const filterManga = (
         hasTrackerBinding,
         hasStatus,
         hasSource,
+        hasGenre,
     }: TMangaFilterOptions,
 ): boolean =>
     triStateFilterNumber(hasDownloadedChapters, manga.downloadCount) &&
@@ -183,7 +191,8 @@ const filterManga = (
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
     trackerFilter(hasTrackerBinding, manga) &&
     statusFilter(hasStatus, manga) &&
-    sourceFilter(hasSource, manga);
+    sourceFilter(hasSource, manga) &&
+    genreFilter(hasGenre, manga);
 
 const FUZZY_SEARCH_WEIGHTS = [
     { name: 'title', weight: 10 },
@@ -339,6 +348,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         hasTrackerBinding,
         hasDuplicateChapters,
         hasStatus,
+        hasGenre,
     } = options;
     const { settings } = useMetadataServerSettings();
     const { sources } = Sources.useGetMigratableSources();
@@ -371,6 +381,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasDuplicateChapters,
             hasStatus,
             hasSource,
+            hasGenre,
             settings.ignoreFilters,
         ],
     );
@@ -396,6 +407,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 
     const isATrackFilterActive = Object.values(hasTrackerBinding).some((trackFilterState) => trackFilterState != null);
     const isASourceFilterActive = Object.values(hasSource).some((sourceFilterState) => sourceFilterState != null);
+    const isAGenreFilterActive = Object.values(hasGenre.filters).some((genreFilterState) => genreFilterState != null);
     const showFilteredOutMessage =
         (hasUnreadChapters != null ||
             hasReadChapters != null ||
@@ -403,7 +415,8 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasBookmarkedChapters != null ||
             !!query ||
             isATrackFilterActive ||
-            isASourceFilterActive) &&
+            isASourceFilterActive ||
+            isAGenreFilterActive) &&
         visibleMangas.length === 0 &&
         mangas.length > 0;
 

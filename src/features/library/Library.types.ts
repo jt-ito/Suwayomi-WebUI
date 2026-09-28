@@ -49,6 +49,10 @@ export interface LibraryOptions {
     };
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
     hasSource: Record<string, NullAndUndefined<boolean>>;
+    hasGenre: {
+        filters: Record<string, NullAndUndefined<boolean>>;
+        mode: FilterMode;
+    };
 }
 
 export type TMangaDuplicate = MangaIdInfo & MangaTitleInfo & MangaDescriptionInfo;

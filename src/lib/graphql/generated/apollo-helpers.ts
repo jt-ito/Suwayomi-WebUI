@@ -96,6 +96,7 @@ export type CategoryTypeKeySpecifier = (
     | 'id'
     | 'includeInDownload'
     | 'includeInUpdate'
+    | 'isDefaultCategory'
     | 'mangas'
     | 'meta'
     | 'name'
@@ -107,6 +108,7 @@ export type CategoryTypeFieldPolicy = {
     id?: FieldPolicy<any> | FieldReadFunction<any>;
     includeInDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     includeInUpdate?: FieldPolicy<any> | FieldReadFunction<any>;
+    isDefaultCategory?: FieldPolicy<any> | FieldReadFunction<any>;
     mangas?: FieldPolicy<any> | FieldReadFunction<any>;
     meta?: FieldPolicy<any> | FieldReadFunction<any>;
     name?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -254,6 +256,11 @@ export type CreateCategoryPayloadFieldPolicy = {
     category?: FieldPolicy<any> | FieldReadFunction<any>;
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type CreateUserPayloadKeySpecifier = ('clientMutationId' | 'user' | CreateUserPayloadKeySpecifier)[];
+export type CreateUserPayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    user?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type DeleteCategoryMetaPayloadKeySpecifier = (
     | 'category'
     | 'clientMutationId'
@@ -384,6 +391,11 @@ export type DeleteSourceMetasPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     metas?: FieldPolicy<any> | FieldReadFunction<any>;
     sources?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type DeleteUserPayloadKeySpecifier = ('clientMutationId' | 'success' | DeleteUserPayloadKeySpecifier)[];
+export type DeleteUserPayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    success?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type DequeueChapterDownloadPayloadKeySpecifier = (
     | 'clientMutationId'
@@ -976,6 +988,7 @@ export type MutationKeySpecifier = (
     | 'connectKoSyncAccount'
     | 'createBackup'
     | 'createCategory'
+    | 'createUser'
     | 'deleteCategory'
     | 'deleteCategoryMeta'
     | 'deleteCategoryMetas'
@@ -989,6 +1002,7 @@ export type MutationKeySpecifier = (
     | 'deleteMangaMetas'
     | 'deleteSourceMeta'
     | 'deleteSourceMetas'
+    | 'deleteUser'
     | 'dequeueChapterDownload'
     | 'dequeueChapterDownloads'
     | 'enqueueChapterDownload'
@@ -1048,6 +1062,7 @@ export type MutationKeySpecifier = (
     | 'updateSourcePreference'
     | 'updateStop'
     | 'updateTrack'
+    | 'updateUser'
     | 'updateWebUI'
     | MutationKeySpecifier
 )[];
@@ -1061,6 +1076,7 @@ export type MutationFieldPolicy = {
     connectKoSyncAccount?: FieldPolicy<any> | FieldReadFunction<any>;
     createBackup?: FieldPolicy<any> | FieldReadFunction<any>;
     createCategory?: FieldPolicy<any> | FieldReadFunction<any>;
+    createUser?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteCategoryMeta?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteCategoryMetas?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1074,6 +1090,7 @@ export type MutationFieldPolicy = {
     deleteMangaMetas?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteSourceMeta?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteSourceMetas?: FieldPolicy<any> | FieldReadFunction<any>;
+    deleteUser?: FieldPolicy<any> | FieldReadFunction<any>;
     dequeueChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     dequeueChapterDownloads?: FieldPolicy<any> | FieldReadFunction<any>;
     enqueueChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1133,6 +1150,7 @@ export type MutationFieldPolicy = {
     updateSourcePreference?: FieldPolicy<any> | FieldReadFunction<any>;
     updateStop?: FieldPolicy<any> | FieldReadFunction<any>;
     updateTrack?: FieldPolicy<any> | FieldReadFunction<any>;
+    updateUser?: FieldPolicy<any> | FieldReadFunction<any>;
     updateWebUI?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type NodeListKeySpecifier = ('edges' | 'nodes' | 'pageInfo' | 'totalCount' | NodeListKeySpecifier)[];
@@ -1408,6 +1426,7 @@ export type QueryKeySpecifier = (
     | 'libraryUpdateStatus'
     | 'manga'
     | 'mangas'
+    | 'me'
     | 'meta'
     | 'metas'
     | 'restoreStatus'
@@ -1420,6 +1439,8 @@ export type QueryKeySpecifier = (
     | 'tracker'
     | 'trackers'
     | 'updateStatus'
+    | 'user'
+    | 'users'
     | 'validateBackup'
     | QueryKeySpecifier
 )[];
@@ -1444,6 +1465,7 @@ export type QueryFieldPolicy = {
     libraryUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     manga?: FieldPolicy<any> | FieldReadFunction<any>;
     mangas?: FieldPolicy<any> | FieldReadFunction<any>;
+    me?: FieldPolicy<any> | FieldReadFunction<any>;
     meta?: FieldPolicy<any> | FieldReadFunction<any>;
     metas?: FieldPolicy<any> | FieldReadFunction<any>;
     restoreStatus?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1456,6 +1478,8 @@ export type QueryFieldPolicy = {
     tracker?: FieldPolicy<any> | FieldReadFunction<any>;
     trackers?: FieldPolicy<any> | FieldReadFunction<any>;
     updateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
+    user?: FieldPolicy<any> | FieldReadFunction<any>;
+    users?: FieldPolicy<any> | FieldReadFunction<any>;
     validateBackup?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type RefreshTokenPayloadKeySpecifier = ('accessToken' | 'clientMutationId' | RefreshTokenPayloadKeySpecifier)[];
@@ -2515,6 +2539,11 @@ export type UpdateTrackPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     trackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type UpdateUserPayloadKeySpecifier = ('clientMutationId' | 'user' | UpdateUserPayloadKeySpecifier)[];
+export type UpdateUserPayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    user?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type UpdaterJobsInfoTypeKeySpecifier = (
     | 'finishedJobs'
     | 'isRunning'
@@ -2544,6 +2573,21 @@ export type UpdaterUpdatesFieldPolicy = {
     jobsInfo?: FieldPolicy<any> | FieldReadFunction<any>;
     mangaUpdates?: FieldPolicy<any> | FieldReadFunction<any>;
     omittedUpdates?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type UserAccountTypeKeySpecifier = (
+    | 'createdAt'
+    | 'id'
+    | 'lastLoginAt'
+    | 'role'
+    | 'username'
+    | UserAccountTypeKeySpecifier
+)[];
+export type UserAccountTypeFieldPolicy = {
+    createdAt?: FieldPolicy<any> | FieldReadFunction<any>;
+    id?: FieldPolicy<any> | FieldReadFunction<any>;
+    lastLoginAt?: FieldPolicy<any> | FieldReadFunction<any>;
+    role?: FieldPolicy<any> | FieldReadFunction<any>;
+    username?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type ValidateBackupResultKeySpecifier = (
     | 'missingSources'
@@ -2690,6 +2734,10 @@ export type StrictTypedTypePolicies = {
         keyFields?: false | CreateCategoryPayloadKeySpecifier | (() => undefined | CreateCategoryPayloadKeySpecifier);
         fields?: CreateCategoryPayloadFieldPolicy;
     };
+    CreateUserPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | CreateUserPayloadKeySpecifier | (() => undefined | CreateUserPayloadKeySpecifier);
+        fields?: CreateUserPayloadFieldPolicy;
+    };
     DeleteCategoryMetaPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?:
             | false
@@ -2774,6 +2822,10 @@ export type StrictTypedTypePolicies = {
             | DeleteSourceMetasPayloadKeySpecifier
             | (() => undefined | DeleteSourceMetasPayloadKeySpecifier);
         fields?: DeleteSourceMetasPayloadFieldPolicy;
+    };
+    DeleteUserPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | DeleteUserPayloadKeySpecifier | (() => undefined | DeleteUserPayloadKeySpecifier);
+        fields?: DeleteUserPayloadFieldPolicy;
     };
     DequeueChapterDownloadPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?:
@@ -3380,6 +3432,10 @@ export type StrictTypedTypePolicies = {
         keyFields?: false | UpdateTrackPayloadKeySpecifier | (() => undefined | UpdateTrackPayloadKeySpecifier);
         fields?: UpdateTrackPayloadFieldPolicy;
     };
+    UpdateUserPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | UpdateUserPayloadKeySpecifier | (() => undefined | UpdateUserPayloadKeySpecifier);
+        fields?: UpdateUserPayloadFieldPolicy;
+    };
     UpdaterJobsInfoType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | UpdaterJobsInfoTypeKeySpecifier | (() => undefined | UpdaterJobsInfoTypeKeySpecifier);
         fields?: UpdaterJobsInfoTypeFieldPolicy;
@@ -3387,6 +3443,10 @@ export type StrictTypedTypePolicies = {
     UpdaterUpdates?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | UpdaterUpdatesKeySpecifier | (() => undefined | UpdaterUpdatesKeySpecifier);
         fields?: UpdaterUpdatesFieldPolicy;
+    };
+    UserAccountType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | UserAccountTypeKeySpecifier | (() => undefined | UserAccountTypeKeySpecifier);
+        fields?: UserAccountTypeFieldPolicy;
     };
     ValidateBackupResult?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | ValidateBackupResultKeySpecifier | (() => undefined | ValidateBackupResultKeySpecifier);

@@ -12,6 +12,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
+import { useMemo } from 'react';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
@@ -156,6 +157,7 @@ export const LibraryOptionsPanel = ({
     isStatusFilterActive,
     isTrackerFilterActive,
     isSourceFilterActive,
+    isGenreFilterActive,
 }: {
     category: CategoryMetadataInfo;
     open: boolean;
@@ -164,13 +166,21 @@ export const LibraryOptionsPanel = ({
     isStatusFilterActive: boolean;
     isTrackerFilterActive: boolean;
     isSourceFilterActive: boolean;
+    isGenreFilterActive: boolean;
 }) => {
     const { t } = useLingui();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY);
 
-    const { sources: librarySources } = Sources.useGetMigratableSources();
+    const { sources: librarySources, request: migratableSourcesRequest } = Sources.useGetMigratableSources();
+    const libraryGenres = useMemo(() => {
+        const genres = new Set<string>();
+        (migratableSourcesRequest.data?.mangas.nodes ?? STABLE_EMPTY_ARRAY).forEach((manga) => {
+            manga.genre.forEach((genre) => genres.add(genre));
+        });
+        return [...genres].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+    }, [migratableSourcesRequest.data]);
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
@@ -194,6 +204,7 @@ export const LibraryOptionsPanel = ({
             'hasStatus',
             'hasTrackerBinding',
             'hasSource',
+            'hasGenre',
         ],
     ) => {
         batchUpdateCategoryMetadata([
@@ -312,6 +323,36 @@ export const LibraryOptionsPanel = ({
                                     ))}
                                     isActive={isSourceFilterActive}
                                     reset={() => resetFilters(['hasSource'])}
+                                />
+                            )}
+                            {!!libraryGenres.length && (
+                                <CollapsableFilter
+                                    title={t`Genre`}
+                                    items={libraryGenres.map((genre) => (
+                                        <ThreeStateCheckboxInput
+                                            key={genre}
+                                            label={genre}
+                                            checked={categoryLibraryOptions.hasGenre.filters[genre]}
+                                            onChange={(checked) =>
+                                                updateCategoryLibraryOptions('hasGenre', {
+                                                    ...categoryLibraryOptions.hasGenre,
+                                                    filters: {
+                                                        ...categoryLibraryOptions.hasGenre.filters,
+                                                        [genre]: checked,
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    ))}
+                                    isActive={isGenreFilterActive}
+                                    reset={() => resetFilters(['hasGenre'])}
+                                    mode={categoryLibraryOptions.hasGenre.mode}
+                                    setMode={(mode) =>
+                                        updateCategoryLibraryOptions('hasGenre', {
+                                            ...categoryLibraryOptions.hasGenre,
+                                            mode,
+                                        })
+                                    }
                                 />
                             )}
                         </>

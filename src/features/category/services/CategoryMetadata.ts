@@ -42,6 +42,10 @@ export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
     },
     hasStatus: {} as LibraryOptions['hasStatus'],
     hasSource: {},
+    hasGenre: {
+        filters: {},
+        mode: FilterMode.OR,
+    },
 };
 
 const convertAppMetadataToGqlMetadata = (
@@ -51,6 +55,7 @@ const convertAppMetadataToGqlMetadata = (
     hasTrackerBinding: metadata.hasTrackerBinding ? JSON.stringify(metadata.hasTrackerBinding) : undefined,
     hasStatus: metadata.hasStatus ? JSON.stringify(metadata.hasStatus) : undefined,
     hasSource: metadata.hasSource ? JSON.stringify(metadata.hasSource) : undefined,
+    hasGenre: metadata.hasGenre ? JSON.stringify(metadata.hasGenre) : undefined,
 });
 
 const getCategoryMetadataWithDefaultValueFallback = (

@@ -63,6 +63,7 @@ export const GET_MIGRATABLE_SOURCES = gql`
         mangas(condition: { inLibrary: true }) {
             nodes {
                 sourceId
+                genre
                 source {
                     ...SOURCE_BASE_FIELDS
                 }

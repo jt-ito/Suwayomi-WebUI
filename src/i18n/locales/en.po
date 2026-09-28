@@ -1955,6 +1955,10 @@ msgstr "Fuzzy search"
 msgid "General"
 msgstr "General"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Genre"
+msgstr "Genre"
+
 #: src/features/settings/screens/About.tsx
 msgid "GitHub Server"
 msgstr "GitHub Server"

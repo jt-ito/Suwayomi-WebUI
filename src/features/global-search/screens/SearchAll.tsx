@@ -121,6 +121,8 @@ const compareSourcesBySearchResult = (
     return 0;
 };
 const TRIGGER_SEARCH_THRESHOLD = d(1).seconds.inWholeMilliseconds;
+// a slow or hung source must not keep its spinner (and request) running indefinitely
+const SOURCE_SEARCH_TIMEOUT = d(30).seconds.inWholeMilliseconds;
 
 const SourceSearchPreview = React.memo(
     ({
@@ -146,14 +148,18 @@ const SourceSearchPreview = React.memo(
 
         const { id, name, lang } = source;
 
-        const currentSearchString = useRef(searchString);
         const currentAbortRequest = useRef<(reason: any) => void>(() => {});
 
-        const didSearchChange = currentSearchString.current !== searchString;
-        if (didSearchChange) {
-            currentSearchString.current = searchString;
-            currentAbortRequest.current(new Error(`SourceSearchPreview(${id}, ${name}): search string changed`));
-        }
+        // Aborting the previous request belongs in an effect, not inline during render —
+        // render must stay free of side effects. Doing this synchronously in the render
+        // body risked a stale abort ref racing the new request's own loading-state
+        // updates (most visible under React 19, which can invoke render more than once
+        // per commit), which could leave a source's spinner stuck indefinitely.
+        useEffect(
+            () => () =>
+                currentAbortRequest.current(new Error(`SourceSearchPreview(${id}, ${name}): search string changed`)),
+            [searchString, id, name],
+        );
 
         const [refetch, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
             skipRequest: !searchString,
@@ -162,6 +168,19 @@ const SourceSearchPreview = React.memo(
 
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
         currentAbortRequest.current = abortRequest;
+
+        // aborting resolves the request with an error, which turns the spinner into the retryable error state
+        useEffect(() => {
+            if (!searchString || !isLoading) {
+                return undefined;
+            }
+
+            const timeout = setTimeout(
+                () => currentAbortRequest.current(new Error(`Search timed out after ${SOURCE_SEARCH_TIMEOUT / 1000}s`)),
+                SOURCE_SEARCH_TIMEOUT,
+            );
+            return () => clearTimeout(timeout);
+        }, [searchString, isLoading]);
 
         const tmpMangas = searchResult?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
         const mangas = tmpMangas.filter((manga) => manga.id !== mangaId);
@@ -175,11 +194,6 @@ const SourceSearchPreview = React.memo(
                 error,
             });
         }, [isLoading, noMangasFound, searchString, error]);
-
-        useEffect(
-            () => () => currentAbortRequest.current?.(new Error(`SourceSearchPreview(${id}, ${name}): search closed`)),
-            [],
-        );
 
         let errorMessage: string | undefined;
         if (error) {

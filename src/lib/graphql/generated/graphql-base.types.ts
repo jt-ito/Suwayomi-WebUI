@@ -180,6 +180,7 @@ export type CategoryType = {
     id: Scalars['Int']['output'];
     includeInDownload: IncludeOrExclude;
     includeInUpdate: IncludeOrExclude;
+    isDefaultCategory: Scalars['Boolean']['output'];
     mangas: MangaNodeList;
     meta: Array<CategoryMetaType>;
     name: Scalars['String']['output'];
@@ -425,6 +426,19 @@ export type CreateCategoryPayload = {
     clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
+export type CreateUserInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    password: Scalars['String']['input'];
+    role: Scalars['String']['input'];
+    username: Scalars['String']['input'];
+};
+
+export type CreateUserPayload = {
+    __typename?: 'CreateUserPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    user: UserAccountType;
+};
+
 export enum DatabaseType {
     H2 = 'H2',
     Postgresql = 'POSTGRESQL',
@@ -609,6 +623,17 @@ export type DeleteSourceMetasPayload = {
     clientMutationId?: Maybe<Scalars['String']['output']>;
     metas: Array<SourceMetaType>;
     sources: Array<SourceType>;
+};
+
+export type DeleteUserInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+};
+
+export type DeleteUserPayload = {
+    __typename?: 'DeleteUserPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    success: Scalars['Boolean']['output'];
 };
 
 export type DequeueChapterDownloadInput = {
@@ -1473,6 +1498,7 @@ export type Mutation = {
     connectKoSyncAccount: KoSyncConnectPayload;
     createBackup: CreateBackupPayload;
     createCategory?: Maybe<CreateCategoryPayload>;
+    createUser: CreateUserPayload;
     deleteCategory?: Maybe<DeleteCategoryPayload>;
     deleteCategoryMeta?: Maybe<DeleteCategoryMetaPayload>;
     deleteCategoryMetas?: Maybe<DeleteCategoryMetasPayload>;
@@ -1486,6 +1512,7 @@ export type Mutation = {
     deleteMangaMetas?: Maybe<DeleteMangaMetasPayload>;
     deleteSourceMeta?: Maybe<DeleteSourceMetaPayload>;
     deleteSourceMetas?: Maybe<DeleteSourceMetasPayload>;
+    deleteUser: DeleteUserPayload;
     dequeueChapterDownload?: Maybe<DequeueChapterDownloadPayload>;
     dequeueChapterDownloads?: Maybe<DequeueChapterDownloadsPayload>;
     enqueueChapterDownload?: Maybe<EnqueueChapterDownloadPayload>;
@@ -1547,6 +1574,7 @@ export type Mutation = {
     updateSourcePreference?: Maybe<UpdateSourcePreferencePayload>;
     updateStop: UpdateStopPayload;
     updateTrack: UpdateTrackPayload;
+    updateUser: UpdateUserPayload;
     updateWebUI?: Maybe<WebUiUpdatePayload>;
 };
 
@@ -1584,6 +1612,10 @@ export type MutationCreateBackupArgs = {
 
 export type MutationCreateCategoryArgs = {
     input: CreateCategoryInput;
+};
+
+export type MutationCreateUserArgs = {
+    input: CreateUserInput;
 };
 
 export type MutationDeleteCategoryArgs = {
@@ -1636,6 +1668,10 @@ export type MutationDeleteSourceMetaArgs = {
 
 export type MutationDeleteSourceMetasArgs = {
     input: DeleteSourceMetasInput;
+};
+
+export type MutationDeleteUserArgs = {
+    input: DeleteUserInput;
 };
 
 export type MutationDequeueChapterDownloadArgs = {
@@ -1870,6 +1906,10 @@ export type MutationUpdateTrackArgs = {
     input: UpdateTrackInput;
 };
 
+export type MutationUpdateUserArgs = {
+    input: UpdateUserInput;
+};
+
 export type MutationUpdateWebUiArgs = {
     input: WebUiUpdateInput;
 };
@@ -1973,7 +2013,7 @@ export type PartialSettingsType = Settings & {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2193,6 +2233,7 @@ export type Query = {
     libraryUpdateStatus: LibraryUpdateStatus;
     manga: MangaType;
     mangas: MangaNodeList;
+    me?: Maybe<UserAccountType>;
     meta: GlobalMetaType;
     metas: GlobalMetaNodeList;
     restoreStatus?: Maybe<BackupRestoreStatus>;
@@ -2206,6 +2247,8 @@ export type Query = {
     trackers: TrackerNodeList;
     /** @deprecated Replaced with libraryUpdateStatus, replace with libraryUpdateStatus */
     updateStatus: UpdateStatus;
+    user?: Maybe<UserAccountType>;
+    users: Array<UserAccountType>;
     validateBackup: ValidateBackupResult;
 };
 
@@ -2349,6 +2392,10 @@ export type QueryTrackersArgs = {
     last?: InputMaybe<Scalars['Int']['input']>;
     offset?: InputMaybe<Scalars['Int']['input']>;
     order?: InputMaybe<Array<TrackerOrderInput>>;
+};
+
+export type QueryUserArgs = {
+    id: Scalars['Int']['input'];
 };
 
 export type QueryValidateBackupArgs = {
@@ -2623,7 +2670,7 @@ export type Settings = {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2778,7 +2825,7 @@ export type SettingsType = Settings & {
     excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
     excludeNotStarted: Scalars['Boolean']['output'];
     excludeUnreadChapters: Scalars['Boolean']['output'];
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos: Array<Scalars['String']['output']>;
     flareSolverrAsResponseFallback: Scalars['Boolean']['output'];
     flareSolverrEnabled: Scalars['Boolean']['output'];
@@ -3612,6 +3659,20 @@ export type UpdateTrackPayload = {
     trackRecord?: Maybe<TrackRecordType>;
 };
 
+export type UpdateUserInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+    password?: InputMaybe<Scalars['String']['input']>;
+    role?: InputMaybe<Scalars['String']['input']>;
+    username?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateUserPayload = {
+    __typename?: 'UpdateUserPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    user: UserAccountType;
+};
+
 export type UpdaterJobsInfoType = {
     __typename?: 'UpdaterJobsInfoType';
     finishedJobs: Scalars['Int']['output'];
@@ -3630,6 +3691,15 @@ export type UpdaterUpdates = {
     mangaUpdates: Array<MangaUpdateType>;
     /** Indicates whether updates have been omitted based on the "maxUpdates" subscription variable. In case updates have been omitted, the "updateStatus" query should be re-fetched. */
     omittedUpdates: Scalars['Boolean']['output'];
+};
+
+export type UserAccountType = {
+    __typename?: 'UserAccountType';
+    createdAt: Scalars['LongString']['output'];
+    id: Scalars['Int']['output'];
+    lastLoginAt: Scalars['LongString']['output'];
+    role: Scalars['String']['output'];
+    username: Scalars['String']['output'];
 };
 
 export type ValidateBackupInput = {
