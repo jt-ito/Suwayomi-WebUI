@@ -29,8 +29,6 @@ export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
         padding: '14px 18px 5px 18px',
     },
     '& .MuiListItemButton-root, & .MuiListItem-root:not(.MuiListSubheader-root)': {
-        minHeight: 50,
-        padding: '10px 18px',
         margin: '4px 14px',
         width: 'calc(100% - 28px)',
         boxSizing: 'border-box',
@@ -40,6 +38,17 @@ export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
         transition:
             'background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 100ms cubic-bezier(0.2, 0, 0, 1)',
+    },
+    // clickable rows (nav links, dialog openers) - the whole row is the tap target, so it earns the roomier size
+    '& .MuiListItemButton-root': {
+        minHeight: 50,
+        padding: '10px 18px',
+    },
+    // plain rows (a label next to an inline Switch/Select/etc.) - only the control itself is interactive,
+    // so the row doesn't need to be as tall or padded as a full tappable button
+    '& .MuiListItem-root:not(.MuiListItemButton-root):not(.MuiListSubheader-root)': {
+        minHeight: 44,
+        padding: '6px 18px',
     },
     '& .MuiListItemButton-root:hover': {
         backgroundColor: mixAccent(theme, 20),
