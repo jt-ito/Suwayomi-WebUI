@@ -23,16 +23,25 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { dateTimeFormatter } from '@/base/utils/DateHelper.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import { GET_CHAPTERS_UPDATES } from '@/lib/graphql/chapter/ChapterQuery.ts';
+import type { GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 let lastRunningState = false;
 
+// tracks the update this tab itself started, so its completion can be reported with a "new chapters" toast;
+// updates started elsewhere (another tab, a scheduled run) are still detected by the effect below but not announced
+type UpdateScope = { startedAt: number; categoryId?: CategoryIdInfo['id'] };
+let lastUpdateScope: UpdateScope | null = null;
+
 export function UpdateChecker({
     categoryId,
+    categoryName,
     handleFinishedUpdate,
 }: {
     categoryId?: CategoryIdInfo['id'];
+    categoryName?: string;
     handleFinishedUpdate?: () => void;
 }) {
     const { t } = useLingui();
@@ -52,6 +61,35 @@ export function UpdateChecker({
     const isRunning = !!status?.jobsInfo.isRunning;
     const progress = status ? (status.jobsInfo.finishedJobs / status.jobsInfo.totalJobs) * 100 : 0;
 
+    // summarizes the chapters fetched since the update started into a single toast, e.g. "12 new chapters across 5 manga"
+    const notifyNewChapters = async (scope: UpdateScope) => {
+        const { data } = await requestManager.graphQLClient.client.query<
+            GetChaptersUpdatesQuery,
+            GetChaptersUpdatesQueryVariables
+        >({
+            query: GET_CHAPTERS_UPDATES,
+            variables: {
+                filter: { inLibrary: { equalTo: true }, fetchedAt: { greaterThan: `${scope.startedAt}` } },
+                // ponytail: manga count below is approximate past this many new chapters, uncap if that matters
+                first: 500,
+            },
+            fetchPolicy: 'network-only',
+        });
+
+        const newChapterCount = data?.chapters.totalCount ?? 0;
+        if (!newChapterCount) {
+            return;
+        }
+
+        const mangaCount = new Set(data?.chapters.nodes.map((chapter) => chapter.mangaId)).size;
+        makeToast(
+            scope.categoryId !== undefined && categoryName
+                ? t`New chapters in ${categoryName}: ${newChapterCount} across ${mangaCount} manga`
+                : t`New chapters available: ${newChapterCount} across ${mangaCount} manga`,
+            'success',
+        );
+    };
+
     useEffect(() => {
         if (!lastRunningState && isRunning) {
             lastRunningState = true;
@@ -63,7 +101,12 @@ export function UpdateChecker({
         }
 
         lastRunningState = false;
+        const finishedScope = lastUpdateScope;
+        lastUpdateScope = null;
         handleFinishedUpdate?.();
+        if (finishedScope) {
+            notifyNewChapters(finishedScope).catch(defaultPromiseErrorHandler('UpdateChecker::notifyNewChapters'));
+        }
         // this re-fetch is necessary since a running update could have been triggered by the server or another client
         reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
     }, [isRunning]);
@@ -71,10 +114,12 @@ export function UpdateChecker({
     const startUpdate = async (category?: CategoryIdInfo['id']) => {
         try {
             lastRunningState = true;
+            lastUpdateScope = { startedAt: Date.now(), categoryId: category };
             await requestManager.startGlobalUpdate(category !== undefined ? [category] : undefined).response;
             reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
         } catch (e) {
             lastRunningState = false;
+            lastUpdateScope = null;
             makeToast(t`Could not check for updates`, 'error', getErrorMessage(e));
         }
     };

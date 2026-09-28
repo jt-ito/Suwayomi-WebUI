@@ -229,7 +229,7 @@ export function Library() {
                     <AppbarSearch searchHistoryKey="library" suggestions={mangaTitles} />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <SyncButton />
-                    <UpdateChecker categoryId={activeTab?.id} />
+                    <UpdateChecker categoryId={activeTab?.id} categoryName={activeTab?.name} />
                 </>
             )}
             {!!mangas.length && (

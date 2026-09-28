@@ -2781,6 +2781,14 @@ msgstr "New account"
 msgid "New category"
 msgstr "New category"
 
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "New chapters available: {newChapterCount} across {mangaCount} manga"
+msgstr "New chapters available: {newChapterCount} across {mangaCount} manga"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "New chapters in {categoryName}: {newChapterCount} across {mangaCount} manga"
+msgstr "New chapters in {categoryName}: {newChapterCount} across {mangaCount} manga"
+
 #: src/features/reader/tap-zones/ReaderTapZone.constants.ts
 msgid "Next"
 msgstr "Next"
