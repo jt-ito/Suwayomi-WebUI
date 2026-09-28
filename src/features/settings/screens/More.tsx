@@ -6,11 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Divider from '@mui/material/Divider';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
@@ -25,12 +27,20 @@ import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.t
 import { NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { UserAccountsDialog } from '@/features/authentication/components/UserAccountsDialog.tsx';
 
 export const More = () => {
     const { t } = useLingui();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     useAppTitle(t`More`);
+
+    const { isAuthRequired, isInitialized } = AuthManager.useSession();
+    const { data: meData } = requestManager.useGetMe({ skip: isAuthRequired === null || !isInitialized });
+    const user = meData?.me;
+    const [isAccountsOpen, setIsAccountsOpen] = useState(false);
 
     const {
         settings: { hideHistory },
@@ -65,6 +75,18 @@ export const More = () => {
 
     return (
         <List sx={CARD_LIST_SX}>
+            {user && (
+                <>
+                    <ListItemButton onClick={() => setIsAccountsOpen(true)}>
+                        <ListItemIcon>
+                            <AccountCircleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={user.username} secondary={user.role} />
+                    </ListItemButton>
+                    <Divider />
+                    <UserAccountsDialog user={user} open={isAccountsOpen} onClose={() => setIsAccountsOpen(false)} />
+                </>
+            )}
             {Object.entries(finalHiddenNavBarItemsByGroup).map(([group, items], index, list) => (
                 <Fragment key={group}>
                     {items.map((item) => (
