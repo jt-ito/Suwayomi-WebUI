@@ -343,14 +343,14 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
     private createAuthLink() {
         return new SetContextLink(({ headers }) => {
-            const isAuthRequired = AuthManager.isAuthRequired();
+            // also sent when the server does not require a login, to be able to use a personal account
             const accessToken = AuthManager.getAccessToken();
 
             return {
                 credentials: 'include',
                 headers: {
                     ...headers,
-                    ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                 },
             };
         });
@@ -399,14 +399,9 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
                     setTimeout(resolve, delay);
                 });
             },
-            connectionParams: () => {
-                const isAuthRequired = AuthManager.isAuthRequired();
-                const accessToken = AuthManager.getAccessToken();
-
-                return {
-                    Authorization: isAuthRequired && accessToken ? accessToken : undefined,
-                };
-            },
+            connectionParams: () => ({
+                Authorization: AuthManager.getAccessToken() ?? undefined,
+            }),
         });
 
         let triedForcedReconnection = false;

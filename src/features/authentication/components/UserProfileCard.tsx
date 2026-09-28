@@ -20,14 +20,14 @@ import { UserAccountsDialog } from '@/features/authentication/components/UserAcc
 
 /**
  * Shows the logged-in user at the bottom of the sidebar and opens the account switcher/manager.
- * Only visible when the server requires a login.
  */
 export const UserProfileCard = ({ isCollapsed }: { isCollapsed: boolean }) => {
     const { t } = useLingui();
-    const { isAuthRequired, accessToken } = AuthManager.useSession();
+    const { isAuthRequired, isInitialized } = AuthManager.useSession();
     const [isOpen, setIsOpen] = useState(false);
 
-    const { data } = requestManager.useGetMe({ skip: !isAuthRequired || !accessToken });
+    // also relevant when the server does not require a login, since personal accounts can still be used
+    const { data } = requestManager.useGetMe({ skip: isAuthRequired === null || !isInitialized });
     const user = data?.me;
 
     if (!user) {

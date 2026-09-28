@@ -234,8 +234,11 @@ export const UserAccountsDialog = ({
     onClose: () => void;
 }) => {
     const { t } = useLingui();
+    const { isAuthRequired, refreshToken } = AuthManager.useSession();
     const [tab, setTab] = useState<'switch' | 'manage'>('switch');
     const isAdmin = user.role === 'ADMIN';
+    // without a required login, there is nothing to sign out of, unless a personal account is in use
+    const canSignOut = !!isAuthRequired || !!refreshToken;
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
@@ -251,17 +254,20 @@ export const UserAccountsDialog = ({
                             {user.role} • #{user.id}
                         </Typography>
                     </Stack>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        onClick={() => {
-                            onClose();
-                            // clears the tokens and all cached data, which brings up the login page
-                            requestManager.reset();
-                        }}
-                    >
-                        {t`Sign out`}
-                    </Button>
+                    {canSignOut && (
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() => {
+                                onClose();
+                                // clears the tokens and all cached data, which brings up the login page (or, if the
+                                // server does not require a login, the default account)
+                                requestManager.reset();
+                            }}
+                        >
+                            {t`Sign out`}
+                        </Button>
+                    )}
                 </Stack>
                 {isAdmin && (
                     <Tabs value={tab} onChange={(_, newTab) => setTab(newTab)} variant="fullWidth" sx={{ mt: 2 }}>

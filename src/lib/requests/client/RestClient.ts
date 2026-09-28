@@ -52,7 +52,7 @@ export class RestClient
     ): Promise<Response> =>
         this.enqueueRequest(async () => {
             const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
-            const isAuthRequired = AuthManager.isAuthRequired();
+            // also sent when the server does not require a login, to be able to use a personal account
             const accessToken = AuthManager.getAccessToken();
 
             await this.awaitRateLimit(updatedUrl);
@@ -66,7 +66,7 @@ export class RestClient
                         ...config,
                         method: httpMethod,
                         headers: {
-                            ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                             ...this.config.headers,
                             ...config?.headers,
                         },
@@ -76,7 +76,7 @@ export class RestClient
                 case HttpMethod.PATCH:
                 case HttpMethod.DELETE:
                     result = await this.client(updatedUrl, {
-                        ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                         ...this.config,
                         ...config,
                         method: httpMethod,
