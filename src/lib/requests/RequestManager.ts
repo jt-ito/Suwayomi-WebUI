@@ -196,6 +196,14 @@ import type {
     UpdateWebuiMutationVariables,
     UserLoginMutation,
     UserLoginMutationVariables,
+    CreateUserMutation,
+    CreateUserMutationVariables,
+    DeleteUserMutation,
+    DeleteUserMutationVariables,
+    GetMeQuery,
+    GetMeQueryVariables,
+    GetUsersQuery,
+    GetUsersQueryVariables,
     UserRefreshMutation,
     UserRefreshMutationVariables,
     ValidateBackupQuery,
@@ -345,7 +353,8 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
+import { CREATE_USER, DELETE_USER, USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
+import { GET_ME, GET_USERS } from '@/lib/graphql/user/UserQuery.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
@@ -3924,6 +3933,30 @@ export class RequestManager {
         options?: MutationHookOptions<UserLoginMutation, UserLoginMutationVariables>,
     ): AbortableApolloUseMutationResponse<UserLoginMutation, UserLoginMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, USER_LOGIN, undefined, options);
+    }
+
+    public useGetMe(
+        options?: QueryHookOptions<GetMeQuery, GetMeQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMeQuery, GetMeQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_ME, {}, options);
+    }
+
+    public useGetUsers(
+        options?: QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetUsersQuery, GetUsersQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_USERS, {}, options);
+    }
+
+    public useCreateUser(
+        options?: MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>,
+    ): AbortableApolloUseMutationResponse<CreateUserMutation, CreateUserMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, CREATE_USER, undefined, options);
+    }
+
+    public useDeleteUser(
+        options?: MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>,
+    ): AbortableApolloUseMutationResponse<DeleteUserMutation, DeleteUserMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, DELETE_USER, undefined, options);
     }
 
     public startSync(

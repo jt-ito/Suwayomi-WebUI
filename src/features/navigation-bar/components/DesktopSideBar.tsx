@@ -23,6 +23,7 @@ import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
+import { UserProfileCard } from '@/features/authentication/components/UserProfileCard.tsx';
 import { NavigationBarItem } from '@/features/navigation-bar/components/NavigationBarItem.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -172,6 +173,7 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                     ))}
                 </List>
             </Box>
+            <UserProfileCard isCollapsed={isCollapsed} />
         </Drawer>
     );
 };

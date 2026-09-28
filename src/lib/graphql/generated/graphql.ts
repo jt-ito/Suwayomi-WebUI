@@ -5160,6 +5160,63 @@ export type UserRefreshMutation = {
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
 };
 
+export type CreateUserMutationVariables = Exact<{
+    username: string;
+    password: string;
+    role: string;
+}>;
+
+export type CreateUserMutation = {
+    __typename: 'Mutation';
+    createUser: { __typename: 'CreateUserPayload'; user: { __typename: 'UserAccountType'; id: number } };
+};
+
+export type DeleteUserMutationVariables = Exact<{
+    id: number;
+}>;
+
+export type DeleteUserMutation = {
+    __typename: 'Mutation';
+    deleteUser: { __typename: 'DeleteUserPayload'; success: boolean };
+};
+
+export type UserAccountFieldsFragment = {
+    __typename: 'UserAccountType';
+    id: number;
+    username: string;
+    role: string;
+    createdAt: string;
+    lastLoginAt: string;
+};
+
+export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetMeQuery = {
+    __typename: 'Query';
+    me: {
+        __typename: 'UserAccountType';
+        id: number;
+        username: string;
+        role: string;
+        createdAt: string;
+        lastLoginAt: string;
+    } | null;
+};
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUsersQuery = {
+    __typename: 'Query';
+    users: Array<{
+        __typename: 'UserAccountType';
+        id: number;
+        username: string;
+        role: string;
+        createdAt: string;
+        lastLoginAt: string;
+    }>;
+};
+
 export type WebviewClearCacheCookiesMutationVariables = Exact<{ [key: string]: never }>;
 
 export type WebviewClearCacheCookiesMutation = {

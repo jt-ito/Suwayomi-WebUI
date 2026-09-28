@@ -24,3 +24,21 @@ export const USER_REFRESH = gql`
         }
     }
 `;
+
+export const CREATE_USER = gql`
+    mutation CREATE_USER($username: String!, $password: String!, $role: String!) {
+        createUser(input: { username: $username, password: $password, role: $role }) {
+            user {
+                id
+            }
+        }
+    }
+`;
+
+export const DELETE_USER = gql`
+    mutation DELETE_USER($id: Int!) {
+        deleteUser(input: { id: $id }) {
+            success
+        }
+    }
+`;
