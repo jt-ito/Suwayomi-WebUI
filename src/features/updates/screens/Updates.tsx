@@ -7,6 +7,8 @@
  */
 
 import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import UpdateIcon from '@mui/icons-material/Update';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { useQueryParam, NumberParam } from 'use-query-params';
@@ -28,12 +30,32 @@ import { ChapterUpdateCard } from '@/features/updates/components/ChapterUpdateCa
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
-import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import mapValues from 'lodash/fp/mapValues';
 import difference from 'lodash/fp/difference';
 import uniqBy from 'lodash/fp/uniqBy';
 import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 import { useElementSize } from '@mantine/hooks';
+import type { ChapterUpdateListFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+
+const UPDATES_CACHE_KEY = 'updates.cachedEntries';
+// one page's worth - just enough to paint the screen instantly, the live query replaces it right after
+const UPDATES_CACHE_LIMIT = 150;
+
+const readCachedUpdates = (): ChapterUpdateListFieldsFragment[] => {
+    try {
+        return JSON.parse(localStorage.getItem(UPDATES_CACHE_KEY) ?? '[]');
+    } catch {
+        return [];
+    }
+};
+
+const writeCachedUpdates = (entries: readonly ChapterUpdateListFieldsFragment[]) => {
+    try {
+        localStorage.setItem(UPDATES_CACHE_KEY, JSON.stringify(entries.slice(0, UPDATES_CACHE_LIMIT)));
+    } catch {
+        // storage full/unavailable (e.g. private browsing) - the cache is a nice-to-have, not required
+    }
+};
 
 export const Updates: React.FC = () => {
     const { t } = useLingui();
@@ -49,6 +71,9 @@ export const Updates: React.FC = () => {
         </>,
     );
 
+    // shown until the live query resolves, so a fresh app load isn't a blank/loading screen while it fetches
+    const [cachedUpdateEntries] = useState(readCachedUpdates);
+
     const {
         data: chapterUpdateData,
         loading: isLoading,
@@ -59,7 +84,13 @@ export const Updates: React.FC = () => {
         fetchPolicy: 'cache-and-network',
     });
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
-    const allUpdateEntries = chapterUpdateData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
+    const allUpdateEntries = chapterUpdateData?.chapters.nodes ?? cachedUpdateEntries;
+
+    useEffect(() => {
+        if (chapterUpdateData?.chapters.nodes.length) {
+            writeCachedUpdates(chapterUpdateData.chapters.nodes);
+        }
+    }, [chapterUpdateData]);
 
     const [prevUpdateEntriesCount, setPrevUpdateEntriesCount] = useState(0);
 
@@ -192,14 +223,31 @@ export const Updates: React.FC = () => {
                 zIndex: GROUPED_VIRTUOSO_Z_INDEX,
             }}
             component={
-                <Typography
+                <Stack
                     ref={lastUpdateTimestampCompRef}
+                    direction="row"
                     sx={{
+                        alignItems: 'center',
+                        gap: 0.75,
+                        px: '10px',
+                        py: 0.75,
                         backgroundColor: 'background.default',
-                        pl: '10px',
-                        paddingTop: (theme) => ({ [theme.breakpoints.up('sm')]: { paddingTop: '6px' } }),
+                        borderBottom: 1,
+                        borderColor: 'divider',
                     }}
-                >{t`Last update: ${date}`}</Typography>
+                >
+                    <UpdateIcon sx={{ fontSize: '1rem', color: 'text.secondary' }} />
+                    <Typography
+                        sx={{
+                            fontSize: '0.8rem',
+                            fontWeight: 600,
+                            color: 'text.secondary',
+                            fontVariantNumeric: 'tabular-nums',
+                        }}
+                    >
+                        {t`Last update: ${date}`}
+                    </Typography>
+                </Stack>
             }
         >
             <StyledGroupedVirtuoso
@@ -213,7 +261,11 @@ export const Updates: React.FC = () => {
                 groupCounts={firstUnreadUpdatesGroupCounts}
                 groupContent={(index) => (
                     <StyledGroupHeader isFirstItem={index === 0}>
-                        <Typography variant="h5" component="h2">
+                        <Typography
+                            variant="h6"
+                            component="h2"
+                            sx={{ fontWeight: 700, letterSpacing: '-0.01em', fontVariantNumeric: 'tabular-nums' }}
+                        >
                             {firstUnreadUpdatesByGroup[index][VirtuosoUtil.GROUP]}
                         </Typography>
                     </StyledGroupHeader>

@@ -59,7 +59,9 @@ export const NavigationBarItem = ({
         <ListItemLink
             {...slots?.listItemLink}
             selected={!isCollapsed && isActive}
-            sx={{ p: 0, m: 0, ...slots?.listItemLink?.sx }}
+            // without this, mobile browsers keep double-tap-to-zoom gesture detection active on the button,
+            // which can eat or delay a fast/repeated tap - this is the fix for that, not a style choice
+            sx={{ p: 0, m: 0, touchAction: 'manipulation', ...slots?.listItemLink?.sx }}
             to={path}
         >
             <CustomTooltip
