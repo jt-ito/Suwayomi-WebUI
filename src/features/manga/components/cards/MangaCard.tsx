@@ -17,6 +17,7 @@ import { MangaListCard } from '@/features/manga/components/cards/MangaListCard.t
 import type { MangaCardMode, MangaCardProps, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/features/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/features/manga/components/MangaBadges.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GridLayout } from '@/base/Base.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -59,6 +60,11 @@ export const MangaCard = memo((props: MangaCardProps) => {
         onMigrateSelect,
     } = props;
     const { id, firstUnreadChapter, downloadCount, unreadCount } = manga;
+
+    const peekChapterCount = useCallback(async () => {
+        const { data } = await requestManager.refreshManga(id, { fetchManga: false, fetchChapters: true }).response;
+        return data?.fetchMangaAndChapters?.chapters?.length ?? 0;
+    }, [id]);
 
     const { mangaId: mangaIdAsString } = useParams<{ mangaId: string }>();
     const migrationSourceMangaId = Number(mangaIdAsString);
@@ -207,6 +213,8 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                 isInLibrary={isInLibrary}
                                 unread={unreadCount}
                                 downloadCount={downloadCount}
+                                chapterCount={manga.chapters?.totalCount}
+                                onPeekChapterCount={mode === 'source' ? peekChapterCount : undefined}
                                 // "null" (not undefined): the source could not be found, which is only known if it was requested
                                 isSourceMissing={mode === 'default' && (manga as MangaSourceNameInfo).source === null}
                                 updateLibraryState={updateLibraryState}

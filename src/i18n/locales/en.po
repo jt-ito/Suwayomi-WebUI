@@ -309,6 +309,10 @@ msgstr "{currentAutoUpdateIntervalHours}h"
 msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 
+#: src/features/manga/components/MangaBadges.tsx
+msgid "{displayedChapterCount, plural, one {# chapter} other {# chapters}}"
+msgstr "{displayedChapterCount, plural, one {# chapter} other {# chapters}}"
+
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
 msgstr "{extensionCount, plural, one {# extension} other {# extensions}}"
@@ -880,6 +884,10 @@ msgstr "Channel"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Chapter"
 msgstr "Chapter"
+
+#: src/features/manga/components/MangaBadges.tsx
+msgid "Chapter count unknown, click to fetch it from the source"
+msgstr "Chapter count unknown, click to fetch it from the source"
 
 #: src/features/reader/screens/Reader.tsx
 msgid "Chapter does not exist"
@@ -1895,6 +1903,10 @@ msgstr "Features and changes in this version might not be completely ready yet a
 #: src/features/settings/screens/Appearance.tsx
 msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
 msgstr "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+
+#: src/features/manga/components/MangaBadges.tsx
+msgid "Fetch chapter count"
+msgstr "Fetch chapter count"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"

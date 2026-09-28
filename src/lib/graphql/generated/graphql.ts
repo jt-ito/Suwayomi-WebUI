@@ -3871,6 +3871,11 @@ export type GetSourceMangasFetchMutation = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            unreadCount: number;
+            downloadCount: number;
+            bookmarkCount: number;
+            hasDuplicateChapters: boolean;
+            chapters: { __typename: 'ChapterNodeList'; totalCount: number };
         }>;
     } | null;
 };
