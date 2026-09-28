@@ -13,6 +13,7 @@ import type { ForwardedRef } from 'react';
 import { Fragment, memo } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
@@ -39,9 +40,11 @@ export const SnackbarWithDescription = memo(
         description,
         variant,
         action,
+        onClick,
         ref,
     }: CustomContentProps & {
         description?: string;
+        onClick?: () => void;
         ref?: ForwardedRef<HTMLDivElement>;
     }) => {
         const { t } = useLingui();
@@ -81,8 +84,35 @@ export const SnackbarWithDescription = memo(
                     }}
                     onClose={() => closeSnackbar(id)}
                 >
-                    <TitleComponent>{message}</TitleComponent>
-                    {actualDescription}
+                    <Box
+                        component={onClick ? 'button' : 'div'}
+                        type={onClick ? 'button' : undefined}
+                        onClick={
+                            onClick &&
+                            (() => {
+                                closeSnackbar(id);
+                                onClick();
+                            })
+                        }
+                        sx={
+                            onClick
+                                ? {
+                                      display: 'block',
+                                      width: '100%',
+                                      textAlign: 'start',
+                                      background: 'none',
+                                      border: 'none',
+                                      padding: 0,
+                                      font: 'inherit',
+                                      color: 'inherit',
+                                      cursor: 'pointer',
+                                  }
+                                : undefined
+                        }
+                    >
+                        <TitleComponent>{message}</TitleComponent>
+                        {actualDescription}
+                    </Box>
                     {(isDescriptionTooLong || (isGraphqlException && graphqlStackTrace)) && (
                         <Button
                             onClick={() => {

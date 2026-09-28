@@ -7,9 +7,12 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
+import { useQueryParam, NumberParam } from 'use-query-params';
+import type { GroupedVirtuosoHandle } from 'react-virtuoso';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { SearchParam } from '@/base/Base.types.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
@@ -34,6 +37,9 @@ import { useElementSize } from '@mantine/hooks';
 
 export const Updates: React.FC = () => {
     const { t } = useLingui();
+
+    const [targetMangaId, setTargetMangaId] = useQueryParam(SearchParam.MANGA, NumberParam);
+    const virtuosoRef = useRef<GroupedVirtuosoHandle>(null);
 
     useAppTitleAndAction(
         t`Updates`,
@@ -116,6 +122,21 @@ export const Updates: React.FC = () => {
         [firstUnreadUpdatesByGroup],
     );
 
+    // jump to the manga a "new chapters" toast was clicked for, once its entry has loaded in
+    useEffect(() => {
+        if (targetMangaId == null) {
+            return;
+        }
+
+        const index = firstUnreadUpdatesEntries.findIndex((entry) => entry.mangaId === targetMangaId);
+        if (index === -1) {
+            return;
+        }
+
+        virtuosoRef.current?.scrollToIndex({ index, align: 'center', behavior: 'smooth' });
+        setTargetMangaId(undefined);
+    }, [targetMangaId, firstUnreadUpdatesEntries]);
+
     const computeFirstUnreadUpdateItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         firstUnreadUpdatesGroupCounts,
         useCallback((index) => firstUnreadUpdatesByGroup[index][VirtuosoUtil.GROUP], [firstUnreadUpdatesByGroup]),
@@ -182,6 +203,7 @@ export const Updates: React.FC = () => {
             }
         >
             <StyledGroupedVirtuoso
+                ref={virtuosoRef}
                 persistKey="updates"
                 heightToSubtract={lastUpdateTimestampCompHeight}
                 components={{

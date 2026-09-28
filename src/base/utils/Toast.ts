@@ -9,12 +9,23 @@
 import type { OptionsObject, SnackbarKey } from 'notistack';
 import { enqueueSnackbar } from 'notistack';
 
-export function makeToast(message: string, severity?: OptionsObject['variant'], description?: string): SnackbarKey;
-export function makeToast(message: string, options?: OptionsObject, description?: string): SnackbarKey;
+export function makeToast(
+    message: string,
+    severity?: OptionsObject['variant'],
+    description?: string,
+    onClick?: () => void,
+): SnackbarKey;
+export function makeToast(
+    message: string,
+    options?: OptionsObject,
+    description?: string,
+    onClick?: () => void,
+): SnackbarKey;
 export function makeToast(
     message: string,
     options: OptionsObject['variant'] | OptionsObject = 'default',
     description?: string,
+    onClick?: () => void,
 ): SnackbarKey {
     const variant = typeof options === 'string' ? options : undefined;
     const snackbarOptions = typeof options === 'object' ? options : {};
@@ -25,5 +36,7 @@ export function makeToast(
         // @ts-ignore - TS2353, "notistack" is outdated and the provided way to define custom props is not working, however,
         // everything in the options object gets passed to the custom snackbar component
         description,
+        // @ts-ignore - TS2353, see above; makes the toast clickable (e.g. to navigate somewhere related to it)
+        onClick,
     });
 }

@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -23,6 +24,9 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { dateTimeFormatter } from '@/base/utils/DateHelper.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { SearchParam } from '@/base/Base.types.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
 import { GET_CHAPTERS_UPDATES } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import type { GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 
@@ -45,6 +49,7 @@ export function UpdateChecker({
     handleFinishedUpdate?: () => void;
 }) {
     const { t } = useLingui();
+    const navigate = useNavigate();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
     const [isHovered, setIsHovered] = useState(false);
@@ -81,12 +86,20 @@ export function UpdateChecker({
             return;
         }
 
-        const mangaCount = new Set(data?.chapters.nodes.map((chapter) => chapter.mangaId)).size;
+        const newChapters = data?.chapters.nodes ?? [];
+        const mangaCount = new Set(newChapters.map((chapter) => chapter.mangaId)).size;
+        // nodes are ordered newest first, so the first one is the manga to jump to on click
+        const targetMangaId = newChapters[0]?.mangaId;
+
         makeToast(
             scope.categoryId !== undefined && categoryName
                 ? t`New chapters in ${categoryName}: ${newChapterCount} across ${mangaCount} manga`
                 : t`New chapters available: ${newChapterCount} across ${mangaCount} manga`,
             'success',
+            undefined,
+            targetMangaId !== undefined
+                ? () => navigate(UrlUtil.addParams(AppRoutes.updates.path, { [SearchParam.MANGA]: `${targetMangaId}` }))
+                : undefined,
         );
     };
 
