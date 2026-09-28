@@ -163,8 +163,25 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                 <List
                     sx={{
                         p: 1,
+                        overflowX: 'hidden',
                         '& .MuiListItemText-root': { display: isCollapsed ? 'none' : undefined },
-                        '& .MuiListItem-root': { borderRadius: '8px' },
+                        '& .MuiListItemButton-root': {
+                            borderRadius: '8px',
+                            boxSizing: 'border-box',
+                            transition: 'background-color 150ms ease, transform 100ms cubic-bezier(0.2, 0, 0, 1)',
+                            ...(isCollapsed
+                                ? {
+                                      margin: '4px 8px',
+                                      padding: '10px 0',
+                                      justifyContent: 'center',
+                                      width: 'calc(100% - 16px)',
+                                  }
+                                : { margin: '2px 6px', padding: '8px 10px', width: 'calc(100% - 12px)' }),
+                            '&:active': { transform: `scale(${isCollapsed ? 0.96 : 0.98})` },
+                        },
+                        '& .MuiListItemIcon-root': isCollapsed
+                            ? { minWidth: 'unset', justifyContent: 'center', margin: 0 }
+                            : { minWidth: '34px' },
                     }}
                     dense={isCollapsed}
                 >
