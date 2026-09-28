@@ -20,7 +20,12 @@ import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateChec
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
-import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    GetCategoriesLibraryQuery,
+    GetCategoriesLibraryQueryVariables,
+    GetTrackersSettingsQuery,
+} from '@/lib/graphql/generated/graphql.ts';
+import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
 import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
@@ -158,6 +163,7 @@ export const LibraryOptionsPanel = ({
     isTrackerFilterActive,
     isSourceFilterActive,
     isGenreFilterActive,
+    isCategoryFilterActive,
 }: {
     category: CategoryMetadataInfo;
     open: boolean;
@@ -167,6 +173,7 @@ export const LibraryOptionsPanel = ({
     isTrackerFilterActive: boolean;
     isSourceFilterActive: boolean;
     isGenreFilterActive: boolean;
+    isCategoryFilterActive: boolean;
 }) => {
     const { t } = useLingui();
 
@@ -181,6 +188,15 @@ export const LibraryOptionsPanel = ({
         });
         return [...genres].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
     }, [migratableSourcesRequest.data]);
+
+    const categoriesRequest = requestManager.useGetCategories<
+        GetCategoriesLibraryQuery,
+        GetCategoriesLibraryQueryVariables
+    >(GET_CATEGORIES_LIBRARY);
+    // the default category is not a real category, so mangas can't be filtered by it
+    const libraryCategories = (categoriesRequest.data?.categories.nodes ?? STABLE_EMPTY_ARRAY).filter(
+        ({ id }) => id !== 0,
+    );
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
@@ -205,6 +221,7 @@ export const LibraryOptionsPanel = ({
             'hasTrackerBinding',
             'hasSource',
             'hasGenre',
+            'hasCategory',
         ],
     ) => {
         batchUpdateCategoryMetadata([
@@ -232,6 +249,36 @@ export const LibraryOptionsPanel = ({
                                 variant="outlined"
                                 size="small"
                             />
+                            {libraryCategories.length > 1 && (
+                                <CollapsableFilter
+                                    title={t`Categories`}
+                                    items={libraryCategories.map(({ id, name }) => (
+                                        <ThreeStateCheckboxInput
+                                            key={id}
+                                            label={name}
+                                            checked={categoryLibraryOptions.hasCategory.filters[id]}
+                                            onChange={(checked) =>
+                                                updateCategoryLibraryOptions('hasCategory', {
+                                                    ...categoryLibraryOptions.hasCategory,
+                                                    filters: {
+                                                        ...categoryLibraryOptions.hasCategory.filters,
+                                                        [id]: checked,
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    ))}
+                                    isActive={isCategoryFilterActive}
+                                    reset={() => resetFilters(['hasCategory'])}
+                                    mode={categoryLibraryOptions.hasCategory.mode}
+                                    setMode={(mode) =>
+                                        updateCategoryLibraryOptions('hasCategory', {
+                                            ...categoryLibraryOptions.hasCategory,
+                                            mode,
+                                        })
+                                    }
+                                />
+                            )}
                             <ThreeStateCheckboxInput
                                 label={t`Unread`}
                                 checked={categoryLibraryOptions.hasUnreadChapters}

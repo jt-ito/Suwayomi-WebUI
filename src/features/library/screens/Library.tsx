@@ -29,6 +29,7 @@ import { SyncButton } from '@/features/sync/components/SyncButton.tsx';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/base/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';
+import { useLibraryCategoryFilter } from '@/features/library/hooks/useLibraryCategoryFilter.ts';
 import { SelectionFAB } from '@/base/collection/components/SelectionFAB.tsx';
 import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
@@ -99,11 +100,17 @@ export function Library() {
 
     const {
         data: categoryMangaResponse,
-        error: mangaError,
-        loading: mangaLoading,
+        error: tabMangaError,
+        loading: tabMangaLoading,
         refetch: refetchCategoryMangas,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
-    const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
+    const {
+        mangas: categoryMangas,
+        isLoading: isCategoryFilterLoading,
+        error: categoryFilterError,
+    } = useLibraryCategoryFilter(activeTab, categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY);
+    const mangaError = tabMangaError ?? categoryFilterError;
+    const mangaLoading = tabMangaLoading || isCategoryFilterLoading;
     const {
         visibleMangas: mangas,
         searchSuggestions,

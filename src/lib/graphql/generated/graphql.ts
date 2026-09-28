@@ -2891,6 +2891,22 @@ export type GetMangasCountQueryVariables = Exact<{
 
 export type GetMangasCountQuery = { __typename: 'Query'; mangas: { __typename: 'MangaNodeList'; totalCount: number } };
 
+export type GetMangaCategoryIdsQueryVariables = Exact<{
+    condition?: Types.MangaConditionInput | null | undefined;
+}>;
+
+export type GetMangaCategoryIdsQuery = {
+    __typename: 'Query';
+    mangas: {
+        __typename: 'MangaNodeList';
+        nodes: Array<{
+            __typename: 'MangaType';
+            id: number;
+            categories: { __typename: 'CategoryNodeList'; nodes: Array<{ __typename: 'CategoryType'; id: number }> };
+        }>;
+    };
+};
+
 export type UpdateGlobalMetadataMutationVariables = Exact<{
     preUpdateDeleteInput: Types.DeleteGlobalMetasInput;
     hasPreUpdateDeletions: boolean;

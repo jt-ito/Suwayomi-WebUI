@@ -108,7 +108,7 @@ const querySearchManga = (
     performSearch([query], [source?.displayName]) ||
     performSearch([query], [sourceId]);
 
-const listTriStateBooleanFilter = (
+export const listTriStateBooleanFilter = (
     mode: FilterMode,
     filters: Record<string, NullAndUndefined<boolean>>,
     getStatus: (key: string) => boolean,

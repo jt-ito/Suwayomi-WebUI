@@ -210,6 +210,9 @@ export const APP_METADATA: Record<
     hasGenre: {
         convert: convertToObject<LibraryOptions['hasGenre']>,
     },
+    hasCategory: {
+        convert: convertToObject<LibraryOptions['hasCategory']>,
+    },
     customThemes: {
         convert: convertToObject<MetadataThemeSettings['customThemes']>,
     },

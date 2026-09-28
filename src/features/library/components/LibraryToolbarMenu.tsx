@@ -44,6 +44,9 @@ export const LibraryToolbarMenu = ({
     const isGenreFilterActive = Object.values(options.hasGenre.filters).some(
         (genreFilterStatus) => genreFilterStatus != null,
     );
+    const isCategoryFilterActive = Object.values(options.hasCategory.filters).some(
+        (categoryFilterStatus) => categoryFilterStatus != null,
+    );
     const active =
         options.hasDownloadedChapters != null ||
         options.hasUnreadChapters != null ||
@@ -53,7 +56,8 @@ export const LibraryToolbarMenu = ({
         isSourceFilterActive ||
         isTrackerFilterActive ||
         isStatusFilterActive ||
-        isGenreFilterActive;
+        isGenreFilterActive ||
+        isCategoryFilterActive;
 
     return (
         <>
@@ -90,6 +94,7 @@ export const LibraryToolbarMenu = ({
                 isTrackerFilterActive={isTrackerFilterActive}
                 isSourceFilterActive={isSourceFilterActive}
                 isGenreFilterActive={isGenreFilterActive}
+                isCategoryFilterActive={isCategoryFilterActive}
             />
         </>
     );

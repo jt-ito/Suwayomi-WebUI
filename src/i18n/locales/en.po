@@ -803,6 +803,7 @@ msgid "Cancelled"
 msgstr "Cancelled"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/screens/More.tsx
 msgid "Categories"

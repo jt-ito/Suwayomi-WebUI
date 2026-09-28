@@ -304,3 +304,19 @@ export const GET_MANGAS_COUNT = gql`
         }
     }
 `;
+
+// maps library mangas to their categories, which allows filtering the library across multiple categories
+export const GET_MANGA_CATEGORY_IDS = gql`
+    query GET_MANGA_CATEGORY_IDS($condition: MangaConditionInput) {
+        mangas(condition: $condition) {
+            nodes {
+                id
+                categories {
+                    nodes {
+                        id
+                    }
+                }
+            }
+        }
+    }
+`;

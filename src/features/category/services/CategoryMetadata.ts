@@ -46,6 +46,10 @@ export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
         filters: {},
         mode: FilterMode.OR,
     },
+    hasCategory: {
+        filters: {},
+        mode: FilterMode.OR,
+    },
 };
 
 const convertAppMetadataToGqlMetadata = (
@@ -56,6 +60,7 @@ const convertAppMetadataToGqlMetadata = (
     hasStatus: metadata.hasStatus ? JSON.stringify(metadata.hasStatus) : undefined,
     hasSource: metadata.hasSource ? JSON.stringify(metadata.hasSource) : undefined,
     hasGenre: metadata.hasGenre ? JSON.stringify(metadata.hasGenre) : undefined,
+    hasCategory: metadata.hasCategory ? JSON.stringify(metadata.hasCategory) : undefined,
 });
 
 const getCategoryMetadataWithDefaultValueFallback = (
