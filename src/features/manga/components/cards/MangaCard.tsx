@@ -215,6 +215,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                 downloadCount={downloadCount}
                                 chapterCount={manga.chapters?.totalCount}
                                 onPeekChapterCount={mode === 'source' ? peekChapterCount : undefined}
+                                status={manga.status}
                                 // "null" (not undefined): the source could not be found, which is only known if it was requested
                                 isSourceMissing={mode === 'default' && (manga as MangaSourceNameInfo).source === null}
                                 updateLibraryState={updateLibraryState}

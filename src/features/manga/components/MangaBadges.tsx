@@ -22,6 +22,8 @@ import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { MANGA_STATUS_TO_COLOR, MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 
 const BadgeContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -43,6 +45,7 @@ export const MangaBadges = ({
     downloadCount,
     chapterCount,
     onPeekChapterCount,
+    status,
     isSourceMissing,
     mode,
 }: {
@@ -55,6 +58,8 @@ export const MangaBadges = ({
     chapterCount?: number;
     // fetches the live chapter count from the source on demand, when it isn't already known; resolves with the count
     onPeekChapterCount?: () => Promise<number>;
+    // release status (ongoing/completed/hiatus/...), only known for library cards ("default" mode)
+    status?: MangaStatus;
     isSourceMissing?: boolean;
     mode: MangaCardMode;
 }) => {
@@ -186,6 +191,22 @@ export const MangaBadges = ({
                     }}
                 >
                     {downloadCount}
+                </Badge>
+            )}
+            {mode === 'default' && !!status && status !== MangaStatus.Unknown && (
+                <Badge
+                    sx={{
+                        backgroundColor:
+                            MANGA_STATUS_TO_COLOR[status] === 'default'
+                                ? 'action.selected'
+                                : `${MANGA_STATUS_TO_COLOR[status]}.main`,
+                        color:
+                            MANGA_STATUS_TO_COLOR[status] === 'default'
+                                ? 'text.primary'
+                                : `${MANGA_STATUS_TO_COLOR[status]}.contrastText`,
+                    }}
+                >
+                    {t(MANGA_STATUS_TO_TRANSLATION[status])}
                 </Badge>
             )}
         </BadgeContainer>

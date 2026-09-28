@@ -33,6 +33,16 @@ export const MANGA_STATUS_TO_TRANSLATION: Record<MangaStatus, MessageDescriptor>
     [MangaStatus.Unknown]: msg`Unknown`,
 };
 
+export const MANGA_STATUS_TO_COLOR: Record<MangaStatus, 'success' | 'info' | 'warning' | 'error' | 'default'> = {
+    [MangaStatus.Ongoing]: 'success',
+    [MangaStatus.Completed]: 'info',
+    [MangaStatus.OnHiatus]: 'warning',
+    [MangaStatus.Cancelled]: 'error',
+    [MangaStatus.Licensed]: 'default',
+    [MangaStatus.PublishingFinished]: 'default',
+    [MangaStatus.Unknown]: 'default',
+};
+
 export const MANGA_ACTION_TO_CONFIRMATION_REQUIRED: Record<
     MangaAction,
     { always: boolean; bulkAction: boolean; bulkActionCountForce?: number }
