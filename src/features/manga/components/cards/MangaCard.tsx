@@ -14,7 +14,7 @@ import { Menu } from '@/base/components/menu/Menu.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/features/manga/components/cards/MangaGridCard.tsx';
 import { MangaListCard } from '@/features/manga/components/cards/MangaListCard.tsx';
-import type { MangaCardMode, MangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { MangaCardMode, MangaCardProps, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/features/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/features/manga/components/MangaBadges.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
@@ -207,6 +207,8 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                 isInLibrary={isInLibrary}
                                 unread={unreadCount}
                                 downloadCount={downloadCount}
+                                // "null" (not undefined): the source could not be found, which is only known if it was requested
+                                isSourceMissing={mode === 'default' && (manga as MangaSourceNameInfo).source === null}
                                 updateLibraryState={updateLibraryState}
                                 mode={mode}
                             />

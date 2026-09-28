@@ -9,6 +9,8 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useLingui } from '@lingui/react/macro';
 import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -33,6 +35,7 @@ export const MangaBadges = ({
     isInLibrary,
     unread,
     downloadCount,
+    isSourceMissing,
     mode,
 }: {
     inLibraryIndicator?: boolean;
@@ -40,6 +43,7 @@ export const MangaBadges = ({
     isInLibrary: boolean;
     unread?: number;
     downloadCount?: number;
+    isSourceMissing?: boolean;
     mode: MangaCardMode;
 }) => {
     const { t } = useLingui();
@@ -52,6 +56,21 @@ export const MangaBadges = ({
 
     return (
         <BadgeContainer>
+            {isSourceMissing && (
+                <CustomTooltip title={t`Source missing. Check your installed extensions.`}>
+                    <Badge
+                        aria-label={t`Source missing`}
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            backgroundColor: 'warning.main',
+                            color: 'warning.contrastText',
+                        }}
+                    >
+                        <WarningAmberIcon sx={{ fontSize: '1em' }} />
+                    </Badge>
+                </CustomTooltip>
+            )}
             {!isTouchDevice && inLibraryIndicator && mode === 'source' && (
                 <Button
                     className="source-manga-library-state-button"

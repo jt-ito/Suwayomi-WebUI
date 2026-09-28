@@ -1147,8 +1147,8 @@ msgid "Could not delete theme \"{0}\""
 msgstr "Could not delete theme \"{0}\""
 
 #: src/features/manga/components/details/MangaDetails.tsx
-msgid "Could not find source. Check your installed extensions."
-msgstr "Could not find source. Check your installed extensions."
+msgid "Could not find the source of this manga. Check your installed extensions, or migrate the manga to another source. Until then, chapters can not be updated or loaded."
+msgstr "Could not find the source of this manga. Check your installed extensions, or migrate the manga to another source. Until then, chapters can not be updated or loaded."
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Could not install the extension"
@@ -1832,6 +1832,10 @@ msgstr "Extension installed"
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Extension stores"
 msgstr "Extension stores"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Extensions"
+msgstr "Extensions"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
@@ -3740,6 +3744,15 @@ msgstr "Source Configuration"
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 msgid "Source entry — {sourceTitle}"
 msgstr "Source entry — {sourceTitle}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/manga/components/MangaBadges.tsx
+msgid "Source missing"
+msgstr "Source missing"
+
+#: src/features/manga/components/MangaBadges.tsx
+msgid "Source missing. Check your installed extensions."
+msgstr "Source missing. Check your installed extensions."
 
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"

@@ -43,6 +43,7 @@ export interface LibraryOptions {
     hasUnreadChapters: NullAndUndefined<boolean>;
     hasReadChapters: NullAndUndefined<boolean>;
     hasDuplicateChapters: NullAndUndefined<boolean>;
+    hasMissingSource: NullAndUndefined<boolean>;
     hasTrackerBinding: {
         filters: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
         mode: FilterMode;

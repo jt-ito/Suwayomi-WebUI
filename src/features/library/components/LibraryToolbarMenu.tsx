@@ -53,6 +53,7 @@ export const LibraryToolbarMenu = ({
         options.hasReadChapters != null ||
         options.hasBookmarkedChapters != null ||
         options.hasDuplicateChapters != null ||
+        options.hasMissingSource != null ||
         isSourceFilterActive ||
         isTrackerFilterActive ||
         isStatusFilterActive ||

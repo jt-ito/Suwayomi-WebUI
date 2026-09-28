@@ -157,6 +157,7 @@ type TMangaFilterOptions = Pick<
     | 'hasDownloadedChapters'
     | 'hasBookmarkedChapters'
     | 'hasDuplicateChapters'
+    | 'hasMissingSource'
     | 'hasTrackerBinding'
     | 'hasStatus'
     | 'hasSource'
@@ -164,6 +165,7 @@ type TMangaFilterOptions = Pick<
 >;
 type TMangaFilter = Pick<MangaType, 'bookmarkCount' | 'hasDuplicateChapters'> &
     TMangaTrackerFilter &
+    MangaSourceNameInfo &
     MangaStatusInfo &
     MangaSourceIdInfo &
     MangaGenreInfo &
@@ -178,6 +180,7 @@ const filterManga = (
         hasReadChapters,
         hasBookmarkedChapters,
         hasDuplicateChapters,
+        hasMissingSource,
         hasTrackerBinding,
         hasStatus,
         hasSource,
@@ -189,6 +192,7 @@ const filterManga = (
     triStateFilterNumber(hasReadChapters, manga.chapters.totalCount - manga.unreadCount) &&
     triStateFilterNumber(hasBookmarkedChapters, manga.bookmarkCount) &&
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
+    triStateFilterBoolean(hasMissingSource, manga.source === null) &&
     trackerFilter(hasTrackerBinding, manga) &&
     statusFilter(hasStatus, manga) &&
     sourceFilter(hasSource, manga) &&
@@ -347,6 +351,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         hasBookmarkedChapters,
         hasTrackerBinding,
         hasDuplicateChapters,
+        hasMissingSource,
         hasStatus,
         hasGenre,
     } = options;
@@ -379,6 +384,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasBookmarkedChapters,
             hasTrackerBinding,
             hasDuplicateChapters,
+            hasMissingSource,
             hasStatus,
             hasSource,
             hasGenre,
@@ -413,6 +419,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasReadChapters != null ||
             hasDownloadedChapters != null ||
             hasBookmarkedChapters != null ||
+            hasMissingSource != null ||
             !!query ||
             isATrackFilterActive ||
             isASourceFilterActive ||

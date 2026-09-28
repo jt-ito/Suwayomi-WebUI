@@ -217,6 +217,7 @@ export const LibraryOptionsPanel = ({
             'hasDownloadedChapters',
             'hasBookmarkedChapters',
             'hasDuplicateChapters',
+            'hasMissingSource',
             'hasStatus',
             'hasTrackerBinding',
             'hasSource',
@@ -303,6 +304,11 @@ export const LibraryOptionsPanel = ({
                                 label={t`Duplicate chapters`}
                                 checked={categoryLibraryOptions.hasDuplicateChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasDuplicateChapters', c)}
+                            />
+                            <ThreeStateCheckboxInput
+                                label={t`Source missing`}
+                                checked={categoryLibraryOptions.hasMissingSource}
+                                onChange={(c) => updateCategoryLibraryOptions('hasMissingSource', c)}
                             />
                             <CollapsableFilter
                                 title={t`Status`}

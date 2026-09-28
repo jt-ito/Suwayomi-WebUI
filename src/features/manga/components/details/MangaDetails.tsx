@@ -10,7 +10,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/material/styles';
 import type { ComponentProps, ReactNode } from 'react';
-import { useEffect } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -20,7 +19,11 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { useLingui } from '@lingui/react/macro';
 import { t as translate } from '@lingui/core/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import { Link as RouterLink } from 'react-router-dom';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { FlexWrapButton } from '@/base/components/buttons/FlexWrapButton.tsx';
@@ -235,16 +238,28 @@ export const MangaDetails = ({
         settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes },
     } = useMetadataServerSettings();
 
-    useEffect(() => {
-        if (!manga.source) {
-            makeToast(t`Could not find source. Check your installed extensions.`, 'error');
-        }
-    }, [manga.source, t]);
-
     const { updateLibraryState } = useManageMangaLibraryState(manga);
 
     return (
         <DetailsWrapper>
+            {!manga.source && (
+                <Alert
+                    severity="warning"
+                    sx={{ mb: 2 }}
+                    action={
+                        <Button
+                            color="inherit"
+                            size="small"
+                            component={RouterLink}
+                            to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)}
+                        >
+                            {t`Extensions`}
+                        </Button>
+                    }
+                >
+                    {t`Could not find the source of this manga. Check your installed extensions, or migrate the manga to another source. Until then, chapters can not be updated or loaded.`}
+                </Alert>
+            )}
             <TopContentWrapper url={Mangas.getThumbnailUrl(manga)} mangaThumbnailBackdrop={mangaThumbnailBackdrop}>
                 <ThumbnailMetadataWrapper>
                     <Thumbnail manga={manga} mangaDynamicColorSchemes={mangaDynamicColorSchemes} />
