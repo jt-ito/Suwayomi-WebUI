@@ -950,6 +950,7 @@ msgstr "Client data"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/webview/components/WebViewModal.tsx
 msgid "Close"
 msgstr "Close"
 
@@ -2568,6 +2569,10 @@ msgstr "Match the library search even with typos or words in a different order, 
 msgid "Matches"
 msgstr "Matches"
 
+#: src/features/webview/components/WebViewModal.tsx
+msgid "Maximize"
+msgstr "Maximize"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Maximum log file size"
 msgstr "Maximum log file size"
@@ -2902,6 +2907,10 @@ msgstr "Open discord"
 msgid "Open in browser"
 msgstr "Open in browser"
 
+#: src/features/webview/components/WebViewModal.tsx
+msgid "Open in new tab"
+msgstr "Open in new tab"
+
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
@@ -3140,6 +3149,10 @@ msgstr "Refresh"
 msgid "Releasing"
 msgstr "Releasing"
 
+#: src/features/webview/components/WebViewModal.tsx
+msgid "Reload"
+msgstr "Reload"
+
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Reload data from source"
 msgstr "Reload data from source"
@@ -3207,6 +3220,7 @@ msgid "Response fallback"
 msgstr "Response fallback"
 
 #: src/features/backup/component/BackupValidationDialog.tsx
+#: src/features/webview/components/WebViewModal.tsx
 msgid "Restore"
 msgstr "Restore"
 
@@ -4308,6 +4322,7 @@ msgid "WebUI was updated to version {newVersion} ({0})"
 msgstr "WebUI was updated to version {newVersion} ({0})"
 
 #: src/features/settings/screens/ServerSettings.tsx
+#: src/features/webview/components/WebViewModal.tsx
 msgid "WebView"
 msgstr "WebView"
 

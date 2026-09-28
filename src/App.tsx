@@ -14,6 +14,7 @@ import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
 import { AwaitableComponent } from 'awaitable-component';
+import { WebViewModal } from '@/features/webview/components/WebViewModal.tsx';
 import { AppContext } from '@/base/contexts/AppContext.tsx';
 import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -430,6 +431,7 @@ export const App: React.FC = () => (
                     </OffsetContainerRoot>
                 </Box>
                 <MigrationFABIndicator />
+                <WebViewModal />
             </InitializeGuard>
         </AuthGuard>
     </AppContext>

@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { openInAppWebView } from '@/features/webview/components/WebViewModal.tsx';
 import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
 import Delete from '@mui/icons-material/Delete';
@@ -195,11 +196,7 @@ export const ChapterActionMenuItems = ({
                         Icon={IconWebView}
                         disabled={!chapter!.realUrl}
                         onClick={() => {
-                            window.open(
-                                requestManager.getWebviewUrl(chapter!.realUrl!),
-                                '_blank',
-                                'noopener,noreferrer',
-                            );
+                            openInAppWebView(requestManager.getWebviewUrl(chapter!.realUrl!));
                             onClose();
                         }}
                         title={t`Open in WebView`}
