@@ -18,15 +18,22 @@ const mixAccent = (theme: Theme, amount: number) =>
 export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
     pt: 0.75,
     pb: 5,
+    // centered, pill-shaped section header - same width/inset as the cards below so it reads as their group label
     '& .MuiListSubheader-root': {
-        background: 'transparent',
         color: theme.palette.primary.main,
         fontSize: '0.76rem',
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: '0.05em',
         lineHeight: 1.4,
-        padding: '14px 18px 5px 18px',
+        textAlign: 'center',
+        margin: '10px 14px 6px 14px',
+        padding: '7px 18px',
+        width: 'calc(100% - 28px)',
+        boxSizing: 'border-box',
+        borderRadius: '10px',
+        backgroundColor: mixAccent(theme, 10),
+        border: `1px solid ${alpha(theme.palette.primary.main, 0.18)}`,
     },
     '& .MuiListItemButton-root, & .MuiListItem-root:not(.MuiListSubheader-root)': {
         margin: '4px 14px',
@@ -42,7 +49,7 @@ export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
     // clickable rows (nav links, dialog openers) - the whole row is the tap target, so it earns the roomier size
     '& .MuiListItemButton-root': {
         minHeight: 50,
-        padding: '10px 18px',
+        padding: '8px 18px',
     },
     // plain rows (a label next to an inline Switch/Select/etc.) - only the control itself is interactive,
     // so the row doesn't need to be as tall or padded as a full tappable button
@@ -50,6 +57,8 @@ export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
         minHeight: 44,
         padding: '6px 18px',
     },
+    // rows with a multi-line secondary value (e.g. "Include: All" / "Exclude: None") shouldn't blow up the row height
+    '& .MuiListItemText-secondary': { fontSize: '0.8rem', lineHeight: 1.35 },
     '& .MuiListItemButton-root:hover': {
         backgroundColor: mixAccent(theme, 20),
         borderColor: alpha(theme.palette.primary.main, 0.4),
