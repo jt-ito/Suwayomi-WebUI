@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { CombinedGraphQLErrors } from '@apollo/client';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -97,7 +98,11 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
             return data;
         } catch (e) {
-            AuthManager.removeTokens();
+            // Only forget the tokens if the server rejected the refresh token. For other errors (e.g. the server not
+            // being reachable for a moment), the refresh token is still valid and is needed to refresh later on.
+            if (CombinedGraphQLErrors.is(e)) {
+                AuthManager.removeTokens();
+            }
             throw e;
         } finally {
             this.activeTokenRefreshPromise = null;
