@@ -18,21 +18,8 @@ const mixAccent = (theme: Theme, amount: number) =>
 export const CARD_LIST_SX: SxProps<Theme> = (theme) => ({
     pt: 0.75,
     pb: 5,
-    // plain (not tinted like the rows below, so it stays visually distinct from them), vertically-centered label.
-    // full width, no inset - an inset here leaves gaps where the sticky header's own backdrop shows through
-    // while scrolling, which is the "old header showing in the back" artifact the pill version had.
-    '& .MuiListSubheader-root': {
-        background: 'transparent',
-        color: theme.palette.primary.main,
-        fontSize: '0.76rem',
-        fontWeight: 700,
-        textTransform: 'uppercase',
-        letterSpacing: '0.05em',
-        display: 'flex',
-        alignItems: 'center',
-        minHeight: 36,
-        padding: '10px 18px 6px 18px',
-    },
+    // ListSubheader's own look/size (transparent, vertically-centered) is a global theme default
+    // (ForkComponentOverrides.ts) so it's identical everywhere a section header appears, not just here.
     '& .MuiListItemButton-root, & .MuiListItem-root:not(.MuiListSubheader-root)': {
         margin: '4px 14px',
         width: 'calc(100% - 28px)',
