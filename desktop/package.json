@@ -1,0 +1,13 @@
+{
+    "name": "suwayomi-desktop",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Desktop wrapper for the Suwayomi WebUI: browses sites (challenges, logins) in the real system browser engine instead of a streamed picture, and hands the resulting cookies to the server",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "devDependencies": {
+        "electron": "^44.5.1"
+    }
+}

@@ -20,21 +20,50 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 const OPEN_WEBVIEW_EVENT = 'suwayomi:open-webview';
+
+declare global {
+    interface Window {
+        /** only present inside the desktop app (desktop/preload.js) */
+        suwayomiDesktop?: {
+            openWebView: (options: { apiBase: string; url: string; accessToken: string | null }) => Promise<unknown>;
+        };
+    }
+}
+
+// "<server>/webview#<target url>" => "<target url>"
+const getTargetUrl = (webViewUrl: string): string =>
+    new URL(webViewUrl, window.location.href).hash.replace(/^#\/?/, '');
 
 /**
  * Opens the given WebView url (see "requestManager.getWebviewUrl") in a modal on top of the current page instead of a
  * new browser tab.
  */
-export const openInAppWebView = (url: string) =>
+export const openInAppWebView = (url: string) => {
+    // in the desktop app, browse with the real system browser engine (see "desktop/"): native scrolling and rendering,
+    // and the cookies it collects are handed to the server. Anywhere else, use the streamed server-side WebView.
+    const desktop = window.suwayomiDesktop;
+    const target = getTargetUrl(url);
+    if (desktop && target) {
+        const webViewUrl = new URL(url, window.location.href);
+        const apiBase = webViewUrl.origin + webViewUrl.pathname.replace(/\/webview\/?$/, '');
+
+        desktop
+            .openWebView({ apiBase, url: target, accessToken: AuthManager.getAccessToken() })
+            .catch(() => window.dispatchEvent(new CustomEvent(OPEN_WEBVIEW_EVENT, { detail: url })));
+        return;
+    }
+
     window.dispatchEvent(new CustomEvent(OPEN_WEBVIEW_EVENT, { detail: url }));
+};
 
 const isWebViewLink = (link: HTMLAnchorElement) => !!link.href && link.pathname.endsWith('/webview');
 
 // "<server>/webview#<target url>" => "hostname/path" of the target url
 const getDisplayUrl = (webViewUrl: string): string => {
-    const target = new URL(webViewUrl, window.location.href).hash.replace(/^#\/?/, '');
+    const target = getTargetUrl(webViewUrl);
     try {
         const { hostname, pathname } = new URL(target);
         return hostname + (pathname !== '/' ? pathname : '');
