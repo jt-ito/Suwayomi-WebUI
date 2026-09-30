@@ -139,7 +139,13 @@ const typePolicies: TypedTypePolicies = {
             updateStatus(_, { toReference }) {
                 return toReference({ __typename: 'UpdateStatus', key: {} });
             },
-            lastSyncStatus(_, { toReference }) {
+            lastSyncStatus(existing, { toReference }) {
+                // the server answers with null while no sync ran yet; a reference to the (never written) singleton
+                // would then read back as a partial result
+                if (existing === null) {
+                    return null;
+                }
+
                 return toReference({ __typename: 'SyncStatus', key: {} });
             },
             tracker(_, { toReference }) {

@@ -91,6 +91,8 @@ export function About() {
                 <ListItem>
                     <ListItemText
                         primary={t`Server version`}
+                        // VersionInfo renders block elements, which are invalid inside the default <p>
+                        slotProps={{ secondary: { component: 'div' } }}
                         secondary={
                             <VersionInfo
                                 version={aboutServer.version}
@@ -126,6 +128,8 @@ export function About() {
                 <ListItem>
                     <ListItemText
                         primary={t`WebUI version`}
+                        // VersionInfo renders block elements, which are invalid inside the default <p>
+                        slotProps={{ secondary: { component: 'div' } }}
                         secondary={
                             <VersionInfo
                                 version={aboutWebUI.tag}

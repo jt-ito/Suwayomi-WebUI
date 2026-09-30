@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import type { SyntheticEvent } from 'react';
 import { useEffect, useState } from 'react';
+import { alpha, useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
@@ -43,6 +45,7 @@ const getDisplayUrl = (webViewUrl: string): string => {
 
 export const WebViewModal = () => {
     const { t } = useLingui();
+    const theme = useTheme();
 
     const [url, setUrl] = useState<string | null>(null);
     const [isMaximized, setIsMaximized] = useState(false);
@@ -75,6 +78,22 @@ export const WebViewModal = () => {
     }, []);
 
     const close = () => setUrl(null);
+
+    // the WebView page ships its own dark styling; recolor it with the app theme so it does not look like a foreign page
+    const applyTheme = (event: SyntheticEvent<HTMLIFrameElement>) => {
+        const doc = event.currentTarget.contentDocument; // same origin, so it is accessible
+        if (!doc?.head) {
+            return;
+        }
+
+        const style = doc.getElementById('app-theme') ?? doc.head.appendChild(doc.createElement('style'));
+        style.id = 'app-theme';
+        style.textContent = `
+            body { background-color: ${theme.palette.background.default}; color: ${theme.palette.text.primary}; }
+            header { background-color: ${alpha(theme.palette.background.paper, 0.96)}; color: ${theme.palette.text.primary}; border-bottom-color: ${theme.palette.divider}; }
+            header h1, header #title { color: ${theme.palette.text.primary}; }
+        `;
+    };
 
     return (
         <Dialog
@@ -142,6 +161,7 @@ export const WebViewModal = () => {
                         key={reloadKey}
                         title={t`WebView`}
                         src={url}
+                        onLoad={applyTheme}
                         allow="clipboard-read; clipboard-write"
                         style={{ flexGrow: 1, width: '100%', border: 'none' }}
                     />
