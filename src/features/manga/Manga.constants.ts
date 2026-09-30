@@ -26,7 +26,7 @@ export const MANGA_COVER_ASPECT_RATIO = '1 / 1.5';
 export const MANGA_STATUS_TO_TRANSLATION: Record<MangaStatus, MessageDescriptor> = {
     [MangaStatus.Cancelled]: msg`Cancelled`,
     // "Finished" (not "Completed") so it is not mistaken for "you have read it all"
-    [MangaStatus.Completed]: msg`Finished`,
+    [MangaStatus.Completed]: msg({ message: 'Finished', context: 'Manga publication status: the series has ended' }),
     [MangaStatus.Licensed]: msg`Licensed`,
     [MangaStatus.Ongoing]: msg`Ongoing`,
     [MangaStatus.OnHiatus]: msg`Hiatus`,
