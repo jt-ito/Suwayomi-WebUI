@@ -62,8 +62,8 @@ export const ServerUpdateChecker = () => {
 
     const changelogUrl =
         aboutServer?.buildType.toLowerCase() === 'stable'
-            ? `https://github.com/Suwayomi/Suwayomi-Server/releases/tag/${aboutServer.version}`
-            : 'https://github.com/Suwayomi/Suwayomi-Server/blob/master/CHANGELOG.md';
+            ? `https://github.com/jt-ito/Suwayomi-Server-UPD/releases/tag/${aboutServer.version}`
+            : 'https://github.com/jt-ito/Suwayomi-Server-UPD/releases';
 
     const isSameAsCurrent = !version || !serverVersion || serverVersion === version;
 
