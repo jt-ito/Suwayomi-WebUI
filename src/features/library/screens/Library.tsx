@@ -23,6 +23,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbarMenu.tsx';
 import { LibraryMangaGrid } from '@/features/library/components/LibraryMangaGrid.tsx';
+import { LibraryScrollFab } from '@/features/library/components/LibraryScrollFab.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
 import { SyncButton } from '@/features/sync/components/SyncButton.tsx';
@@ -303,6 +304,7 @@ export function Library() {
                     retry={mangaError && retryFetchCategoryMangas}
                 />
                 {selectionFab}
+                <LibraryScrollFab contentKey={filterKey + mangas.length} />
             </>
         );
     }
@@ -347,6 +349,7 @@ export function Library() {
                 </TabPanel>
             ))}
             {selectionFab}
+            <LibraryScrollFab contentKey={filterKey + mangas.length} />
         </TabsWrapper>
     );
 }

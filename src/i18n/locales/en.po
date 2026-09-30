@@ -1017,10 +1017,6 @@ msgstr "Compact grid"
 msgid "Compatible"
 msgstr "Compatible"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Completed"
-msgstr "Completed"
-
 #: src/features/settings/components/images/Processing.tsx
 msgid "Compression level"
 msgstr "Compression level"
@@ -1944,6 +1940,7 @@ msgid "Finish date"
 msgstr "Finish date"
 
 #: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
+#: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Finished"
 msgstr "Finished"
@@ -3418,6 +3415,14 @@ msgstr "Scroll backward"
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Scroll forward"
 msgstr "Scroll forward"
+
+#: src/features/library/components/LibraryScrollFab.tsx
+msgid "Scroll to bottom"
+msgstr "Scroll to bottom"
+
+#: src/features/library/components/LibraryScrollFab.tsx
+msgid "Scroll to top"
+msgstr "Scroll to top"
 
 #: src/base/components/AppbarSearch.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
