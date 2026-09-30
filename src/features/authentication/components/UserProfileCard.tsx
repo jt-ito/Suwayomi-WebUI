@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { alpha } from '@mui/material/styles';
+import { ELEVATION } from '@/features/theme/services/ForkComponentOverrides.ts';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -48,13 +49,31 @@ export const UserProfileCard = ({ isCollapsed }: { isCollapsed: boolean }) => {
                     justifyContent: isCollapsed ? 'center' : 'flex-start',
                     textAlign: 'start',
                     borderRadius: '10px',
-                    border: `1px solid ${alpha(theme.palette.text.primary, 0.1)}`,
-                    transition: 'background-color 150ms ease, transform 100ms cubic-bezier(0.2, 0, 0, 1)',
-                    '&:hover': { backgroundColor: alpha(theme.palette.text.primary, 0.06) },
+                    border: `1px solid ${alpha(theme.palette.text.primary, 0.12)}`,
+                    // raised card: light from the top, layered shadow, 1px highlight on the top edge
+                    backgroundImage: `linear-gradient(180deg, ${alpha(theme.palette.common.white, 0.07)} 0%, ${alpha(theme.palette.common.white, 0.01)} 100%)`,
+                    boxShadow: `${ELEVATION.md}, inset 0 1px 0 ${alpha(theme.palette.common.white, 0.1)}`,
+                    transition:
+                        'background-color 150ms ease, box-shadow 200ms cubic-bezier(0.2, 0, 0, 1), border-color 150ms ease, transform 100ms cubic-bezier(0.2, 0, 0, 1)',
+                    '&:hover': {
+                        backgroundColor: alpha(theme.palette.text.primary, 0.05),
+                        borderColor: alpha(theme.palette.primary.main, 0.45),
+                        boxShadow: `${ELEVATION.lg}, 0 0 18px ${alpha(theme.palette.primary.main, 0.25)}, inset 0 1px 0 ${alpha(theme.palette.common.white, 0.14)}`,
+                    },
                     '&:active': { transform: 'scale(0.98)' },
                 })}
             >
-                <Avatar sx={{ width: 30, height: 30, bgcolor: 'primary.main', fontSize: '0.85rem', fontWeight: 700 }}>
+                <Avatar
+                    sx={(theme) => ({
+                        width: 30,
+                        height: 30,
+                        bgcolor: 'primary.main',
+                        fontSize: '0.85rem',
+                        fontWeight: 700,
+                        // accent glow, same language as the active sidebar icon
+                        boxShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.6)}, inset 0 1px 0 ${alpha(theme.palette.common.white, 0.3)}`,
+                    })}
+                >
                     {user.username.charAt(0).toUpperCase()}
                 </Avatar>
                 {!isCollapsed && (
