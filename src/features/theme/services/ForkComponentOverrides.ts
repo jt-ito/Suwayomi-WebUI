@@ -48,6 +48,10 @@ const EDGE_HIGHLIGHT = 'inset 0 1px 0 rgba(255, 255, 255, 0.08)';
  * Frosted-glass surface for elements that float over scrolling content only (menus, dialogs, sticky bars, FABs).
  * Tune the whole look with the two arguments: opacity (higher = more solid) and blur radius in px.
  */
+/** The dark panel color of the accounts dialog: the theme's panel color pushed toward black. `lift` (0-1) lightens it. */
+export const darkPanelColor = (theme: Theme, lift = 0) =>
+    `color-mix(in srgb, ${theme.vars?.palette.background.paper ?? theme.palette.background.paper} ${65 + lift * 20}%, #000)`;
+
 export const glassSurface = (color: string, opacity = 0.8, blur = 16) => ({
     backgroundColor: alpha(color, opacity),
     backdropFilter: `blur(${blur}px) saturate(160%)`,
@@ -94,11 +98,13 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                 '&:hover': { boxShadow: `${ELEVATION.xl}, ${EDGE_HIGHLIGHT}` },
                 '&:active': { transform: 'scale(0.94)' },
             },
+            // dark panel with the accent on the icon, like the accounts dialog: a bright primary fill was too loud
             primary: ({ theme }) => ({
-                ...glassSurface(theme.palette.primary.main, 0.88, 12),
-                border: `1px solid ${alpha(theme.palette.primary.contrastText, 0.16)}`,
+                backgroundColor: darkPanelColor(theme),
+                color: theme.palette.primary.main,
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.35)}`,
                 '&:hover': {
-                    backgroundColor: alpha(theme.palette.primary.main, 0.96),
+                    backgroundColor: darkPanelColor(theme, 0.5),
                     boxShadow: `${ELEVATION.xl}, ${EDGE_HIGHLIGHT}`,
                 },
             }),
@@ -231,9 +237,12 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                 display: 'flex',
                 alignItems: 'center',
                 boxSizing: 'border-box',
-                minHeight: 26,
+                // MUI's default line-height is 48px, which is what really sized these headers: minHeight alone never
+                // shrank them. Text size stays the same, only the container gets smaller.
+                lineHeight: '24px',
+                minHeight: 24,
                 padding: '0 18px',
-                marginTop: 8,
+                marginTop: 6,
                 marginBottom: 2,
             }),
         },
@@ -276,19 +285,36 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
     MuiAppBar: {
         styleOverrides: {
             root: ({ theme }) => ({
-                // slightly see-through: same tint MUI paints the bar with (AppBar.darkBg in dark mode), just not fully opaque
-                backgroundImage: 'none',
-                backgroundColor: 'color-mix(in srgb, var(--AppBar-background) 82%, transparent)',
+                // the same color MUI paints the bar with (light: --AppBar-background, dark: background.paper, which is what
+                // AppBar.darkBg points to), but only 72% opaque so covers show through while scrolling; text and icons
+                // stay fully opaque
+                backgroundColor: 'color-mix(in srgb, var(--AppBar-background) 72%, transparent)',
                 ...theme.applyStyles('dark', {
-                    backgroundColor:
-                        'color-mix(in srgb, var(--mui-palette-AppBar-darkBg, var(--AppBar-background)) 82%, transparent)',
+                    backgroundColor: `color-mix(in srgb, ${theme.vars?.palette.background.paper ?? theme.palette.background.paper} 72%, transparent)`,
                 }),
+                // ambient light in the theme's primary color: a glow from the top-left corner and a fainter one from the
+                // bottom-right, so the bar is lit from two sides instead of being one flat color
+                backgroundImage: `radial-gradient(110% 260% at 0% 0%, ${alpha(theme.palette.primary.main, 0.24)} 0%, transparent 62%), radial-gradient(80% 240% at 100% 100%, ${alpha(theme.palette.primary.main, 0.1)} 0%, transparent 65%)`,
                 '& .MuiSvgIcon-root': {
                     filter: ICON_SHADOW,
                 },
                 '& .MuiTypography-root': { textShadow: TEXT_SHADOW },
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
+                // every glyph is traced with the same accent outline as the account switcher box: a stroke painted *under*
+                // the fill (paint-order), so only its outer half shows and it follows the exact letter/icon shape
+                '& .MuiSvgIcon-root path': {
+                    stroke: alpha(theme.palette.primary.main, 0.55),
+                    strokeWidth: 2.5,
+                    strokeLinejoin: 'round',
+                    paintOrder: 'stroke fill',
+                },
+                '& h1.MuiTypography-root': {
+                    WebkitTextStroke: `3px ${alpha(theme.palette.primary.main, 0.55)}`,
+                    paintOrder: 'stroke fill',
+                },
+                backdropFilter: 'blur(10px) saturate(150%)',
+                WebkitBackdropFilter: 'blur(10px) saturate(150%)',
+                // the bar is flush with the top and sides of the window, so only the bottom corners are rounded, slightly
+                borderRadius: '0 0 8px 8px',
                 borderBottom: `1px solid ${theme.palette.divider}`,
                 boxShadow: ELEVATION.md,
                 transition: 'background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease',

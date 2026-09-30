@@ -39,7 +39,7 @@ export const ReaderSettingProfileSettings = ({
     );
 
     return (
-        <Stack sx={{ gap: 2 }}>
+        <Stack sx={{ gap: isSeriesMode ? 2 : 0.5 }}>
             {!isSeriesMode ? (
                 <ListSubheader component="div" id={`${profile}-settings`}>
                     {title}

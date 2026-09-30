@@ -35,51 +35,6 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { VirtuosoGridPersisted } from '@/lib/virtuoso/Component/VirtuosoGridPersisted.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
-import type { SxProps, Theme } from '@mui/material/styles';
-import { alpha } from '@mui/material/styles';
-
-/**
- * "Distant horizons" backdrop: the grid is virtualized, so rows outside the render window are empty. This paints a soft
- * colored blob per cover cell behind the list; real cards cover it, and during fast scrolls the blobs stand in for rows
- * that have not rendered yet. Pure CSS (one repeating gradient tile), so it costs nothing per row.
- * Cell sizes mirror the grid's layout: 8px gaps, 2px card margin, 2:3 covers, plus the title block in comfortable mode.
- */
-const getLodBackdropSx = (itemsPerRow: number, gridLayout?: GridLayout): SxProps<Theme> | undefined => {
-    if (gridLayout === GridLayout.List) {
-        return undefined;
-    }
-
-    const titleBlock = gridLayout === GridLayout.Comfortable ? 60 : 0;
-
-    // a 3 x 2 cell tile with a differently colored blob per cell, repeated: varied hues sit closer to real cover art than gray
-    return (theme) => {
-        const { primary, secondary, info, warning } = theme.palette;
-        const colors = [primary.main, secondary.main, info.main, warning.main, primary.light, secondary.light];
-        const blobs = colors.map((color, index) => {
-            const column = index % 3;
-            const row = Math.floor(index / 3);
-            const x = ((column + 0.5) / 3) * 100;
-            const y = ((row + 0.45) / 2) * 100;
-            return `radial-gradient(ellipse ${56 / 3}% ${50 / 2}% at ${x}% ${y}%, ${alpha(color, 0.42)} 0%, ${alpha(color, 0.24)} 55%, transparent 100%)`;
-        });
-
-        return {
-            position: 'relative',
-            isolation: 'isolate',
-            containerType: 'inline-size',
-            '&::before': {
-                content: '""',
-                position: 'absolute',
-                inset: 0,
-                zIndex: -1,
-                pointerEvents: 'none',
-                '--lod-pitch': `calc((100cqw + 8px) / ${itemsPerRow})`,
-                backgroundImage: blobs.join(', '),
-                backgroundSize: `calc(var(--lod-pitch) * 3) calc((var(--lod-pitch) - 12px) * 3 + 24px + ${2 * titleBlock}px)`,
-            },
-        };
-    };
-};
 
 const GridContainer = ({ children, ref, ...props }: GridTypeMap['props'] & { ref?: Ref<HTMLDivElement> }) => (
     <Grid {...props} ref={ref} container spacing={1}>
@@ -220,15 +175,13 @@ const VerticalGrid = ({
     mode,
     ref,
     onMigrateSelect,
-    itemsPerRow,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
-    itemsPerRow: number;
 }) => (
     <>
         {isLoading && mangas.length === 0 && <MangaGridSkeleton GridItemContainer={GridItemContainer} />}
-        <Box ref={ref} sx={getLodBackdropSx(itemsPerRow, gridLayout)}>
+        <Box ref={ref}>
             <VirtuosoGridPersisted
                 persistKey={MANGA_GRID_SNAPSHOT_KEY}
                 useWindowScroll
@@ -437,7 +390,6 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     GridItemContainer={GridItemContainer}
                     hasNextPage={hasNextPage}
                     loadMore={loadMore}
-                    itemsPerRow={Math.ceil(dimensions / mangaGridItemWidth)}
                     gridLayout={gridLayout}
                     isSelectModeActive={isSelectModeActive}
                     selectedMangaIds={selectedMangaIds}
