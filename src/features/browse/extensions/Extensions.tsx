@@ -247,6 +247,44 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         e.preventDefault();
     });
 
+    // stable row renderers: Virtuoso re-renders every visible row when these change identity
+    const renderGroup = useCallback(
+        (index: number) => {
+            const [groupName, groupExtensions] = groupedExtensions[index];
+            const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
+
+            return (
+                <GroupHeader
+                    groupName={groupName}
+                    isFirstItem={index === 0}
+                    groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
+                    isUpdateGroup={isUpdateGroup}
+                    updatingExtensionIds={updatingExtensionIds}
+                    setUpdatingExtensionIds={setUpdatingExtensionIds}
+                    handleExtensionUpdate={handleExtensionUpdate}
+                />
+            );
+        },
+        [groupedExtensions, updatingExtensionIds, handleExtensionUpdate],
+    );
+    const renderItem = useCallback(
+        (index: number) => {
+            const item = visibleExtensions[index];
+
+            return (
+                <StyledGroupItemWrapper>
+                    <ExtensionCard
+                        extension={item}
+                        handleUpdate={handleExtensionUpdate}
+                        showSourceStore={areMultipleReposInUse}
+                        forcedState={updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined}
+                    />
+                </StyledGroupItemWrapper>
+            );
+        },
+        [visibleExtensions, handleExtensionUpdate, areMultipleReposInUse, updatingExtensionIds],
+    );
+
     if (isLoading) {
         return <LoadingPlaceholder />;
     }
@@ -300,39 +338,9 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
             heightToSubtract={tabsMenuHeight}
             overscan={window.innerHeight * 0.5}
             groupCounts={groupCounts}
-            groupContent={(index) => {
-                const [groupName, groupExtensions] = groupedExtensions[index];
-                const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
-
-                return (
-                    <GroupHeader
-                        groupName={groupName}
-                        isFirstItem={index === 0}
-                        groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
-                        isUpdateGroup={isUpdateGroup}
-                        updatingExtensionIds={updatingExtensionIds}
-                        setUpdatingExtensionIds={setUpdatingExtensionIds}
-                        handleExtensionUpdate={handleExtensionUpdate}
-                    />
-                );
-            }}
+            groupContent={renderGroup}
             computeItemKey={computeItemKey}
-            itemContent={(index) => {
-                const item = visibleExtensions[index];
-
-                return (
-                    <StyledGroupItemWrapper>
-                        <ExtensionCard
-                            extension={item}
-                            handleUpdate={handleExtensionUpdate}
-                            showSourceStore={areMultipleReposInUse}
-                            forcedState={
-                                updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
-                            }
-                        />
-                    </StyledGroupItemWrapper>
-                );
-            }}
+            itemContent={renderItem}
         />
     );
 }

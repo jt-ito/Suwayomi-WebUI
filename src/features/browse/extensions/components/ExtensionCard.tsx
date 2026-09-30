@@ -7,7 +7,7 @@
  */
 
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -63,7 +63,7 @@ interface IProps {
     forcedState?: ExtensionState;
 }
 
-export function ExtensionCard(props: IProps) {
+function ExtensionCardBase(props: IProps) {
     const { t } = useLingui();
 
     const {
@@ -132,15 +132,7 @@ export function ExtensionCard(props: IProps) {
         <Card>
             <CardAction isInstalled={isInstalled} pkgName={pkgName} performExtensionAction={handleButtonClick}>
                 <ListCardContent>
-                    <ListCardAvatar
-                        iconUrl={requestManager.getValidImgUrlFor(iconUrl)}
-                        alt={name}
-                        slots={{
-                            spinnerImageProps: {
-                                ignoreQueue: true,
-                            },
-                        }}
-                    />
+                    <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={name} />
                     <Stack
                         sx={{
                             justifyContent: 'center',
@@ -211,3 +203,6 @@ export function ExtensionCard(props: IProps) {
         </Card>
     );
 }
+
+// the list can hold thousands of extensions: re-render a row only when its own data changed
+export const ExtensionCard = memo(ExtensionCardBase);
