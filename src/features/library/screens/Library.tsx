@@ -227,7 +227,7 @@ export function Library() {
         <>
             {!isSelectModeActive && activeTab && (
                 <>
-                    <AppbarSearch searchHistoryKey="library" suggestions={mangaTitles} />
+                    <AppbarSearch searchHistoryKey="library" suggestions={mangaTitles} liveSearch />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <SyncButton />
                     <UpdateChecker categoryId={activeTab?.id} categoryName={activeTab?.name} />
@@ -304,7 +304,7 @@ export function Library() {
                     retry={mangaError && retryFetchCategoryMangas}
                 />
                 {selectionFab}
-                <LibraryScrollFab contentKey={filterKey + mangas.length} />
+                <LibraryScrollFab contentKey={filterKey + mangas.length} isRaised={isSelectModeActive} />
             </>
         );
     }
@@ -349,7 +349,7 @@ export function Library() {
                 </TabPanel>
             ))}
             {selectionFab}
-            <LibraryScrollFab contentKey={filterKey + mangas.length} />
+            <LibraryScrollFab contentKey={filterKey + mangas.length} isRaised={isSelectModeActive} />
         </TabsWrapper>
     );
 }

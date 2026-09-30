@@ -10,8 +10,7 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
-import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
+import { DEFAULT_FAB_STYLE, StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 
 type ScrollTarget = 'top' | 'bottom' | null;
 
@@ -32,10 +31,8 @@ const scrollTo = (target: 'top' | 'bottom') => {
 };
 
 /** One FAB that jumps to the top when in the lower half of the page, otherwise to the bottom. */
-export const LibraryScrollFab = ({ contentKey }: { contentKey: unknown }) => {
+export const LibraryScrollFab = ({ contentKey, isRaised }: { contentKey: unknown; isRaised?: boolean }) => {
     const { t } = useLingui();
-    // on desktop the sidebar (0 wide on mobile) sits above the FAB, so it must start to the right of it
-    const { navBarWidth } = useNavBarContext();
     const [target, setTarget] = useState<ScrollTarget>(null);
 
     useEffect(() => {
@@ -63,8 +60,10 @@ export const LibraryScrollFab = ({ contentKey }: { contentKey: unknown }) => {
             aria-label={target === 'top' ? t`Scroll to top` : t`Scroll to bottom`}
             onClick={() => scrollTo(target)}
             sx={(theme) => ({
-                right: 'auto',
-                left: `${navBarWidth + 16}px`,
+                // bottom right like the other FABs; sits above the selection FAB while that one is shown
+                ...(isRaised && {
+                    bottom: `calc(${DEFAULT_FAB_STYLE.bottom} + ${DEFAULT_FAB_STYLE.height} + 16px)`,
+                }),
                 zIndex: 1,
                 transition: 'transform 0.15s cubic-bezier(0.23, 1, 0.32, 1)',
                 '&:active': { transform: 'scale(0.96)' },

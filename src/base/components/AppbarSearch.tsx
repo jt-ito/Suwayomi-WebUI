@@ -15,7 +15,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useLocation } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
@@ -42,6 +42,9 @@ const MAX_SUGGESTIONS = 8;
 /** Short enough to still feel immediate, long enough to rank a large library only once per pause in the typing. */
 const SUGGESTION_DEBOUNCE_MS = 150;
 
+/** Pause in the typing after which "live search" applies the text as the query. */
+const LIVE_SEARCH_DEBOUNCE_MS = 300;
+
 const MAX_HISTORY_SUGGESTIONS = 5;
 
 type SearchSuggestion = {
@@ -56,10 +59,12 @@ interface IProps {
     searchHistoryKey: string;
     isClosable?: boolean;
     suggestions?: string[];
+    /** apply the query while typing (after a short pause) instead of only on enter or when picking a suggestion */
+    liveSearch?: boolean;
 }
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
-    const { searchHistoryKey, isClosable = true, suggestions = STABLE_EMPTY_ARRAY } = props;
+    const { searchHistoryKey, isClosable = true, suggestions = STABLE_EMPTY_ARRAY, liveSearch = false } = props;
 
     const theme = useTheme();
     const { t } = useLingui();
@@ -89,16 +94,66 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         MAX_HISTORY_SUGGESTIONS,
     );
 
+    // set right before live search changes the query param: that navigation must not overwrite what is being typed
+    // (it would, for example, trim the trailing space of "one ")
+    const isLiveCommitRef = React.useRef(false);
+
     if (prevLocationKey !== location.key) {
         setPrevLocationKey(location.key);
-        setSearchString(query ?? '');
-        setIsSearchOpen(!isClosable || !!query);
+
+        if (isLiveCommitRef.current) {
+            isLiveCommitRef.current = false;
+        } else {
+            setSearchString(query ?? '');
+            setIsSearchOpen(!isClosable || !!query);
+        }
     }
 
     const isOpen = isSearchOpen || !!query;
 
     const debouncedSearchString = useDebounce(searchString, SUGGESTION_DEBOUNCE_MS).trim();
     const showHistoryOptions = !debouncedSearchString;
+
+    // The inline suggestion is drawn on top of the field. Its position is measured from the real input element, so it
+    // lines up with the typed text whatever the field's padding, border and font are.
+    const ghostWrapperRef = React.useRef<HTMLDivElement>(null);
+    const [ghostLayout, setGhostLayout] = useState<{
+        top: number;
+        left: number;
+        height: number;
+        font: string;
+        paddingLeft: string;
+    } | null>(null);
+    React.useLayoutEffect(() => {
+        const input = inputRef.current;
+        const wrapper = ghostWrapperRef.current;
+        if (!input || !wrapper) {
+            setGhostLayout(null);
+            return;
+        }
+
+        const inputRect = input.getBoundingClientRect();
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const { font, paddingLeft } = getComputedStyle(input);
+        setGhostLayout({
+            top: inputRect.top - wrapperRect.top,
+            left: inputRect.left - wrapperRect.left,
+            height: inputRect.height,
+            font,
+            paddingLeft,
+        });
+    }, [searchString, liveAutoCompletion, focused, isOpen]);
+
+    const debouncedLiveSearchString = useDebounce(searchString, LIVE_SEARCH_DEBOUNCE_MS).trim();
+    useEffect(() => {
+        if (!liveSearch || !focused || (query ?? '') === debouncedLiveSearchString) {
+            return;
+        }
+
+        isLiveCommitRef.current = true;
+        // replace the history entry, so typing does not fill the browser history with one entry per pause
+        setQuery(debouncedLiveSearchString || undefined, 'replaceIn');
+    }, [debouncedLiveSearchString]);
 
     const fuzzySearchIndex = useMemo(
         () => (isOpen && isFuzzySearchEnabled ? createFuzzySearch(suggestions, []) : null),
@@ -213,6 +268,16 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 }}
                 onBlur={() => setFocused(false)}
                 slotProps={{
+                    paper: {
+                        sx: {
+                            mt: 0.5,
+                            borderRadius: '10px',
+                            overflow: 'hidden',
+                            backgroundImage: 'none',
+                            border: `1px solid ${alpha(theme.palette.text.primary, 0.12)}`,
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.34), 0 18px 38px -8px rgba(0, 0, 0, 0.55)',
+                        },
+                    },
                     popper: {
                         placement: 'bottom-start',
                         sx: {
@@ -294,15 +359,19 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                     </Box>
                 )}
                 renderInput={(params) => (
-                    <Box sx={{ position: 'relative' }}>
+                    <Box ref={ghostWrapperRef} sx={{ position: 'relative' }}>
                         {focused && liveAutoCompletion && (
                             <Box
                                 sx={{
                                     position: 'absolute',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    height: '100%',
-                                    width: '100%',
+                                    top: ghostLayout?.top ?? 0,
+                                    left: ghostLayout?.left ?? 0,
+                                    height: ghostLayout?.height ?? '100%',
+                                    width: ghostLayout ? `calc(100% - ${ghostLayout.left}px)` : '100%',
+                                    paddingLeft: ghostLayout?.paddingLeft ?? '17px',
+                                    font: ghostLayout?.font,
                                     overflow: 'hidden',
                                     color: 'text.secondary',
                                     whiteSpace: 'pre',
