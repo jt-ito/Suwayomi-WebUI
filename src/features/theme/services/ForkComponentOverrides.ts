@@ -7,11 +7,52 @@
  */
 
 import type { Components, Theme } from '@mui/material/styles';
-import { alpha } from '@mui/material/styles';
+import { alpha, keyframes } from '@mui/material/styles';
 
 const TACTILE_EASING = 'cubic-bezier(0.2, 0, 0, 1)';
 
+const dialogEnter = keyframes`
+    from { transform: translateY(10px) scale(0.96); }
+    to { transform: none; }
+`;
+
 const surfaceBorder = (theme: Theme) => `1px solid ${alpha(theme.palette.text.primary, 0.1)}`;
+
+// Layered elevation: a tight contact shadow plus a soft ambient one reads as depth, a single blur reads as flat.
+export const ELEVATION = {
+    sm: '0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 10px -2px rgba(0, 0, 0, 0.35)',
+    md: '0 2px 4px rgba(0, 0, 0, 0.32), 0 10px 22px -4px rgba(0, 0, 0, 0.42)',
+    lg: '0 4px 8px rgba(0, 0, 0, 0.34), 0 18px 38px -8px rgba(0, 0, 0, 0.55)',
+    xl: '0 8px 16px rgba(0, 0, 0, 0.36), 0 30px 60px -12px rgba(0, 0, 0, 0.62)',
+} as const;
+
+// hard 1px edge + soft falloff, for icons/labels sitting on translucent or dark chrome
+const ICON_SHADOW = 'drop-shadow(0 1px 0 rgba(0, 0, 0, 0.6)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.55))';
+const TEXT_SHADOW = '0 1px 0 rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.6)';
+
+/** Active nav destination glows in the accent color instead of getting a button box. Needs the item tagged `data-active`. */
+export const activeIconGlow = (theme: Theme) => ({
+    '& [data-active] .MuiSvgIcon-root': {
+        filter: `drop-shadow(0 0 6px ${alpha(theme.palette.primary.main, 0.7)})`,
+    },
+    // History/Downloads glyphs are thin, so the base glow barely reads: layer a tighter + wider halo
+    '& a[data-active][href$="/history"] .MuiSvgIcon-root, & a[data-active][href$="/downloads"] .MuiSvgIcon-root': {
+        filter: `drop-shadow(0 0 3px ${alpha(theme.palette.primary.main, 0.95)}) drop-shadow(0 0 9px ${alpha(theme.palette.primary.main, 0.85)}) drop-shadow(0 0 16px ${alpha(theme.palette.primary.main, 0.55)})`,
+    },
+});
+
+// 1px top highlight that catches "light" on glass edges
+const EDGE_HIGHLIGHT = 'inset 0 1px 0 rgba(255, 255, 255, 0.08)';
+
+/**
+ * Frosted-glass surface for elements that float over scrolling content only (menus, dialogs, sticky bars, FABs).
+ * Tune the whole look with the two arguments: opacity (higher = more solid) and blur radius in px.
+ */
+export const glassSurface = (color: string, opacity = 0.8, blur = 16) => ({
+    backgroundColor: alpha(color, opacity),
+    backdropFilter: `blur(${blur}px) saturate(160%)`,
+    WebkitBackdropFilter: `blur(${blur}px) saturate(160%)`,
+});
 
 /**
  * Component style overrides (rounded corners, tactile press states, softer surfaces) applied on top of every app theme.
@@ -30,8 +71,8 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
             },
             outlined: { borderWidth: 1.5, '&:hover': { borderWidth: 1.5 } },
             contained: {
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08)',
-                '&:hover': { boxShadow: '0 4px 12px rgba(0, 0, 0, 0.18)' },
+                boxShadow: `${ELEVATION.sm}, ${EDGE_HIGHLIGHT}`,
+                '&:hover': { boxShadow: `${ELEVATION.md}, ${EDGE_HIGHLIGHT}` },
             },
         },
     },
@@ -48,10 +89,19 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
         styleOverrides: {
             root: {
                 borderRadius: 14,
-                boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.3)',
+                boxShadow: `${ELEVATION.lg}, ${EDGE_HIGHLIGHT}`,
                 transition: `transform 160ms ${TACTILE_EASING}, box-shadow 160ms ease`,
+                '&:hover': { boxShadow: `${ELEVATION.xl}, ${EDGE_HIGHLIGHT}` },
                 '&:active': { transform: 'scale(0.94)' },
             },
+            primary: ({ theme }) => ({
+                ...glassSurface(theme.palette.primary.main, 0.88, 12),
+                border: `1px solid ${alpha(theme.palette.primary.contrastText, 0.16)}`,
+                '&:hover': {
+                    backgroundColor: alpha(theme.palette.primary.main, 0.96),
+                    boxShadow: `${ELEVATION.xl}, ${EDGE_HIGHLIGHT}`,
+                },
+            }),
         },
     },
     MuiChip: {
@@ -64,7 +114,18 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
             },
         },
     },
-    MuiTabs: { styleOverrides: { root: { minHeight: 44 } } },
+    MuiTabs: {
+        styleOverrides: {
+            root: { minHeight: 44 },
+            // pill-shaped indicator that glides between tabs with a soft glow in the active color
+            indicator: ({ theme }) => ({
+                height: 3,
+                borderRadius: 3,
+                boxShadow: `0 0 10px ${alpha(theme.palette.primary.main, 0.55)}`,
+                transition: `left 300ms ${TACTILE_EASING}, width 300ms ${TACTILE_EASING}`,
+            }),
+        },
+    },
     MuiTab: {
         styleOverrides: {
             root: {
@@ -83,25 +144,43 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                 borderRadius: 12,
                 overflow: 'hidden',
                 position: 'relative',
+                boxShadow: ELEVATION.md,
+                '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: 'inherit',
+                    pointerEvents: 'none',
+                    // light rim drawn over the cover: dark shadows alone are invisible on dark surfaces
+                    boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.14)',
+                },
                 transition: `transform 200ms ${TACTILE_EASING}, box-shadow 200ms ${TACTILE_EASING}, border-color 200ms ease`,
                 '&:hover': {
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 8px 24px -4px rgba(0, 0, 0, 0.3)',
-                    zIndex: 15,
+                    boxShadow: ELEVATION.lg,
+                    zIndex: 0, // stay below the sticky toolbar (zIndex 1)
                 },
             },
         },
     },
     MuiOutlinedInput: {
         styleOverrides: {
-            root: { borderRadius: 10, transition: 'border-color 150ms ease, box-shadow 150ms ease' },
+            root: {
+                borderRadius: 10,
+                transition: 'border-color 150ms ease, box-shadow 150ms ease',
+            },
         },
     },
     MuiSwitch: {
         styleOverrides: {
-            switchBase: { transition: `transform 150ms ${TACTILE_EASING}, color 150ms ease` },
+            switchBase: {
+                transition: `transform 150ms ${TACTILE_EASING}, color 150ms ease`,
+            },
             thumb: { boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' },
-            track: { borderRadius: 999, transition: 'background-color 150ms ease, opacity 150ms ease' },
+            track: {
+                borderRadius: 999,
+                transition: 'background-color 150ms ease, opacity 150ms ease',
+            },
         },
     },
     MuiCheckbox: {
@@ -130,8 +209,13 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                 height: 18,
                 boxShadow: '0 1px 3px rgba(0, 0, 0, 0.25)',
                 transition: `box-shadow 150ms ease, transform 100ms ${TACTILE_EASING}`,
-                '&:hover, &.Mui-focusVisible': { boxShadow: `0 0 0 8px ${alpha(theme.palette.primary.main, 0.16)}` },
-                '&.Mui-active': { transform: 'scale(1.15)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' },
+                '&:hover, &.Mui-focusVisible': {
+                    boxShadow: `0 0 0 8px ${alpha(theme.palette.primary.main, 0.16)}`,
+                },
+                '&.Mui-active': {
+                    transform: 'scale(1.15)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                },
             }),
         },
     },
@@ -159,8 +243,22 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
             paper: ({ theme }) => ({
                 borderRadius: 16,
                 backgroundImage: 'none',
+                ...glassSurface(theme.palette.background.paper, 0.92, 20),
                 border: surfaceBorder(theme),
-                boxShadow: '0 20px 48px -12px rgba(0, 0, 0, 0.5)',
+                boxShadow: `${ELEVATION.xl}, ${EDGE_HIGHLIGHT}`,
+                animation: `${dialogEnter} 240ms ${TACTILE_EASING}`,
+            }),
+        },
+    },
+    MuiDrawer: {
+        styleOverrides: {
+            paper: ({ theme }) => ({
+                // light falls from the top: gentle vertical gradient instead of a flat fill
+                backgroundImage:
+                    'linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.16) 100%)',
+                borderRight: surfaceBorder(theme),
+                boxShadow: `${ELEVATION.lg}, ${EDGE_HIGHLIGHT}, inset -1px 0 0 rgba(255, 255, 255, 0.05)`,
+                ...activeIconGlow(theme),
             }),
         },
     },
@@ -169,20 +267,37 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
             paper: ({ theme }) => ({
                 borderRadius: 12,
                 backgroundImage: 'none',
+                ...glassSurface(theme.palette.background.paper, 0.86, 16),
                 border: surfaceBorder(theme),
-                boxShadow: '0 12px 32px -8px rgba(0, 0, 0, 0.4)',
+                boxShadow: `${ELEVATION.lg}, ${EDGE_HIGHLIGHT}`,
             }),
         },
     },
     MuiAppBar: {
         styleOverrides: {
             root: ({ theme }) => ({
+                // slightly see-through: same tint MUI paints the bar with (AppBar.darkBg in dark mode), just not fully opaque
                 backgroundImage: 'none',
-                backdropFilter: 'blur(20px) saturate(180%)',
+                backgroundColor: 'color-mix(in srgb, var(--AppBar-background) 82%, transparent)',
+                ...theme.applyStyles('dark', {
+                    backgroundColor:
+                        'color-mix(in srgb, var(--mui-palette-AppBar-darkBg, var(--AppBar-background)) 82%, transparent)',
+                }),
+                '& .MuiSvgIcon-root': {
+                    filter: ICON_SHADOW,
+                },
+                '& .MuiTypography-root': { textShadow: TEXT_SHADOW },
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
                 borderBottom: `1px solid ${theme.palette.divider}`,
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+                boxShadow: ELEVATION.md,
                 transition: 'background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease',
-                '& .MuiToolbar-root': { minHeight: 52, height: 52, paddingLeft: 12, paddingRight: 14 },
+                '& .MuiToolbar-root': {
+                    minHeight: 52,
+                    height: 52,
+                    paddingLeft: 12,
+                    paddingRight: 14,
+                },
                 // search fields in the app bar: rounded outlined box instead of MUI's flat underline
                 '& .MuiInputBase-root': {
                     borderRadius: 8,
@@ -190,16 +305,27 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                     backgroundColor: alpha(theme.palette.text.primary, 0.05),
                     padding: '4px 8px 4px 12px',
                     transition: 'border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease',
-                    '&:hover:not(.Mui-focused)': { borderColor: alpha(theme.palette.text.primary, 0.3) },
+                    '&:hover:not(.Mui-focused)': {
+                        borderColor: alpha(theme.palette.text.primary, 0.3),
+                    },
                     '&.Mui-focused': {
                         borderColor: theme.palette.primary.main,
                         backgroundColor: alpha(theme.palette.text.primary, 0.08),
                         boxShadow: `0 0 0 2px ${alpha(theme.palette.primary.main, 0.25)}`,
                     },
                 },
-                '& .MuiInput-underline:before, & .MuiInput-underline:after': { display: 'none' },
-                '& .MuiInputBase-input': { padding: 4, fontSize: '0.875rem', lineHeight: 1.4 },
-                '& .MuiInputAdornment-positionEnd .MuiIconButton-root': { padding: 4, marginRight: -2 },
+                '& .MuiInput-underline:before, & .MuiInput-underline:after': {
+                    display: 'none',
+                },
+                '& .MuiInputBase-input': {
+                    padding: 4,
+                    fontSize: '0.875rem',
+                    lineHeight: 1.4,
+                },
+                '& .MuiInputAdornment-positionEnd .MuiIconButton-root': {
+                    padding: 4,
+                    marginRight: -2,
+                },
             }),
         },
     },

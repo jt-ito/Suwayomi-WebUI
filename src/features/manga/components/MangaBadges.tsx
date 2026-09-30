@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
@@ -22,20 +22,60 @@ import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { ELEVATION } from '@/features/theme/services/ForkComponentOverrides.ts';
 import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { MANGA_STATUS_TO_COLOR, MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 
-const BadgeContainer = styled('div')(({ theme }) => ({
+const BadgeContainer = styled('div')({
     display: 'flex',
     height: 'fit-content',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 9999,
     overflow: 'hidden',
-}));
+    boxShadow: ELEVATION.sm,
+    '&:empty': { display: 'none' },
+});
 
 const Badge = styled(Typography)(({ theme }) => ({
     color: theme.palette.primary.contrastText,
-    paddingInline: theme.spacing(0.3),
+    paddingInline: theme.spacing(0.8),
+    fontWeight: 600,
 }));
+
+// dark frosted pill: reads as a quiet label on any cover instead of a saturated block (shared by all cover overlays)
+const FROSTED_PILL = {
+    color: '#fff',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backdropFilter: 'blur(8px) saturate(140%)',
+    WebkitBackdropFilter: 'blur(8px) saturate(140%)',
+    boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.12)',
+} as const;
+
+// fixed height so every frosted pill (In Library, chapter count, fetch button, status) lines up
+const PILL_HEIGHT = 22;
+
+const FrostedBadge = styled(Badge)({
+    ...FROSTED_PILL,
+    height: PILL_HEIGHT,
+    boxSizing: 'border-box',
+    display: 'inline-flex',
+    alignItems: 'center',
+});
+
+// frosted pill with a small glowing dot in `--status-color`
+const DotBadge = styled(FrostedBadge)({
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    paddingInline: 10,
+    '&::before': {
+        content: '""',
+        width: 7,
+        height: 7,
+        borderRadius: '50%',
+        backgroundColor: 'var(--status-color)',
+        boxShadow: '0 0 6px var(--status-color)',
+    },
+});
 
 export const MangaBadges = ({
     inLibraryIndicator,
@@ -96,119 +136,151 @@ export const MangaBadges = ({
     };
 
     return (
-        <BadgeContainer>
-            {mode === 'source' && isChapterCountKnown && (
-                <CustomTooltip title={plural(displayedChapterCount, { one: '# chapter', other: '# chapters' })}>
+        <>
+            <BadgeContainer>
+                {isSourceMissing && (
+                    <CustomTooltip title={t`Source missing. Check your installed extensions.`}>
+                        <Badge
+                            aria-label={t`Source missing`}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                backgroundColor: 'warning.main',
+                                color: 'warning.contrastText',
+                            }}
+                        >
+                            <WarningAmberIcon sx={{ fontSize: '1em' }} />
+                        </Badge>
+                    </CustomTooltip>
+                )}
+                {!isTouchDevice && inLibraryIndicator && mode === 'source' && (
+                    <Button
+                        className="source-manga-library-state-button"
+                        component="div"
+                        variant="contained"
+                        size="small"
+                        {...MUIUtil.preventRippleProp()}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            updateLibraryState();
+                        }}
+                        sx={(theme) => {
+                            const accent = isInLibrary ? theme.palette.error.main : theme.palette.primary.main;
+
+                            return {
+                                ...FROSTED_PILL,
+                                display: 'none',
+                                height: PILL_HEIGHT,
+                                minHeight: 0,
+                                gap: 0.75,
+                                borderRadius: 9999,
+                                paddingInline: 1.25,
+                                boxShadow: `inset 0 0 0 1px ${alpha(accent, 0.7)}, ${ELEVATION.sm}`,
+                                '&::before': {
+                                    content: '""',
+                                    width: 7,
+                                    height: 7,
+                                    borderRadius: '50%',
+                                    backgroundColor: accent,
+                                    boxShadow: `0 0 6px ${accent}`,
+                                },
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.68)',
+                                    boxShadow: `inset 0 0 0 1px ${accent}, ${ELEVATION.md}`,
+                                },
+                            };
+                        }}
+                    >
+                        {isInLibrary ? t`Remove from the library` : t`Add To Library`}
+                    </Button>
+                )}
+                {inLibraryIndicator && isInLibrary && (
+                    <DotBadge
+                        className="source-manga-library-state-indicator"
+                        sx={(theme) => ({ '--status-color': theme.palette.primary.main })}
+                    >
+                        {t`In Library`}
+                    </DotBadge>
+                )}
+                {((showUnreadBadge && mode === 'default') || mode === 'duplicate') && (unread ?? 0) > 0 && (
                     <Badge
                         sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 0.3,
                             backgroundColor: 'primary.main',
                             color: 'primary.contrastText',
                         }}
                     >
-                        <AutoStoriesIcon sx={{ fontSize: '1em' }} />
-                        {displayedChapterCount}
+                        {unread}
                     </Badge>
-                </CustomTooltip>
-            )}
-            {mode === 'source' && !isChapterCountKnown && !!onPeekChapterCount && (
-                <CustomTooltip title={t`Chapter count unknown, click to fetch it from the source`}>
-                    <ButtonBase
-                        aria-label={t`Fetch chapter count`}
-                        onClick={handlePeekChapterCount}
-                        sx={{ cursor: isPeeking ? 'default' : 'pointer' }}
-                    >
-                        <Badge
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                backgroundColor: 'action.selected',
-                                color: 'text.primary',
-                            }}
-                        >
-                            {isPeeking ? (
-                                <CircularProgress size="1em" color="inherit" />
-                            ) : (
-                                <VisibilityIcon sx={{ fontSize: '1em' }} />
-                            )}
-                        </Badge>
-                    </ButtonBase>
-                </CustomTooltip>
-            )}
-            {isSourceMissing && (
-                <CustomTooltip title={t`Source missing. Check your installed extensions.`}>
+                )}
+                {((showDownloadBadge && mode === 'default') || mode === 'duplicate') && (downloadCount ?? 0) > 0 && (
                     <Badge
-                        aria-label={t`Source missing`}
                         sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            backgroundColor: 'warning.main',
-                            color: 'warning.contrastText',
+                            backgroundColor: 'secondary.main',
+                            color: 'secondary.contrastText',
                         }}
                     >
-                        <WarningAmberIcon sx={{ fontSize: '1em' }} />
+                        {downloadCount}
                     </Badge>
-                </CustomTooltip>
-            )}
-            {!isTouchDevice && inLibraryIndicator && mode === 'source' && (
-                <Button
-                    className="source-manga-library-state-button"
-                    component="div"
-                    variant="contained"
-                    size="small"
-                    {...MUIUtil.preventRippleProp()}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        updateLibraryState();
-                    }}
+                )}
+                {mode === 'default' && !!status && status !== MangaStatus.Unknown && (
+                    <DotBadge
+                        sx={(theme) => ({
+                            '--status-color':
+                                MANGA_STATUS_TO_COLOR[status] === 'default'
+                                    ? theme.palette.text.secondary
+                                    : theme.palette[MANGA_STATUS_TO_COLOR[status]].main,
+                        })}
+                    >
+                        {t(MANGA_STATUS_TO_TRANSLATION[status])}
+                    </DotBadge>
+                )}
+            </BadgeContainer>
+            {/* top right, next to (or in place of) the option button */}
+            {mode === 'source' && (isChapterCountKnown || !!onPeekChapterCount) && (
+                <BadgeContainer
                     sx={{
-                        display: 'none',
-                    }}
-                    color={isInLibrary ? 'error' : 'primary'}
-                >
-                    {isInLibrary ? t`Remove from the library` : t`Add To Library`}
-                </Button>
-            )}
-            {inLibraryIndicator && isInLibrary && (
-                <Typography
-                    className="source-manga-library-state-indicator"
-                    sx={{ backgroundColor: 'primary.dark', color: 'primary.contrastText', p: 0.3 }}
-                >
-                    {t`In Library`}
-                </Typography>
-            )}
-            {((showUnreadBadge && mode === 'default') || mode === 'duplicate') && (unread ?? 0) > 0 && (
-                <Badge sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText' }}>{unread}</Badge>
-            )}
-            {((showDownloadBadge && mode === 'default') || mode === 'duplicate') && (downloadCount ?? 0) > 0 && (
-                <Badge
-                    sx={{
-                        backgroundColor: 'secondary.main',
-                        color: 'secondary.contrastText',
+                        ml: 'auto',
+                        // hover-capable devices: only show the count while the card is hovered/focused (touch always shows it)
+                        '@media (hover: hover) and (pointer: fine)': {
+                            opacity: isPeeking ? 1 : 0,
+                            transition: 'opacity 160ms cubic-bezier(0.2, 0, 0, 1)',
+                            '.MuiCardActionArea-root:hover &, .MuiCardActionArea-root:focus-visible &': { opacity: 1 },
+                        },
                     }}
                 >
-                    {downloadCount}
-                </Badge>
+                    {mode === 'source' && isChapterCountKnown && (
+                        <CustomTooltip
+                            title={plural(displayedChapterCount, {
+                                one: '# chapter',
+                                other: '# chapters',
+                            })}
+                        >
+                            <FrostedBadge sx={{ display: 'flex', alignItems: 'center', gap: 0.5, paddingInline: 1 }}>
+                                <AutoStoriesIcon sx={{ fontSize: '1em' }} />
+                                {displayedChapterCount}
+                            </FrostedBadge>
+                        </CustomTooltip>
+                    )}
+                    {mode === 'source' && !isChapterCountKnown && !!onPeekChapterCount && (
+                        <CustomTooltip title={t`Chapter count unknown, click to fetch it from the source`}>
+                            <ButtonBase
+                                aria-label={t`Fetch chapter count`}
+                                onClick={handlePeekChapterCount}
+                                sx={{ cursor: isPeeking ? 'default' : 'pointer' }}
+                            >
+                                <FrostedBadge sx={{ display: 'flex', alignItems: 'center', paddingInline: 1 }}>
+                                    {isPeeking ? (
+                                        <CircularProgress size="1em" color="inherit" />
+                                    ) : (
+                                        <VisibilityIcon sx={{ fontSize: '1em' }} />
+                                    )}
+                                </FrostedBadge>
+                            </ButtonBase>
+                        </CustomTooltip>
+                    )}
+                </BadgeContainer>
             )}
-            {mode === 'default' && !!status && status !== MangaStatus.Unknown && (
-                <Badge
-                    sx={{
-                        backgroundColor:
-                            MANGA_STATUS_TO_COLOR[status] === 'default'
-                                ? 'action.selected'
-                                : `${MANGA_STATUS_TO_COLOR[status]}.main`,
-                        color:
-                            MANGA_STATUS_TO_COLOR[status] === 'default'
-                                ? 'text.primary'
-                                : `${MANGA_STATUS_TO_COLOR[status]}.contrastText`,
-                    }}
-                >
-                    {t(MANGA_STATUS_TO_TRANSLATION[status])}
-                </Badge>
-            )}
-        </BadgeContainer>
+        </>
     );
 };

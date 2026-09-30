@@ -27,6 +27,9 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.constants.ts';
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
 
+// gap around the app bar (viewport top/right and content below). 0 = flush with the edges; ~10 = floating
+const APP_BAR_GAP = 0;
+
 export function DefaultNavBar() {
     const { title, hideTitle, action, override, setAppBarHeight, navBarWidth, setNavBarWidth } = useNavBarContext();
 
@@ -76,7 +79,10 @@ export function DefaultNavBar() {
     useResizeObserver(
         appBarRef,
         useCallback(() => {
-            setAppBarHeight(appBarRef.current?.clientHeight ?? 0);
+            // bottom edge (includes the top gap + safe area) plus the gap below, so content starts under the pill with breathing room
+            setAppBarHeight(
+                appBarRef.current ? Math.ceil(appBarRef.current.getBoundingClientRect().bottom) + APP_BAR_GAP : 0,
+            );
         }, [appBarRef.current]),
     );
 
@@ -112,9 +118,10 @@ export function DefaultNavBar() {
                 ref={appBarRef}
                 sx={{
                     position: 'fixed',
-                    marginLeft: actualNavBarWidth,
+                    top: APP_BAR_GAP,
+                    right: APP_BAR_GAP,
                     pt: 'env(safe-area-inset-top)',
-                    width: `calc(100% - ${actualNavBarWidth}px)`,
+                    width: `calc(100% - ${actualNavBarWidth}px - ${2 * APP_BAR_GAP}px)`,
                     zIndex: theme.zIndex.drawer,
                 }}
             >

@@ -74,7 +74,6 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                 width: navBarWidth,
                 '& .MuiDrawer-paper': {
                     zIndex: (theme) => theme.zIndex.drawer - 1,
-                    backgroundImage: 'none',
                     overflowX: 'hidden',
                 },
             }}

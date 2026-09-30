@@ -12,6 +12,7 @@ import { memo } from 'react';
 
 export const StyledGroupItemWrapper = memo(
     styled(Box)(({ theme }) => ({
-        padding: theme.spacing(0, 1, 1, 1),
+        // top room for the card's 3px hover lift, so it isn't cut off by the sticky group header above it
+        padding: theme.spacing(0.5, 1, 0.5, 1),
     })),
 );

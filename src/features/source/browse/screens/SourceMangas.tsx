@@ -61,6 +61,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import type { FilterChangeInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import { ELEVATION, glassSurface } from '@/features/theme/services/ForkComponentOverrides.ts';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -69,7 +70,8 @@ const ContentTypeMenu = styled('div')(({ theme }) => ({
     width: '100%',
     padding: theme.spacing(1),
     gap: theme.spacing(1),
-    backgroundColor: theme.palette.background.default,
+    ...glassSurface(theme.palette.background.default, 0.75, 14),
+    boxShadow: ELEVATION.sm,
 }));
 
 const ContentTypeButton = styled(Button)(() => ({}));
@@ -79,7 +81,9 @@ const StyledGridWrapper = styled(Box)(() => ({
     position: 'relative',
 }));
 
-const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: MessageDescriptor } = {
+const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: {
+    [contentType in SourceContentType]: MessageDescriptor;
+} = {
     [SourceContentType.POPULAR]: msg`No manga found`,
     [SourceContentType.LATEST]: msg`No manga found`,
     [SourceContentType.SEARCH]: msg`No manga matches this filter`,
@@ -340,7 +344,10 @@ export function SourceMangas() {
 
             const updatedSavedSearches = {
                 ...savedSearches,
-                [savedSearch]: { query: query ?? undefined, filters: dialogFiltersToApply },
+                [savedSearch]: {
+                    query: query ?? undefined,
+                    filters: dialogFiltersToApply,
+                },
             };
             updateSourceMetadata('savedSearches', updatedSavedSearches);
         },
@@ -371,7 +378,9 @@ export function SourceMangas() {
                     {
                         state: {
                             ...locationState,
-                            ...AppRoutes.sources.children.browse.state({ contentType: newContentType }),
+                            ...AppRoutes.sources.children.browse.state({
+                                contentType: newContentType,
+                            }),
                         },
                     },
                 );

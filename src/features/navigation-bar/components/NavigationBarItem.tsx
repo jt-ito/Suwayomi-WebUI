@@ -59,6 +59,8 @@ export const NavigationBarItem = ({
         <ListItemLink
             {...slots?.listItemLink}
             selected={!isCollapsed && isActive}
+            // `selected` is not set while collapsed, so styles (e.g. the sidebar icon glow) key off this instead
+            data-active={isActive || undefined}
             // without this, mobile browsers keep double-tap-to-zoom gesture detection active on the button,
             // which can eat or delay a fast/repeated tap - this is the fix for that, not a style choice
             sx={{ p: 0, m: 0, touchAction: 'manipulation', ...slots?.listItemLink?.sx }}
