@@ -1187,6 +1187,11 @@ msgstr "완독일"
 msgid "Finished"
 msgstr "완료됨"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "완결"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "완료됨:"

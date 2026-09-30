@@ -1076,6 +1076,11 @@ msgstr "Data zakończenia"
 msgid "Finished"
 msgstr "Ukończono"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Zakończone"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "Ukończono:"

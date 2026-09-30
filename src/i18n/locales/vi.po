@@ -1188,6 +1188,11 @@ msgstr "Ngày kết thúc"
 msgid "Finished"
 msgstr "Hoàn thành"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Đã kết thúc"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "Hoàn thành:"

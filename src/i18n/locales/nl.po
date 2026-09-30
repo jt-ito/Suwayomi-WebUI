@@ -598,6 +598,11 @@ msgstr "Filter"
 msgid "Finished"
 msgstr "Afgerond"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Beëindigd"
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Forget manga categories"
 msgstr "Vergeet mangacategorieën"

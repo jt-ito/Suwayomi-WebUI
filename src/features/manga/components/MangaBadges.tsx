@@ -140,17 +140,12 @@ export const MangaBadges = ({
             <BadgeContainer>
                 {isSourceMissing && (
                     <CustomTooltip title={t`Source missing. Check your installed extensions.`}>
-                        <Badge
+                        <FrostedBadge
                             aria-label={t`Source missing`}
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                backgroundColor: 'warning.main',
-                                color: 'warning.contrastText',
-                            }}
+                            sx={{ display: 'flex', alignItems: 'center', paddingInline: 1, color: 'warning.main' }}
                         >
                             <WarningAmberIcon sx={{ fontSize: '1em' }} />
-                        </Badge>
+                        </FrostedBadge>
                     </CustomTooltip>
                 )}
                 {!isTouchDevice && inLibraryIndicator && mode === 'source' && (
@@ -204,24 +199,12 @@ export const MangaBadges = ({
                     </DotBadge>
                 )}
                 {((showUnreadBadge && mode === 'default') || mode === 'duplicate') && (unread ?? 0) > 0 && (
-                    <Badge
-                        sx={{
-                            backgroundColor: 'primary.main',
-                            color: 'primary.contrastText',
-                        }}
-                    >
-                        {unread}
-                    </Badge>
+                    <DotBadge sx={(theme) => ({ '--status-color': theme.palette.primary.main })}>{unread}</DotBadge>
                 )}
                 {((showDownloadBadge && mode === 'default') || mode === 'duplicate') && (downloadCount ?? 0) > 0 && (
-                    <Badge
-                        sx={{
-                            backgroundColor: 'secondary.main',
-                            color: 'secondary.contrastText',
-                        }}
-                    >
+                    <DotBadge sx={(theme) => ({ '--status-color': theme.palette.secondary.main })}>
                         {downloadCount}
-                    </Badge>
+                    </DotBadge>
                 )}
                 {mode === 'default' && !!status && status !== MangaStatus.Unknown && (
                     <DotBadge

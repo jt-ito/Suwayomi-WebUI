@@ -1998,6 +1998,11 @@ msgstr "תאריך סיום"
 msgid "Finished"
 msgstr "הסתיימה"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "הסתיים"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Releasing"
 msgstr "יוצאת כעת"

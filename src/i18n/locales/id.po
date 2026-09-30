@@ -677,6 +677,11 @@ msgstr "Saring dan Urutkan"
 msgid "Finished"
 msgstr "Selesai"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Selesai"
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Forget manga categories"
 msgstr "Lupakan kategori manga"

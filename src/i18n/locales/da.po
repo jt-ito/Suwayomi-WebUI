@@ -150,6 +150,11 @@ msgstr "Femtesidste læste kapitel"
 msgid "Finished"
 msgstr "Gennemført"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Afsluttet"
+
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fourth to last read chapter"
 msgstr "Fjerdesidste læste kapitel"

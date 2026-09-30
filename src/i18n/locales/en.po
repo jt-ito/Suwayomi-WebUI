@@ -1940,8 +1940,12 @@ msgid "Finish date"
 msgstr "Finish date"
 
 #: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
-#: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
+msgid "Finished"
+msgstr "Finished"
+
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
 msgid "Finished"
 msgstr "Finished"
 

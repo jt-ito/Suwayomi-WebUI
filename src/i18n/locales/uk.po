@@ -623,6 +623,11 @@ msgstr "Фільтр"
 msgid "Finished"
 msgstr "Завершено"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Завершено"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr enabled"
 msgstr "FlareSolverr увімкнено"

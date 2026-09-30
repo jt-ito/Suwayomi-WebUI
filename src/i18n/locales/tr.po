@@ -963,6 +963,11 @@ msgstr "Bitiş tarihi"
 msgid "Finished"
 msgstr "Tamamlandı"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Bitti"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "Tamamlandı:"

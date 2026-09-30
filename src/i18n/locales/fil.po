@@ -879,3 +879,8 @@ msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as 
 msgstr ""
 "{count, plural, one {Kabanata na minarkahan bilang nabasa na} other {# na "
 "kabanata ang minarkahan bilang nabasa na}}"
+
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Tapos na"

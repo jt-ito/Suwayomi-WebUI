@@ -56,3 +56,8 @@ msgstr "এই ক্যাটাগরিটি খালি"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "আপনার এখন পর্যন্ত কোন ক্যাটাগরি নেই।"
+
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "সমাপ্ত"

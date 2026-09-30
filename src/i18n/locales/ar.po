@@ -782,6 +782,11 @@ msgstr "فيلتر"
 msgid "Finished"
 msgstr "إنتهى"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "منتهية"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr enabled"
 msgstr "تم تفعيل FlareSolverr"

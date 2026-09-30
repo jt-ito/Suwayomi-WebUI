@@ -1507,6 +1507,11 @@ msgstr "Befejezés ideje"
 msgid "Finished"
 msgstr "Befejezve"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Befejezett"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "Befejezve:"

@@ -890,3 +890,8 @@ msgstr "เมื่อวานนี้เวลา {timeString}"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "คุณยังไม่มีหมวดหมู่ใด ๆ"
+
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "จบแล้ว"

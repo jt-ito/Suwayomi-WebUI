@@ -1183,6 +1183,11 @@ msgstr "تاریخ پایان"
 msgid "Finished"
 msgstr "پایان‌ یافته"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "پایان‌یافته"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "پایان‌ یافته:"

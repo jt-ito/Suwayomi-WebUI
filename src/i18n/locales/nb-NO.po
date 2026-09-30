@@ -48,3 +48,8 @@ msgstr "Ny kategori"
 #: src/features/library/screens/Library.tsx
 msgid "The category is empty"
 msgstr "Kategorien er tom"
+
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Avsluttet"

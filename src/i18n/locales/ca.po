@@ -1623,6 +1623,11 @@ msgstr "Acabat:"
 msgid "Finished"
 msgstr "Acabat"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Finalitzada"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Fit screen"
 msgstr "Ajusta a la pantalla"

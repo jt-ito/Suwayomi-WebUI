@@ -1071,6 +1071,11 @@ msgstr "完了日"
 msgid "Finished"
 msgstr "完成しました"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "完結"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "完成しました:"

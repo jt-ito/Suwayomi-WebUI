@@ -1070,6 +1070,11 @@ msgstr "தேதியை முடிக்க"
 msgid "Finished"
 msgstr "முடிந்தது"
 
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "முடிந்தது"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Finished:"
 msgstr "முடிந்தது :"

@@ -55,3 +55,8 @@ msgstr "Această categorie este goală"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "Nu ai nicio categorie încă."
+
+#: src/features/manga/Manga.constants.ts
+msgctxt "Manga publication status: the series has ended"
+msgid "Finished"
+msgstr "Încheiat"
