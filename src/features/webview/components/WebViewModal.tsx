@@ -101,11 +101,25 @@ export const WebViewModal = () => {
             onClose={close}
             fullScreen={isMaximized}
             maxWidth={false}
+            // no fade-out: the backdrop stays on top of the page until the animation ends and swallows the first clicks
+            transitionDuration={{ enter: 225, exit: 0 }}
             slotProps={{
                 paper: {
                     sx: isMaximized
                         ? undefined
-                        : { width: 'min(1200px, 94vw)', height: 'min(850px, 88vh)', overflow: 'hidden' },
+                        : {
+                              width: 'min(1200px, 94vw)',
+                              height: 'min(850px, 88vh)',
+                              overflow: 'hidden',
+                              // phones: the shape of the screen of a current iPhone (19.5:9, corner radius about 11% of
+                              // the width), as large as the viewport allows
+                              [theme.breakpoints.down('sm')]: {
+                                  '--phone-width': 'min(94vw, calc(94dvh * 9 / 19.5))',
+                                  width: 'var(--phone-width)',
+                                  height: 'calc(var(--phone-width) * 19.5 / 9)',
+                                  borderRadius: 'calc(var(--phone-width) * 0.11)',
+                              },
+                          },
                 },
             }}
         >
@@ -115,8 +129,8 @@ export const WebViewModal = () => {
                     sx={{
                         alignItems: 'center',
                         gap: 1,
-                        pl: 2,
-                        pr: 1,
+                        pl: { xs: 3, sm: 2 },
+                        pr: { xs: 2, sm: 1 },
                         minHeight: 42,
                         borderBottom: 1,
                         borderColor: 'divider',
