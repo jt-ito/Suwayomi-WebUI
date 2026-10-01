@@ -18,6 +18,7 @@ export const BACKUP_FLAGS_TO_TRANSLATION: Record<BackupFlag, MessageDescriptor> 
     includeClientData: msg`Client data`,
     includeHistory: msg`History`,
     includeServerSettings: msg`Server settings`,
+    includeExtensions: msg`Extensions and repositories`,
     includeTracking: msg`Tracking`,
 };
 
@@ -36,5 +37,5 @@ export const BACKUP_FLAGS_BY_GROUP: Record<BackupFlagGroup, BackupFlag[]> = {
         'includeHistory',
         'includeCategories',
     ],
-    [BackupFlagGroup.SETTINGS]: ['includeClientData', 'includeServerSettings'],
+    [BackupFlagGroup.SETTINGS]: ['includeClientData', 'includeServerSettings', 'includeExtensions'],
 };

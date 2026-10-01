@@ -97,6 +97,7 @@ export const SERVER_SETTINGS = gql`
         autoBackupIncludeHistory
         autoBackupIncludeManga
         autoBackupIncludeServerSettings
+        autoBackupIncludeExtensions
         autoBackupIncludeTracking
 
         # local source

@@ -154,7 +154,11 @@ export function Backup() {
                 return false;
             }
 
-            if (validateBackupData.missingSources.length || validateBackupData.missingTrackers.length) {
+            if (
+                validateBackupData.missingSources.length ||
+                validateBackupData.missingExtensions.length ||
+                validateBackupData.missingTrackers.length
+            ) {
                 try {
                     await AwaitableComponent.show(
                         BackupValidationDialog,

@@ -18,6 +18,10 @@ export const VALIDATE_BACKUP = gql`
             missingTrackers {
                 name
             }
+            missingExtensions {
+                pkgName
+                name
+            }
         }
     }
 `;

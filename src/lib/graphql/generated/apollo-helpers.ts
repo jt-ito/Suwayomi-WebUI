@@ -1186,6 +1186,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'autoBackupIncludeCategories'
     | 'autoBackupIncludeChapters'
     | 'autoBackupIncludeClientData'
+    | 'autoBackupIncludeExtensions'
     | 'autoBackupIncludeHistory'
     | 'autoBackupIncludeManga'
     | 'autoBackupIncludeServerSettings'
@@ -1271,6 +1272,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'syncYomiHost'
     | 'systemTrayEnabled'
     | 'updateMangas'
+    | 'useEmbeddedPostgres'
     | 'useHikariConnectionPool'
     | 'webUIChannel'
     | 'webUIFlavor'
@@ -1286,6 +1288,7 @@ export type PartialSettingsTypeFieldPolicy = {
     autoBackupIncludeCategories?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeClientData?: FieldPolicy<any> | FieldReadFunction<any>;
+    autoBackupIncludeExtensions?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeHistory?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeManga?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeServerSettings?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1371,6 +1374,7 @@ export type PartialSettingsTypeFieldPolicy = {
     syncYomiHost?: FieldPolicy<any> | FieldReadFunction<any>;
     systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     updateMangas?: FieldPolicy<any> | FieldReadFunction<any>;
+    useEmbeddedPostgres?: FieldPolicy<any> | FieldReadFunction<any>;
     useHikariConnectionPool?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1623,6 +1627,7 @@ export type SettingsKeySpecifier = (
     | 'autoBackupIncludeCategories'
     | 'autoBackupIncludeChapters'
     | 'autoBackupIncludeClientData'
+    | 'autoBackupIncludeExtensions'
     | 'autoBackupIncludeHistory'
     | 'autoBackupIncludeManga'
     | 'autoBackupIncludeServerSettings'
@@ -1708,6 +1713,7 @@ export type SettingsKeySpecifier = (
     | 'syncYomiHost'
     | 'systemTrayEnabled'
     | 'updateMangas'
+    | 'useEmbeddedPostgres'
     | 'useHikariConnectionPool'
     | 'webUIChannel'
     | 'webUIFlavor'
@@ -1723,6 +1729,7 @@ export type SettingsFieldPolicy = {
     autoBackupIncludeCategories?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeClientData?: FieldPolicy<any> | FieldReadFunction<any>;
+    autoBackupIncludeExtensions?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeHistory?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeManga?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeServerSettings?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1808,6 +1815,7 @@ export type SettingsFieldPolicy = {
     syncYomiHost?: FieldPolicy<any> | FieldReadFunction<any>;
     systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     updateMangas?: FieldPolicy<any> | FieldReadFunction<any>;
+    useEmbeddedPostgres?: FieldPolicy<any> | FieldReadFunction<any>;
     useHikariConnectionPool?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1874,6 +1882,7 @@ export type SettingsTypeKeySpecifier = (
     | 'autoBackupIncludeCategories'
     | 'autoBackupIncludeChapters'
     | 'autoBackupIncludeClientData'
+    | 'autoBackupIncludeExtensions'
     | 'autoBackupIncludeHistory'
     | 'autoBackupIncludeManga'
     | 'autoBackupIncludeServerSettings'
@@ -1959,6 +1968,7 @@ export type SettingsTypeKeySpecifier = (
     | 'syncYomiHost'
     | 'systemTrayEnabled'
     | 'updateMangas'
+    | 'useEmbeddedPostgres'
     | 'useHikariConnectionPool'
     | 'webUIChannel'
     | 'webUIFlavor'
@@ -1974,6 +1984,7 @@ export type SettingsTypeFieldPolicy = {
     autoBackupIncludeCategories?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeClientData?: FieldPolicy<any> | FieldReadFunction<any>;
+    autoBackupIncludeExtensions?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeHistory?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeManga?: FieldPolicy<any> | FieldReadFunction<any>;
     autoBackupIncludeServerSettings?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2059,6 +2070,7 @@ export type SettingsTypeFieldPolicy = {
     syncYomiHost?: FieldPolicy<any> | FieldReadFunction<any>;
     systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     updateMangas?: FieldPolicy<any> | FieldReadFunction<any>;
+    useEmbeddedPostgres?: FieldPolicy<any> | FieldReadFunction<any>;
     useHikariConnectionPool?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIChannel?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2595,12 +2607,19 @@ export type UserAccountTypeFieldPolicy = {
     role?: FieldPolicy<any> | FieldReadFunction<any>;
     username?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type ValidateBackupExtensionKeySpecifier = ('name' | 'pkgName' | ValidateBackupExtensionKeySpecifier)[];
+export type ValidateBackupExtensionFieldPolicy = {
+    name?: FieldPolicy<any> | FieldReadFunction<any>;
+    pkgName?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type ValidateBackupResultKeySpecifier = (
+    | 'missingExtensions'
     | 'missingSources'
     | 'missingTrackers'
     | ValidateBackupResultKeySpecifier
 )[];
 export type ValidateBackupResultFieldPolicy = {
+    missingExtensions?: FieldPolicy<any> | FieldReadFunction<any>;
     missingSources?: FieldPolicy<any> | FieldReadFunction<any>;
     missingTrackers?: FieldPolicy<any> | FieldReadFunction<any>;
 };
@@ -3453,6 +3472,13 @@ export type StrictTypedTypePolicies = {
     UserAccountType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | UserAccountTypeKeySpecifier | (() => undefined | UserAccountTypeKeySpecifier);
         fields?: UserAccountTypeFieldPolicy;
+    };
+    ValidateBackupExtension?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | ValidateBackupExtensionKeySpecifier
+            | (() => undefined | ValidateBackupExtensionKeySpecifier);
+        fields?: ValidateBackupExtensionFieldPolicy;
     };
     ValidateBackupResult?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | ValidateBackupResultKeySpecifier | (() => undefined | ValidateBackupResultKeySpecifier);

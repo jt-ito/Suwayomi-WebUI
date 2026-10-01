@@ -42,6 +42,7 @@ export type ValidateBackupQuery = {
         __typename: 'ValidateBackupResult';
         missingSources: Array<{ __typename: 'ValidateBackupSource'; id: string; name: string }>;
         missingTrackers: Array<{ __typename: 'ValidateBackupTracker'; name: string }>;
+        missingExtensions: Array<{ __typename: 'ValidateBackupExtension'; pkgName: string; name: string }>;
     };
 };
 
@@ -3145,6 +3146,7 @@ export type ServerSettingsFragment = {
     autoBackupIncludeHistory: boolean;
     autoBackupIncludeManga: boolean;
     autoBackupIncludeServerSettings: boolean;
+    autoBackupIncludeExtensions: boolean;
     autoBackupIncludeTracking: boolean;
     localSourcePath: string;
     flareSolverrEnabled: boolean;
@@ -3259,6 +3261,7 @@ export type ResetServerSettingsMutation = {
             autoBackupIncludeHistory: boolean;
             autoBackupIncludeManga: boolean;
             autoBackupIncludeServerSettings: boolean;
+            autoBackupIncludeExtensions: boolean;
             autoBackupIncludeTracking: boolean;
             localSourcePath: string;
             flareSolverrEnabled: boolean;
@@ -3383,6 +3386,7 @@ export type UpdateServerSettingsMutation = {
             autoBackupIncludeHistory: boolean;
             autoBackupIncludeManga: boolean;
             autoBackupIncludeServerSettings: boolean;
+            autoBackupIncludeExtensions: boolean;
             autoBackupIncludeTracking: boolean;
             localSourcePath: string;
             flareSolverrEnabled: boolean;
@@ -3503,6 +3507,7 @@ export type GetServerSettingsQuery = {
         autoBackupIncludeHistory: boolean;
         autoBackupIncludeManga: boolean;
         autoBackupIncludeServerSettings: boolean;
+        autoBackupIncludeExtensions: boolean;
         autoBackupIncludeTracking: boolean;
         localSourcePath: string;
         flareSolverrEnabled: boolean;

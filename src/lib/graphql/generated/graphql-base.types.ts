@@ -1967,6 +1967,7 @@ export type PartialBackupFlagsInput = {
     includeCategories?: InputMaybe<Scalars['Boolean']['input']>;
     includeChapters?: InputMaybe<Scalars['Boolean']['input']>;
     includeClientData?: InputMaybe<Scalars['Boolean']['input']>;
+    includeExtensions?: InputMaybe<Scalars['Boolean']['input']>;
     includeHistory?: InputMaybe<Scalars['Boolean']['input']>;
     includeManga?: InputMaybe<Scalars['Boolean']['input']>;
     includeServerSettings?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1981,6 +1982,7 @@ export type PartialSettingsType = Settings & {
     autoBackupIncludeCategories?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeChapters?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeClientData?: Maybe<Scalars['Boolean']['output']>;
+    autoBackupIncludeExtensions?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeHistory?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeManga?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeServerSettings?: Maybe<Scalars['Boolean']['output']>;
@@ -2077,6 +2079,7 @@ export type PartialSettingsType = Settings & {
     syncYomiHost?: Maybe<Scalars['String']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
+    useEmbeddedPostgres?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
     webUIChannel?: Maybe<WebUiChannel>;
     webUIFlavor?: Maybe<WebUiFlavor>;
@@ -2092,6 +2095,7 @@ export type PartialSettingsTypeInput = {
     autoBackupIncludeCategories?: InputMaybe<Scalars['Boolean']['input']>;
     autoBackupIncludeChapters?: InputMaybe<Scalars['Boolean']['input']>;
     autoBackupIncludeClientData?: InputMaybe<Scalars['Boolean']['input']>;
+    autoBackupIncludeExtensions?: InputMaybe<Scalars['Boolean']['input']>;
     autoBackupIncludeHistory?: InputMaybe<Scalars['Boolean']['input']>;
     autoBackupIncludeManga?: InputMaybe<Scalars['Boolean']['input']>;
     autoBackupIncludeServerSettings?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2166,6 +2170,7 @@ export type PartialSettingsTypeInput = {
     syncYomiHost?: InputMaybe<Scalars['String']['input']>;
     systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
+    useEmbeddedPostgres?: InputMaybe<Scalars['Boolean']['input']>;
     useHikariConnectionPool?: InputMaybe<Scalars['Boolean']['input']>;
     webUIChannel?: InputMaybe<WebUiChannel>;
     webUIFlavor?: InputMaybe<WebUiFlavor>;
@@ -2640,6 +2645,7 @@ export type Settings = {
     autoBackupIncludeCategories?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeChapters?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeClientData?: Maybe<Scalars['Boolean']['output']>;
+    autoBackupIncludeExtensions?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeHistory?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeManga?: Maybe<Scalars['Boolean']['output']>;
     autoBackupIncludeServerSettings?: Maybe<Scalars['Boolean']['output']>;
@@ -2736,6 +2742,7 @@ export type Settings = {
     syncYomiHost?: Maybe<Scalars['String']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
+    useEmbeddedPostgres?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
     webUIChannel?: Maybe<WebUiChannel>;
     webUIFlavor?: Maybe<WebUiFlavor>;
@@ -2796,6 +2803,7 @@ export type SettingsType = Settings & {
     autoBackupIncludeCategories: Scalars['Boolean']['output'];
     autoBackupIncludeChapters: Scalars['Boolean']['output'];
     autoBackupIncludeClientData: Scalars['Boolean']['output'];
+    autoBackupIncludeExtensions: Scalars['Boolean']['output'];
     autoBackupIncludeHistory: Scalars['Boolean']['output'];
     autoBackupIncludeManga: Scalars['Boolean']['output'];
     autoBackupIncludeServerSettings: Scalars['Boolean']['output'];
@@ -2892,6 +2900,7 @@ export type SettingsType = Settings & {
     syncYomiHost: Scalars['String']['output'];
     systemTrayEnabled: Scalars['Boolean']['output'];
     updateMangas: Scalars['Boolean']['output'];
+    useEmbeddedPostgres: Scalars['Boolean']['output'];
     useHikariConnectionPool: Scalars['Boolean']['output'];
     webUIChannel: WebUiChannel;
     webUIFlavor: WebUiFlavor;
@@ -3706,12 +3715,19 @@ export type UserAccountType = {
     username: Scalars['String']['output'];
 };
 
+export type ValidateBackupExtension = {
+    __typename?: 'ValidateBackupExtension';
+    name: Scalars['String']['output'];
+    pkgName: Scalars['String']['output'];
+};
+
 export type ValidateBackupInput = {
     backup: Scalars['Upload']['input'];
 };
 
 export type ValidateBackupResult = {
     __typename?: 'ValidateBackupResult';
+    missingExtensions: Array<ValidateBackupExtension>;
     missingSources: Array<ValidateBackupSource>;
     missingTrackers: Array<ValidateBackupTracker>;
 };

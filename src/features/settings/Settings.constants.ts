@@ -362,6 +362,8 @@ export const SYNC_INTERVAL_SELECT_VALUES_WITH_CUSTOM: SelectSettingValue<string>
 export const SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS = [
     'includeServerSettings',
     'includeClientData',
+
+    'includeExtensions',
 ] as const satisfies BackupFlag[];
 
 export const SYNC_START_RESULT_TRANSLATION: Record<StartSyncResult, MessageDescriptor> = {
