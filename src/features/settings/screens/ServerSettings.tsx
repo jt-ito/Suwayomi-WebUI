@@ -680,6 +680,12 @@ export const ServerSettings = () => {
                     </ListSubheader>
                 }
             >
+                <ListItemButton component="a" href={requestManager.getDatabasePageUrl()}>
+                    <ListItemText
+                        primary={t`Database migration`}
+                        secondary={t`Configure the database below yourself, or open the migration page: it can switch to the built-in PostgreSQL for you, move your library over safely (with an automatic backup) and guide you through the setup`}
+                    />
+                </ListItemButton>
                 <SelectSetting<DatabaseType>
                     settingName={t`Type`}
                     value={serverSettings.databaseType}

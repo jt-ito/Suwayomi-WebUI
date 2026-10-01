@@ -551,6 +551,11 @@ export class RequestManager {
         return `${this.getBaseUrl()}${apiVersion}${endpoint}`;
     }
 
+    /** The server's own database setup / migration page (not part of the versioned API). */
+    public getDatabasePageUrl(): string {
+        return `${this.getBaseUrl()}/database`;
+    }
+
     public getWebviewUrl(url: string): string {
         return `${this.getValidUrlFor('webview')}#${url}`;
     }

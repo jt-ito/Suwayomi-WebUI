@@ -650,6 +650,10 @@ msgstr "Backup restored."
 msgid "Backup time"
 msgstr "Backup time"
 
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Backup validation"
+msgstr "Backup validation"
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Badges"
 msgstr "Badges"
@@ -657,10 +661,6 @@ msgstr "Badges"
 #: src/features/settings/Settings.constants.ts
 msgid "Basic Authentication"
 msgstr "Basic Authentication"
-
-#: src/features/backup/component/BackupValidationDialog.tsx
-msgid "Before restoring"
-msgstr "Before restoring"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Behaviour"
@@ -1849,10 +1849,6 @@ msgstr "Extension stores"
 msgid "Extensions"
 msgstr "Extensions"
 
-#: src/features/backup/Backup.constants.ts
-msgid "Extensions and repositories"
-msgstr "Extensions and repositories"
-
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "failed"
 msgstr "failed"
@@ -2258,6 +2254,7 @@ msgstr "Inform about version update"
 msgid "Information"
 msgstr "Information"
 
+#: src/features/backup/component/BackupValidationDialog.tsx
 #: src/features/extension/Extensions.constants.ts
 msgid "Install"
 msgstr "Install"
@@ -4003,6 +4000,14 @@ msgstr "The cache of the client (browser, electron) should get cleared alongside
 msgid "The category is empty"
 msgstr "The category is empty"
 
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "The following sources are not installed:"
+msgstr "The following sources are not installed:"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "The following trackers are not logged in:"
+msgstr "The following trackers are not logged in:"
+
 #: src/features/settings/Settings.constants.ts
 msgid "The login will be handled by the client."
 msgstr "The login will be handled by the client."
@@ -4072,10 +4077,6 @@ msgstr "There is no next chapter"
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "There is no previous chapter"
 msgstr "There is no previous chapter"
-
-#: src/features/backup/component/BackupValidationDialog.tsx
-msgid "These extensions are not installed. They get installed automatically while restoring, as long as an extension repository from the backup or on this server offers them."
-msgstr "These extensions are not installed. They get installed automatically while restoring, as long as an extension repository from the backup or on this server offers them."
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "These options are slow and dangerous and may lead to restrictions from sources"
@@ -4517,10 +4518,6 @@ msgstr "You are about to remove \"{0}\" from your library"
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "You are about to remove \"{name}\" from the extension stores"
 msgstr "You are about to remove \"{name}\" from the extension stores"
-
-#: src/features/backup/component/BackupValidationDialog.tsx
-msgid "You are not logged in to these trackers. Their data is restored, but syncing needs a login."
-msgstr "You are not logged in to these trackers. Their data is restored, but syncing needs a login."
 
 #: src/features/backup/screens/Backup.tsx
 msgid "You can also drag and drop the backup file here to restore it"
