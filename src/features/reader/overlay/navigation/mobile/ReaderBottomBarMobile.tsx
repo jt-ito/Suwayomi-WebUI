@@ -68,7 +68,11 @@ const BaseReaderBottomBarMobile = ({
                         ref={bottomBarRef}
                         sx={{
                             alignItems: 'center',
-                            backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.95),
+                            // same frosted glass as the navigation bar
+                            backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.8),
+                            backdropFilter: 'blur(16px) saturate(160%)',
+                            WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                            borderTop: (theme) => `1px solid ${theme.alpha(theme.palette.text.primary, 0.14)}`,
                             pb: `max(${scrollbar.xSize}px, env(safe-area-inset-bottom))`,
                             boxShadow: 2,
                             pointerEvents: 'all',

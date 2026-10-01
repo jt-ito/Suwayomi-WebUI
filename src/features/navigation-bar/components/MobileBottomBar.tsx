@@ -11,7 +11,7 @@ import type { CSSProperties } from 'react';
 import { useCallback, useLayoutEffect, useRef } from 'react';
 import {} from 'react-router-dom';
 import { alpha, useTheme } from '@mui/material/styles';
-import { ELEVATION, activeIconGlow, glassSurface } from '@/features/theme/services/ForkComponentOverrides.ts';
+import { ELEVATION, activeIconGlow } from '@/features/theme/services/ForkComponentOverrides.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
@@ -48,9 +48,24 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
                 borderRadius: 9999,
                 overflow: 'hidden',
                 zIndex: theme.zIndex.drawer - 1,
-                ...glassSurface(theme.palette.background.paper, 0.8, 16),
-                border: `1px solid ${alpha(theme.palette.text.primary, 0.14)}`,
-                boxShadow: ELEVATION.lg,
+                // Liquid glass: a nearly clear, strongly blurred body with bright specular edges, then a tint on top.
+                // (A tint alone reads as a solid color over flat pages, the glass has to carry the look.)
+                backgroundColor: alpha('#fff', 0.06),
+                backdropFilter: 'blur(18px) saturate(190%)',
+                WebkitBackdropFilter: 'blur(18px) saturate(190%)',
+                backgroundImage: [
+                    // light catching the top left of the glass
+                    `radial-gradient(120% 160% at 12% 0%, ${alpha('#fff', 0.24)}, transparent 55%)`,
+                    // the tint
+                    `linear-gradient(180deg, ${alpha(theme.palette.primary.main, 0.12)}, ${alpha(theme.palette.primary.main, 0.06)})`,
+                ].join(', '),
+                border: `1px solid ${alpha('#fff', 0.2)}`,
+                boxShadow: [
+                    ELEVATION.lg,
+                    `inset 0 1px 1px ${alpha('#fff', 0.55)}`,
+                    `inset 0 -1px 1px ${alpha('#fff', 0.18)}`,
+                    `inset 0 0 18px ${alpha('#fff', 0.07)}`,
+                ].join(', '),
                 ...activeIconGlow(theme),
             }}
             style={{
