@@ -1,83 +1,72 @@
-# Suwayomi-WebUI
+# tsundoku-WebUI
 
-This is the repository of the default client of [Suwayomi-Server](https://github.com/Suwayomi/Suwayomi-Server).
+The web interface of [tsundoku](https://github.com/jt-ito/tsundoku), a self-hosted manga reader server.
 
-The server has this web app bundled by default and is able to automatically update to the latest versions.
-Thus, there is no need to manually download any builds unless you want to host the app yourself instead of having it hosted by the Suwayomi-Server.
+**This is a fork of [Suwayomi-WebUI](https://github.com/Suwayomi/Suwayomi-WebUI)** and works with tsundoku (a fork of [Suwayomi-Server](https://github.com/Suwayomi/Suwayomi-Server)). It keeps everything the Suwayomi WebUI does and adds a redesigned look, account support and a few library features. It is maintained independently and is not affiliated with the Suwayomi project.
 
-## Features
+## What is different from Suwayomi-WebUI
 
-- Library management
-    - Library page - manga management
-        - Filter/Sort/Search your manga
-        - Use categories to categorize your manga
-        - Select manga in your library and perform actions (e.g. download, change categories, mark as read, ...) on one or multiple manga
-    - Manga page - chapter management
-        - Filter/Sort the chapter list
-        - Select chapters and perform actions (e.g. download, bookmark, mark as read, ...) on one or multiple manga
-    - Select a range of manga/chapters by using shift + left click or long press
-    - Overview of duplicated manga in your library (settings > library)
-- Reader
-    - Desktop and Mobile UI
-    - Default settings per reading mode
-    - Settings per manga
-    - Reading modes (Single/Double Page, Continuous Vertical/Horizontal, Webtoon)
-    - Page scale modes (limit by width/height/screen, scale small pages, custom reader width)
-    - Image filters
-    - Customizable keybinds
-    - Auto scrolling
-    - Infinite chapter scrolling
-    - Option to ignore duplicated chapters while reading
-    - Option to automatically download next chapters while reading
-    - Option to automatically delete downloaded chapters after reading them
-    - ...
-- Download queue
-- Reading history (**rudimentary**)
-- Settings per device (e.g. different reader settings for pc, phone and tablet)
-- Sources
-    - Migration of manga between sources
-    - Hide in library manga while browsing sources
-    - Save source searches to easily reuse them
-    - Duplication check when adding a new manga to your library
-    - Quick add/remove a manga to your library in the source browse (hover with mouse on pc or long press on touch devices)
-- App updates
-    - Inform about available WebUI and Server updates
-    - Inform about successful WebUI and Server updates since the last time the app was used
-- Themes
-    - Use predefined themes
-    - Create your own themes
-    - Dynamic theme on manga pages
+### Look and feel
 
-## Preview
+Every visual change is listed, with how to revert it on its own, in [UI-MODERNIZATION.md](UI-MODERNIZATION.md). The styling lives in the component code and in `src/features/theme/services/ForkComponentOverrides.ts`, and follows whichever theme you pick.
 
-An ongoing changelog of all relevant changes since the last stable release can be found [here](https://github.com/Suwayomi/Suwayomi-WebUI/blob/master/CHANGELOG.md)
+- Layered shadows and depth on cards, dialogs and floating buttons; frosted glass only where something floats over content.
+- Frosted status badges (Ongoing, Finished, ...), unread and download counts, with a small glowing dot; the cover buttons match.
+- A floating "liquid glass" navigation pill and a frosted reader bar on phones.
+- A sidebar profile card, a softer header with an accent glow, and compact settings sections with tactile controls.
+- Press states, easing and reduced-motion support throughout.
+- A redesigned **login page**: same split layout, with a themed form panel, an outlined form that submits on Enter, a loading state, password-manager support and the server address shown as a monospace chip.
+- The new **ツン** logo and favicons.
 
-To use the preview version you can select the PREVIEW channel in the settings of your Suwayomi-Server.
-The server is then able to download and also keep the version automatically up-to-date.
+### Accounts
 
-Keep in mind that the preview version might need a newer version than the stable server.
-In case your server is outdated, it will automatically downgrade to the latest compatible WebUI version.
+- Account switcher and an accounts dialog for admins.
+- Library, categories, reading progress and trackers are per account.
+- The Authentication Mode setting lists **UI Login (Recommended)** first and marks Basic Authentication and Simple Login as **Legacy**. The first admin is created on the server's first-run page, not here.
+- Sessions are refreshed quietly before they expire, so a phone stays logged in.
 
-Minified builds of WebUI can be found here [Suwayomi-WebUI-preview](https://github.com/Suwayomi/Suwayomi-WebUI-preview).
+### Library and reading
 
-Additionally, there is an online build of the WebUI preview version that is available [here](https://suwayomi-webui-preview.github.io/).
-_Make sure to set your Suwayomi-Server hostname in Settings or you'll get infinite loading._ Also note that its the **latest** revision of WebUI and might not work correctly if you connect to a stable build of Suwayomi-Server.
+- **A-Z index:** a strip of letters at the edge of the library; tap or drag a letter to jump to the first series starting with it.
+- Live search while typing, rounded suggestions, and a scroll-to-top/bottom button.
+- A release-status badge on library cards and a chapter-count badge in source browsing.
+- A quicker extension list (virtualized, with image requests queued).
+- "Finished" instead of "Completed" for a manga's status, translated separately from the tracker's "Finished".
 
-## Contributing and Technical info
+### Server features in the interface
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
+- The WebView popup shows the server's video-streamed browser, recoloured to your theme and shaped like a phone screen on phones.
+- Settings > Server > Database links to the server's **database migration page** (built-in PostgreSQL, guided migration with backup).
+- Backup and restore have an "Extensions and repositories" option and a clearer "Before restoring" popup. After a restore the app **stays logged in and applies the restored theme** without a reload.
+
+## Everything from upstream
+
+- Library management: filter, sort and search, categories, multi-select actions, shift-click or long-press ranges, duplicate overview.
+- Manga pages with filtered and sorted chapter lists and bulk actions.
+- Reader: single and double page, continuous vertical and horizontal, webtoon; scale modes; image filters; custom keybinds; auto-scroll; infinite chapter scrolling; per-manga and per-mode settings.
+- Download queue, reading history, source browsing, saved searches, migration of manga between sources, duplicate checks.
+- Settings per device, update notices for the server and the interface.
+- Predefined and custom themes, and dynamic themes from manga covers.
+
+## Running it
+
+tsundoku serves this interface itself. To host your own build, set `server.webUIFlavor = "CUSTOM"` (or `WEB_UI_FLAVOR=Custom`) on the server and put the build into the `webUI` folder of the server's data folder. Keep the `revision` file that is already in that folder; without it the server cannot read the version and the app stays on the splash screen. Restart the server afterwards.
+
+```bash
+pnpm install
+pnpm dev      # dev server on :3000, talks to the server on :4567 (the theme needs a full reload to rebuild)
+pnpm build    # production build in build/
+```
+
+The dev build is noticeably slower than the production one, so judge scrolling and feel on the server's own port. See [BUILDING.md](BUILDING.md) and [CONTRIBUTING.md](CONTRIBUTING.md). Commits run `oxfmt`, `oxlint`, the i18n extract and the type check.
 
 ## Translation
 
-Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
+Strings are extracted with Lingui into `src/i18n/locales`. New strings are added to English and fall back to English in other languages until translated. The original translations are on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/).
 
-<details><summary>Translation Progress</summary>
-<a href="https://hosted.weblate.org/engage/suwayomi-webui/">
-<img src="https://hosted.weblate.org/widgets/suwayomi/-/suwayomi-webui/multi-auto.svg" alt="Translation status" />
-</a>
-</details>
+## Credit and license
 
-## License
+Built on the work of the [Suwayomi-WebUI](https://github.com/Suwayomi/Suwayomi-WebUI) contributors.
 
     Copyright (C) Contributors to the Suwayomi project
 
