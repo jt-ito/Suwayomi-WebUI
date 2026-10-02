@@ -110,7 +110,7 @@ export function Backup() {
                 makeToast(t`Could not restore backup`, 'error');
             }
 
-            requestManager.reset();
+            requestManager.reset({ keepSession: true });
             backupRestoreId = undefined;
             setTriggerReRender(Date.now());
         }

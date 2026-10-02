@@ -522,10 +522,16 @@ export class RequestManager {
         this.graphQLClient.updateConfig();
     }
 
-    public reset(): void {
+    /**
+     * @param keepSession keep the login tokens, for resets that do not change who or what the app talks to (e.g. after a
+     * backup restore). Without it the user has to log in again, which is right when the server address changes.
+     */
+    public reset({ keepSession = false }: { keepSession?: boolean } = {}): void {
         AuthManager.setAuthRequired(null);
         AuthManager.setAuthInitialized(false);
-        AuthManager.removeTokens();
+        if (!keepSession) {
+            AuthManager.removeTokens();
+        }
 
         this.graphQLClient.reset();
         this.restClient.reset();

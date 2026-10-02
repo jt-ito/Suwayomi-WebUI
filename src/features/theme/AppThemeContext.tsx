@@ -31,6 +31,7 @@ import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getLanguageReadingDirection } from '@/lib/ISOLanguageUtil.ts';
 import { loadCatalog } from '@/i18n';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 export const AppThemeContext = React.createContext<TAppThemeContext>({
     appTheme: 'default',
@@ -47,6 +48,10 @@ export const useAppThemeContext = () => useContext(AppThemeContext);
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
     const { t } = useLingui();
+    // This provider sits above the AuthGuard, which does not unmount it while the app is reset (e.g. after a backup
+    // restore). Re-rendering on session changes makes its metadata query use the fresh client, so the restored theme
+    // shows up without reloading the page.
+    AuthManager.useSession();
     const {
         request: metadataServerSettingsRequest,
         settings: { appTheme: serverAppTheme, themeMode, shouldUsePureBlackMode, customThemes, locale },
