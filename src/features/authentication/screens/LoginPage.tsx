@@ -7,11 +7,14 @@
  */
 
 import { useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import { alpha, keyframes, useTheme } from '@mui/material/styles';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useLingui } from '@lingui/react/macro';
 import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
@@ -24,6 +27,15 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
+import { darkPanelColor } from '@/features/theme/services/ForkComponentOverrides.ts';
+
+const EASING = 'cubic-bezier(0.2, 0, 0, 1)';
+const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+
+const rise = keyframes`
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+`;
 
 export const LoginPage = () => {
     const theme = useTheme();
@@ -48,7 +60,14 @@ export const LoginPage = () => {
                 navigate(redirect ?? AppRoutes.root.path);
             }
         } catch (e) {
-            makeToast(t`Could not log in to Suwayomi`, 'error', getErrorMessage(e));
+            makeToast(t`Could not log in to tsundoku`, 'error', getErrorMessage(e));
+        }
+    };
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        if (!isLoading && username && password) {
+            doLogin();
         }
     };
 
@@ -76,12 +95,23 @@ export const LoginPage = () => {
                         sx: {
                             position: 'unset',
                             minWidth: 'auto',
-                            minHeight: '50vh',
+                            minHeight: '32vh',
                             flexBasis: '60%',
                             p: 4,
+                            // soft accent glow behind the logo
+                            backgroundImage: `radial-gradient(circle at 50% 50%, ${alpha(theme.palette.primary.main, 0.16)} 0%, transparent 58%)`,
                             [theme.breakpoints.up('lg')]: {
                                 minHeight: '0vh',
                                 height: '100vh',
+                            },
+                        },
+                    },
+                    logoProps: {
+                        sx: {
+                            fontSize: 140,
+                            filter: `drop-shadow(0 0 36px ${alpha(theme.palette.primary.main, 0.35)})`,
+                            [theme.breakpoints.up('lg')]: {
+                                fontSize: 320,
                             },
                         },
                     },
@@ -95,43 +125,101 @@ export const LoginPage = () => {
             <Stack
                 sx={{
                     position: 'relative',
-                    minHeight: '50vh',
+                    minHeight: '68vh',
                     flexBasis: '40%',
                     p: 4,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    backgroundColor: darkPanelColor(theme),
+                    borderTop: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
                     [theme.breakpoints.up('lg')]: {
                         minHeight: '0vh',
                         height: '100vh',
+                        borderTop: 'none',
+                        borderLeft: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
                     },
                 }}
             >
-                <Stack sx={{ maxWidth: 300, gap: 2 }}>
-                    <Stack>
+                <Stack
+                    component="form"
+                    onSubmit={handleSubmit}
+                    sx={{
+                        width: '100%',
+                        maxWidth: 360,
+                        gap: 3,
+                        animation: `${rise} 320ms ${EASING} both`,
+                    }}
+                >
+                    <Stack sx={{ gap: 0.5 }}>
+                        <Typography variant="h5" component="h1" sx={{ fontWeight: 600, letterSpacing: '-0.02em' }}>
+                            {t`Welcome back`}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {t`Log in to your tsundoku server.`}
+                        </Typography>
+                    </Stack>
+                    <Stack sx={{ gap: 2 }}>
                         <TextField
                             autoFocus
-                            margin="dense"
                             id="username"
                             name="username"
                             label={t`Username`}
                             type="text"
                             fullWidth
-                            variant="standard"
+                            autoComplete="username"
                             onChange={(e) => setUsername(e.target.value)}
                         />
                         <PasswordTextField
-                            margin="dense"
                             fullWidth
-                            variant="standard"
+                            autoComplete="current-password"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </Stack>
-                    <Button disabled={isLoading || (!username && !password)} variant="contained" onClick={doLogin}>
-                        {t`Log in`}
+                    <Button
+                        type="submit"
+                        size="large"
+                        fullWidth
+                        variant="contained"
+                        disabled={isLoading || !username || !password}
+                        startIcon={isLoading ? <CircularProgress size={16} color="inherit" /> : undefined}
+                    >
+                        {isLoading ? t`Logging in…` : t`Log in`}
                     </Button>
-                    <Stack sx={{ position: 'absolute', left: 0, bottom: 0 }}>
-                        <ServerAddressSetting />
-                    </Stack>
+                </Stack>
+                <Stack
+                    sx={{
+                        mt: 5,
+                        [theme.breakpoints.up('lg')]: {
+                            mt: 0,
+                            position: 'absolute',
+                            left: 16,
+                            bottom: 16,
+                        },
+                        '& .MuiListItemButton-root': {
+                            borderRadius: '10px',
+                            border: `1px solid ${alpha(theme.palette.text.primary, 0.1)}`,
+                            py: 0.75,
+                            px: 1.5,
+                            transition: `border-color 150ms ease, background-color 150ms ease, transform 100ms ${EASING}`,
+                            '&:hover': { borderColor: alpha(theme.palette.primary.main, 0.45) },
+                            '&:active': { transform: 'scale(0.98)' },
+                        },
+                        '& .MuiListItemText-root': { my: 0 },
+                        '& .MuiListItemText-primary': {
+                            fontSize: '0.6875rem',
+                            fontWeight: 500,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.08em',
+                            color: 'text.secondary',
+                        },
+                        '& .MuiListItemText-secondary': {
+                            fontFamily: MONO,
+                            fontSize: '0.8125rem',
+                            color: 'text.primary',
+                        },
+                    }}
+                >
+                    <ServerAddressSetting />
                 </Stack>
             </Stack>
         </Stack>
