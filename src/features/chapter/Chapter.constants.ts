@@ -58,7 +58,7 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
             single: msg`Download`,
             selected: msg`Download selected`,
         },
-        confirmation: msg`{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\nSuwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}`,
+        confirmation: msg`{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\ntsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}`,
         success: msg`{count, plural, one {Download added} other {# downloads added}}`,
         error: msg`{count, plural, one {Could not add the download} other {Could not add downloads}}`,
     },

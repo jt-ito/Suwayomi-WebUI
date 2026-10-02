@@ -320,11 +320,11 @@ msgstr ""
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Esteu a punt de baixar un capítol} other {Esteu a punt "
 "de baixar # capítols.\n"
-"Suwayomi no és un baixador massiu i massa baixades us poden fer vetar de les "
+"tsundoku no és un baixador massiu i massa baixades us poden fer vetar de les "
 "fonts o causar problemes de rendiment.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -950,10 +950,10 @@ msgid "Continuous vertical"
 msgstr "Vertical continu"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+msgid "Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Controla el tipus MIME que Suwayomi envia a les entrades OPDS per als arxius "
+"Controla el tipus MIME que tsundoku envia a les entrades OPDS per als arxius "
 "CBZ. També afecta la baixada global de CBZ.\n"
 "Modern segueix l'estàndard recent de la IANA (2017), mentre que LEGACY "
 "(tipus MIME obsolet per a .cbz) i COMPATIBLE (tipus MIME obsolet per a tots "
@@ -1049,8 +1049,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "No s'ha pogut iniciar la sessió a {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "No s'ha pogut iniciar la sessió a Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "No s'ha pogut iniciar la sessió a tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3726,10 +3726,10 @@ msgid "Flaresolverr setup confirmation"
 msgstr "Confirmació de la configuració de Flaresolverr"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
 "Flaresolverr és un programa <0><1>separat</1></0> i <2><3>sense relació</3></"
-"2> amb Suwayomi que cal <4><5>instal·lar</5></4> i <6><7>executar</7></6> "
+"2> amb tsundoku que cal <4><5>instal·lar</5></4> i <6><7>executar</7></6> "
 "manualment.<8/>Consulteu <9>FlareSolverr</9> per saber com configurar-lo<10/>"
 "<11/>Si <12><13>no</13></12> està ben configurat i en execució, activar "
 "aquesta opció <14><15>no</15></14> tindrà cap efecte"

@@ -277,9 +277,9 @@ msgstr "{count, plural, one {You are about to delete one download} other {You ar
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
@@ -655,8 +655,8 @@ msgid "Badges"
 msgstr "Badges"
 
 #: src/features/settings/Settings.constants.ts
-msgid "Basic Authentication"
-msgstr "Basic Authentication"
+msgid "Basic Authentication (Legacy)"
+msgstr "Basic Authentication (Legacy)"
 
 #: src/features/backup/component/BackupValidationDialog.tsx
 msgid "Before restoring"
@@ -1066,9 +1066,9 @@ msgid "Continuous vertical"
 msgstr "Continuous vertical"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+msgid "Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
-msgstr "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+msgstr "Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 
 #: src/features/settings/Settings.constants.ts
@@ -1203,8 +1203,8 @@ msgstr "Could not log in to {trackerName}"
 
 #: src/features/authentication/components/UserAccountsDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Could not log in to Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Could not log in to tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -1982,8 +1982,8 @@ msgid "FlareSolverr enabled"
 msgstr "FlareSolverr enabled"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
-msgstr "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr request timeout"
@@ -2321,6 +2321,14 @@ msgstr "item"
 msgid "Items per page"
 msgstr "Items per page"
 
+#: src/features/library/components/LibraryLetterIndex.tsx
+msgid "Jump to {letter}"
+msgstr "Jump to {letter}"
+
+#: src/features/library/components/LibraryLetterIndex.tsx
+msgid "Jump to letter"
+msgstr "Jump to letter"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "JWT access token expiry"
 msgstr "JWT access token expiry"
@@ -2516,6 +2524,10 @@ msgstr "Log in"
 msgid "Log in to {0}"
 msgstr "Log in to {0}"
 
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Log in to your tsundoku server."
+msgstr "Log in to your tsundoku server."
+
 #: src/base/components/modals/LoginDialog.tsx
 msgid "Log out"
 msgstr "Log out"
@@ -2532,6 +2544,10 @@ msgstr "Logged in"
 #: src/features/tracker/screens/TrackerOAuthLogin.tsx
 msgid "Logging in to {trackerName}…"
 msgstr "Logging in to {trackerName}…"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Logging in…"
+msgstr "Logging in…"
 
 #. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
 #. js-lingui-explicit-id
@@ -3718,8 +3734,8 @@ msgid "Sign out"
 msgstr "Sign out"
 
 #: src/features/settings/Settings.constants.ts
-msgid "Simple Login"
-msgstr "Simple Login"
+msgid "Simple Login (Legacy)"
+msgstr "Simple Login (Legacy)"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Single page"
@@ -4190,8 +4206,8 @@ msgid "Type"
 msgstr "Type"
 
 #: src/features/settings/Settings.constants.ts
-msgid "UI Login"
-msgstr "UI Login"
+msgid "UI Login (Recommended)"
+msgstr "UI Login (Recommended)"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -4458,6 +4474,10 @@ msgstr "WebView"
 #: src/features/settings/Settings.constants.ts
 msgid "Weekly"
 msgstr "Weekly"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Welcome back"
+msgstr "Welcome back"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"

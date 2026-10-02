@@ -1947,11 +1947,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Anda akan mengunduh satu bab} other {Anda akan "
 "mengunduh # bab.\n"
-"Suwayomi bukan pengunduh massal dan terlalu banyak unduhan dapat membuat "
+"tsundoku bukan pengunduh massal dan terlalu banyak unduhan dapat membuat "
 "Anda diblokir dari sumber dan/atau menyebabkan masalah performa.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -2278,10 +2278,10 @@ msgstr "Vertikal berkelanjutan"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Mengontrol MimeType yang dikirim Suwayomi dalam entri OPDS untuk arsip CBZ. "
+"Mengontrol MimeType yang dikirim tsundoku dalam entri OPDS untuk arsip CBZ. "
 "Juga memengaruhi unduhan CBZ global.\n"
 "Modern mengikuti standar IANA terbaru (2017), sedangkan LEGACY (mimetype "
 "usang untuk .cbz) dan COMPATIBLE (mimetype usang untuk semua arsip komik) "
@@ -2352,8 +2352,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Tidak dapat masuk ke {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Tidak dapat masuk ke Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Tidak dapat masuk ke tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -2682,10 +2682,10 @@ msgid "FlareSolverr enabled"
 msgstr "FlareSolverr diaktifkan"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
 "Flaresolverr adalah program <0><1>terpisah</1></0> yang <2><3>tidak terkait</"
-"3></2> dengan Suwayomi, yang perlu <4><5>dipasang</5></4> dan <6><7>"
+"3></2> dengan tsundoku, yang perlu <4><5>dipasang</5></4> dan <6><7>"
 "dijalankan</7></6> secara manual.<8/>Lihat <9>FlareSolverr</9> untuk "
 "informasi cara menyiapkannya<10/><11/>Jika <12><13>tidak</13></12> disiapkan "
 "dan dijalankan dengan benar, mengaktifkan pengaturan ini <14><15>tidak akan</"

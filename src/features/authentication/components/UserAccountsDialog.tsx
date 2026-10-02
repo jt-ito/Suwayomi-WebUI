@@ -65,7 +65,7 @@ const SwitchAccount = ({ onDone }: { onDone: () => void }) => {
             // drop everything that was loaded for the previous account
             window.location.reload();
         } catch (e) {
-            makeToast(t`Could not log in to Suwayomi`, 'error', getErrorMessage(e));
+            makeToast(t`Could not log in to tsundoku`, 'error', getErrorMessage(e));
         }
     };
 

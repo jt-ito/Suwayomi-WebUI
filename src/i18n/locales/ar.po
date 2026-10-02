@@ -2255,11 +2255,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {أنت على وشك تنزيل فصل واحد} other {أنت على وشك تنزيل # "
 "فصول.\n"
-"إن Suwayomi ليس برنامجاً للتنزيل المكثف، وكثرة التنزيلات قد تؤدي لحظر جهازك من "
+"إن tsundoku ليس برنامجاً للتنزيل المكثف، وكثرة التنزيلات قد تؤدي لحظر جهازك من "
 "المصادر و/أو تسبب مشاكل في الأداء.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -2895,10 +2895,10 @@ msgstr "أفقي مستمر"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"يتحكم في نوع MIME الذي يرسله Suwayomi في مدخلات OPDS لأرشيفات CBZ. يؤثر أيضًا "
+"يتحكم في نوع MIME الذي يرسله tsundoku في مدخلات OPDS لأرشيفات CBZ. يؤثر أيضًا "
 "على تنزيل ملفات CBZ عالميًا.\n"
 "يتبع خيار \"الحديث\" (Modern) معيار IANA الأحدث (2017)، بينما قد تكون خيارات "
 "\"القديم\" (LEGACY - نوع ميمي مهجور لـ .cbz) و\"المتوافق\" (COMPATIBLE - نوع "
@@ -2961,8 +2961,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "تعذر تسجيل الدخول إلى {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "تعذر تسجيل الدخول إلى Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "تعذر تسجيل الدخول إلى tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx

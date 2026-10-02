@@ -547,10 +547,10 @@ msgstr "پیوسته عمودی"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"نوع MIME ارسالی Suwayomi در ورودی‌های OPDS برای آرشیوهای CBZ را کنترل می‌کند و روی دانلود سراسری CBZ نیز تأثیر دارد.\n"
+"نوع MIME ارسالی tsundoku در ورودی‌های OPDS برای آرشیوهای CBZ را کنترل می‌کند و روی دانلود سراسری CBZ نیز تأثیر دارد.\n"
 "حالت مدرن از استاندارد جدید IANA (۲۰۱۷) پیروی می‌کند، در حالی که قدیمی (نوع MIME منسوخ‌شده برای ‎.cbz‎) و سازگار (نوع MIME منسوخ‌شده برای همه آرشیوهای کمیک) ممکن است با کلاینت‌های قدیمی سازگارتر باشند.\n"
 ""
 

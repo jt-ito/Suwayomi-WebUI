@@ -231,11 +231,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {פעולה זו תחל בהורדת פרק אחד} other {פעולה זו תחל בהורדת "
 "# פרקים.\n"
-"Suwayomi אינה מיועדת להורדה המונית של פרקים. מספר רב מדי של הורדות עלול "
+"tsundoku אינה מיועדת להורדה המונית של פרקים. מספר רב מדי של הורדות עלול "
 "להוביל לחסימה מצד המקורות ו/או לגרום לבעיות בביצועים.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -865,10 +865,10 @@ msgstr "סוג תוכן (MIME-Type) לקובצי CBZ"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"קובע את סוג התוכן (MIME-Type) שנשלח על ידי Suwayomi ברשומות OPDS עבור "
+"קובע את סוג התוכן (MIME-Type) שנשלח על ידי tsundoku ברשומות OPDS עבור "
 "ארכיוני CBZ. משפיע גם על הורדות CBZ כלליות.\n"
 "האפשרות \"מודרני\" תואמת לתקן IANA העדכני (2017), בעוד ש\"מיושן\" ו\"תואם\" "
 "משתמשות בסוגי תוכן מיושנים שעשויים להתאים יותר ללקוחות ישנים. \"מיושן\" "
@@ -976,8 +976,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "לא ניתן היה להתחבר אל שירות המעקב {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "לא ניתן היה להתחבר ל־Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "לא ניתן היה להתחבר ל־tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -2065,10 +2065,10 @@ msgid "FlareSolverr enabled"
 msgstr "הפעלת FlareSolverr"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
 "FlareSolverr היא תוכנה <0><1>נפרדת</1></0> ש<2><3>אינה קשורה</3></2> ל־"
-"Suwayomi, ויש <4><5>להתקין</5></4> ו<6><7>להפעיל</7></6> אותה באופן ידני.<8/>"
+"tsundoku, ויש <4><5>להתקין</5></4> ו<6><7>להפעיל</7></6> אותה באופן ידני.<8/>"
 "למידע על אופן ההגדרה, ניתן לעיין ב<9>מדריך התקנת FlareSolverr</9>. <10/><11/>"
 "אם FlareSolverr <12><13>אינה מותקנת, מוגדרת, ופועלת כראוי</13></12>, הפעלת "
 "הגדרה זו <14><15>לא תשפיע</15></14> על פעולת המעקף"
@@ -2116,11 +2116,11 @@ msgstr "כללי"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub Server"
-msgstr "מאגר GitHub של השרת (Suwayomi-Server)"
+msgstr "מאגר GitHub של השרת (tsundoku-Server)"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub WebUI"
-msgstr "מאגר GitHub של ממשק המשתמש (Suwayomi-WebUI)"
+msgstr "מאגר GitHub של ממשק המשתמש (tsundoku-WebUI)"
 
 #: src/features/browse/sources/Sources.tsx
 #: src/features/global-search/screens/SearchAll.tsx

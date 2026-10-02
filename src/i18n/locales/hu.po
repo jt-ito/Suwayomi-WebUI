@@ -236,11 +236,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Egy fejezetet készülsz letölteni} other {# fejezetet "
 "készülsz letölteni.\n"
-"Suwayomi nem tömeges letöltésre lett tervezve, túl sok letöltés forrásokból "
+"tsundoku nem tömeges letöltésre lett tervezve, túl sok letöltés forrásokból "
 "való kitiltásokkal és/vagy teljesítménybeli problémákkal járhat.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -951,8 +951,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Nem sikerült a bejelentkezés a(z) {trackerName} figyelőbe"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Nem sikerült a bejelentkezés Suwayomiba"
+msgid "Could not log in to tsundoku"
+msgstr "Nem sikerült a bejelentkezés tsundokuba"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3446,10 +3446,10 @@ msgstr "Kompakt elrendezés"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"A MimeTípust vezérli, amit Suwayomi küld OPDS bejegyzésekként CBZ "
+"A MimeTípust vezérli, amit tsundoku küld OPDS bejegyzésekként CBZ "
 "archívumoknak. Egyben a globális CBZ letöltést is befolyásolja.\n"
 "A modern verzió az újabb IANA standardot (2017) követi, míg a LEGACY "
 "(elavult mimetípus .cbz-hez) és a COMPATIBLE (elavult mimetípusok az összes "

@@ -554,10 +554,10 @@ msgstr "Продолжать вертикально"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Управляет MIME-типом, который Suwayomi отправляет в OPDS-записях для CBZ "
+"Управляет MIME-типом, который tsundoku отправляет в OPDS-записях для CBZ "
 "архивов. Также влияет на глобальную загрузку CBZ.\n"
 "Новый следует современному стандарту IANA (2017), тогда как LEGACY "
 "(устаревший MIME-тип для .cbz) и COMPATIBLE (устаревший MIME-тип для всех "
@@ -3406,11 +3406,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Вы собираетесь загрузить одну главу} other {Вы "
 "собираетесь загрузить # главы.\n"
-"Suwayomi не является массовым загрузчиком, и слишком большое количество "
+"tsundoku не является массовым загрузчиком, и слишком большое количество "
 "загрузок может привести к блокировке доступа к исходникам и/или вызвать "
 "проблемы с производительностью.}}"
 
@@ -3532,8 +3532,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Не удалось войти в {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Не удалось войти в Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Не удалось войти в tsundoku"
 
 #: src/features/reader/services/ReaderControls.ts
 msgid ""

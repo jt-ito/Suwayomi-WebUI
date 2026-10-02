@@ -548,10 +548,10 @@ msgstr "Cuộn dọc có khoảng cách"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Kiểm soát MimeType mà Suwayomi gửi trong các mục OPDS cho kho lưu trữ CBZ. "
+"Kiểm soát MimeType mà tsundoku gửi trong các mục OPDS cho kho lưu trữ CBZ. "
 "Cũng ảnh hưởng đến việc tải xuống CBZ toàn cầu.\n"
 "Hiện đại tuân theo tiêu chuẩn IANA gần đây (2017), trong khi DI SẢN/LEGACY "
 "(kiểu mimetype không được dùng nữa cho .cbz) và TƯƠNG THÍCH/COMPATIBLE (kiểu "
@@ -3466,11 +3466,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Bạn sắp tải xuống một chương} other {Bạn sắp tải xuống "
 "# chương.\n"
-"Suwayomi không phải là trình tải xuống hàng loạt và quá nhiều lượt tải xuống "
+"tsundoku không phải là trình tải xuống hàng loạt và quá nhiều lượt tải xuống "
 "có thể khiến bạn bị cấm truy cập các nguồn và/hoặc gây ra các vấn đề về hiệu "
 "suất.}}"
 
@@ -3618,8 +3618,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Không thể đăng nhập vào {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Không thể đăng nhập vào Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Không thể đăng nhập vào tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3692,9 +3692,9 @@ msgid "Extension installed"
 msgstr "Đã cài đặt phần mở rộng"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
-"Flaresolverr là một phần mềm <0><1>riêng biệt</1></0>, Suwayomi <2><3>không "
+"Flaresolverr là một phần mềm <0><1>riêng biệt</1></0>, tsundoku <2><3>không "
 "liên quan</3></2> chương trình cần phải được thực hiện thủ công <4><5>cài "
 "đặt</5></4> và <6><7>chạy</7></6>.<8/>Xem <9>FlareSolverr</9> để biết thông "
 "tin về cách thiết lập nó<10/><11/>Nếu nó là<12><13>không</13></12> thiết lập "

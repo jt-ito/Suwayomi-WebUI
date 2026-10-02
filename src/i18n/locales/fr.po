@@ -3283,11 +3283,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Vous allez télécharger un chapitre} other {Vous allez "
 "télécharger # chapitres.\n"
-"Suwayomi n'est pas un logiciel de téléchargement de masse et un trop grand "
+"tsundoku n'est pas un logiciel de téléchargement de masse et un trop grand "
 "nombre de téléchargements peut entraîner votre bannissement de certaines "
 "sources ou des problèmes de performance.}}"
 
@@ -3465,10 +3465,10 @@ msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Contrôle le type MIME que Suwayomi envoie en entrées OPDS pour les archives "
+"Contrôle le type MIME que tsundoku envoie en entrées OPDS pour les archives "
 "CBZ. Affecte aussi le téléchargement CBZ global.\n"
 "Modern respecte le standard récent IANA (2017), alors que LEGACY (type MIME "
 "déprécié pour .cbz) et COMPATIBLE (type MIME déprécié pour toutes les "
@@ -3512,8 +3512,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Impossible de se connecter à {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Impossible de se connecter à Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Impossible de se connecter à tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3606,10 +3606,10 @@ msgid "Failed to disconnect from KOReader Sync server."
 msgstr "Échec de la déconnexion de KOReader Sync server."
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
 "Flaresolverr est un programme <0><1>différent</1></0>, <2><3>non lié à</3></"
-"2> Suwayomi, qui doit être <4><5>installé</5></4> et <6><7>lancé</7></6> "
+"2> tsundoku, qui doit être <4><5>installé</5></4> et <6><7>lancé</7></6> "
 "manuellement.<8/>Voir <9>FlareSolverr</9> pour obtenir des informations sur "
 "comment le faire fonctionner<10/><11/>S'il <12><13>n'est pas</13></12> "
 "paramétré et lancé correctement, activer cette option <14><15>ne fera</15></"

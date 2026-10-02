@@ -548,10 +548,10 @@ msgstr "Kontinuierlich Vertikal"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Gibt den MimeType vor, den Suwayomi in OPDS Einträgen für CBZ Archive "
+"Gibt den MimeType vor, den tsundoku in OPDS Einträgen für CBZ Archive "
 "sendet. Beeinflusst auch den globalen CBZ Download.\n"
 "Modern folgt neuen IANA Standards (2-17), während Legacy (alter MimeType für "
 ".cbz) und Kompatibel (alter MimeType für alle Comic-Buch Archive) "
@@ -3422,11 +3422,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Du bist dabei, ein Kapitel herunterzuladen} other {Du "
 "bist dabei, # Kapitel herunterzuladen.\n"
-"Suwayomi ist kein Massen-Downloadtool, zu viele Downloads können dafür "
+"tsundoku ist kein Massen-Downloadtool, zu viele Downloads können dafür "
 "sorgen, dass du bei der Quelle gebannt wirst und/oder Performanceprobleme "
 "auftreten.}}"
 
@@ -3552,8 +3552,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Konnte nicht bei {trackerName} anmelden"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Konnte nicht bei Suwayomi anmelden"
+msgid "Could not log in to tsundoku"
+msgstr "Konnte nicht bei tsundoku anmelden"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3745,9 +3745,9 @@ msgid "Flaresolverr setup confirmation"
 msgstr "Flaresolverr Einstellungen Bestätigung"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
-"Flaresolverr ist eine <0><1>separate</1></0>, von Suwayomi <2><3>"
+"Flaresolverr ist eine <0><1>separate</1></0>, von tsundoku <2><3>"
 "unabhängige</3></2> Applikation, welche manuell <4><5>installiert</5></4> "
 "und <6><7>ausgeführt</7></6> werden muss.<8/>Siehe <9>FlareSolverr</9> für "
 "weitere Informationen zum Aufsetzen<10/><11/>Sollte sie <12><13>nicht</13></"

@@ -3079,11 +3079,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Za chwilę pobierzesz jeden rozdział} other {Za chwilę "
 "pobierzesz # rodziałów.\n"
-"Suwayomi nie jest narzędziem do masowego pobierania plików, a zbyt duża "
+"tsundoku nie jest narzędziem do masowego pobierania plików, a zbyt duża "
 "liczba pobrań może skutkować zablokowaniem dostępu do źródeł i/lub "
 "spowodować problemy z wydajnością.}}"
 
@@ -3397,10 +3397,10 @@ msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Umożliwia kontrolowanie typu MIME, które Suwayomi wysyła we wpisach OPDS dla "
+"Umożliwia kontrolowanie typu MIME, które tsundoku wysyła we wpisach OPDS dla "
 "archiwów CBZ. Wpływa również globalnie na pobieranie plików CBZ.\n"
 "Opcja Modern jest zgodna z najnowszym standardem IANA (2017), natomiast "
 "LEGACY (przestarzały typ MIME dla .cbz) i COMPATIBLE (przestarzały typ MIME "
@@ -3442,8 +3442,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Nie można zalogować się do {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Nie można zalogować się do Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Nie można zalogować się do tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx

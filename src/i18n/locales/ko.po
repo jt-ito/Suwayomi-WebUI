@@ -548,10 +548,10 @@ msgstr "연속 세로"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Suwayomi가 CBZ 아카이브용 OPDS 항목에 전송하는 MimeType을 제어합니다. 또한 "
+"tsundoku가 CBZ 아카이브용 OPDS 항목에 전송하는 MimeType을 제어합니다. 또한 "
 "전체 CBZ 다운로드에도 영향을 미칩니다.\n"
 "Modern은 최근 IANA 표준(2017)을 따르는 반면, LEGACY(.cbz에 사용되는 더 이상 "
 "사용되지 않는 MIME 유형) 및 COMPATIBLE(모든 만화 아카이브에 사용되는 더 이상 "
@@ -3486,11 +3486,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {챕터 1개를 다운로드하려고 합니다} other {챕터 #개를 "
 "다운로드하려고 합니다.\n"
-"Suwayomi는 대량 다운로더가 아니며, 다운로드가 너무 많으면 소스에서 "
+"tsundoku는 대량 다운로더가 아니며, 다운로드가 너무 많으면 소스에서 "
 "차단되거나 성능 문제가 발생할 수 있습니다.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -3712,8 +3712,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "{trackerName}에 로그인할 수 없습니다"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Suwayomi에 로그인할 수 없습니다"
+msgid "Could not log in to tsundoku"
+msgstr "tsundoku에 로그인할 수 없습니다"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3851,9 +3851,9 @@ msgid "Extension stores"
 msgstr "확장 저장소"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
-"Flaresolverr는 <0><1>별도</1></0>의, Suwayomi와 <2><3>무관한</3></2> "
+"Flaresolverr는 <0><1>별도</1></0>의, tsundoku와 <2><3>무관한</3></2> "
 "프로그램으로, 직접 <4><5>설치</5></4>하고 <6><7>실행</7></6>해야 합니다.<8/>"
 "설정 방법은 <9>FlareSolverr</9>를 참고하세요<10/><11/>제대로 설정되어 "
 "실행되고 있지 <12><13>않으면</13></12>, 이 설정을 켜도 <14><15>아무런</15></"

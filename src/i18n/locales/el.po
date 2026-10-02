@@ -305,11 +305,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Πρόκειται να κατεβάσεις ένα κεφάλαιο} other {Πρόκειται "
 "να κατεβάσεις # κεφάλαια.\n"
-"Το Suwayomi δεν είναι εργαλείο μαζικής λήψης και πολλές λήψεις μπορεί να σε "
+"Το tsundoku δεν είναι εργαλείο μαζικής λήψης και πολλές λήψεις μπορεί να σε "
 "αποκλείσουν από πηγές ή/και να προκαλέσουν προβλήματα απόδοσης.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -1007,10 +1007,10 @@ msgstr "Συνεχής κατακόρυφα"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Ελέγχει τον τύπο MIME που στέλνει το Suwayomi στις εγγραφές OPDS για αρχεία "
+"Ελέγχει τον τύπο MIME που στέλνει το tsundoku στις εγγραφές OPDS για αρχεία "
 "CBZ. Επηρεάζει επίσης την καθολική λήψη CBZ.\n"
 "Το Modern ακολουθεί το πρόσφατο πρότυπο IANA (2017), ενώ το LEGACY "
 "(παρωχημένος τύπος MIME για .cbz) και το COMPATIBLE (παρωχημένος τύπος MIME "
@@ -1115,8 +1115,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "Δεν ήταν δυνατή η σύνδεση στο {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Δεν ήταν δυνατή η σύνδεση στο Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "Δεν ήταν δυνατή η σύνδεση στο tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -1758,10 +1758,10 @@ msgid "FlareSolverr enabled"
 msgstr "Το FlareSolverr είναι ενεργοποιημένο"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
 "Το Flaresolverr είναι ένα <0><1>ξεχωριστό</1></0>, <2><3>άσχετο</3></2> με "
-"το Suwayomi πρόγραμμα που πρέπει να <4><5>εγκατασταθεί</5></4> και να <6><7>"
+"το tsundoku πρόγραμμα που πρέπει να <4><5>εγκατασταθεί</5></4> και να <6><7>"
 "εκτελεστεί</7></6> χειροκίνητα.<8/>Δες το <9>FlareSolverr</9> για "
 "πληροφορίες σχετικά με τη ρύθμισή του<10/><11/>Αν <12><13>δεν</13></12> έχει "
 "ρυθμιστεί και εκτελεστεί σωστά, η ενεργοποίηση αυτής της ρύθμισης <14><15>"

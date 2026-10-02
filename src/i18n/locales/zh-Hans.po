@@ -564,10 +564,10 @@ msgstr "连续竖直滚动"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"控制 Suwayomi 在 OPDS 条目中为 CBZ 压缩包发送的 MIME 类型，同时也会影响全局 "
+"控制 tsundoku 在 OPDS 条目中为 CBZ 压缩包发送的 MIME 类型，同时也会影响全局 "
 "CBZ 下载。\n"
 "Modern 遵循最新的 IANA 标准（2017），而 LEGACY（已弃用的 .cbz MIME 类型）和 "
 "COMPATIBLE（已弃用的所有漫画压缩包 MIME 类型）可能对旧版客户端更兼容。"
@@ -3216,8 +3216,8 @@ msgid "Chapter"
 msgstr "章"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "无法登录Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "无法登录tsundoku"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Could not log out from KOReader Sync"
@@ -3452,10 +3452,10 @@ msgstr "{count, plural, one {你即将删除 1 个下载} other {你即将删除
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {你即将下载 1 章} other {你即将下载 # 章。\n"
-"Suwayomi 不是批量下载工具，过多下载可能导致源站封禁或影响性能。}}"
+"tsundoku 不是批量下载工具，过多下载可能导致源站封禁或影响性能。}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
@@ -3678,9 +3678,9 @@ msgid "Shows a dialog in case the version of the server has changed"
 msgstr "当服务器版本发生变化时显示提示对话框"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
-"Flaresolverr 是一个<0><1>独立</1></0>的程序，与 Suwayomi<2><3>无关</3></2>，"
+"Flaresolverr 是一个<0><1>独立</1></0>的程序，与 tsundoku<2><3>无关</3></2>，"
 "需要手动<4><5>安装</5></4>并<6><7>运行</7></6>。<8/>请参阅 <9>FlareSolverr</"
 "9> 了解如何进行设置<10/><11/>如果未<12><13>正确</13></12>设置并运行，启用此选"
 "项<14><15>不会</15></14>产生任何效果"

@@ -42,7 +42,7 @@ const BrandLogo = ({ size }: { size: number }) => (
     <Box
         component="img"
         src="./favicon.svg"
-        alt="Suwayomi"
+        alt="tsundoku"
         width={size}
         height={size}
         sx={{
@@ -128,7 +128,7 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                                     noWrap
                                     sx={{ fontSize: '0.94rem', fontWeight: 700, letterSpacing: '-0.02em' }}
                                 >
-                                    Suwayomi
+                                    tsundoku
                                 </Typography>
                                 <Typography
                                     sx={(theme) => ({

@@ -2780,11 +2780,11 @@ msgstr ""
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {Você está prestes a baixar um capítulo} other {Você "
 "está prestes a baixar # capítulos.\n"
-"O Suwayomi não é um download em massa e downloads demais podem te banir das "
+"O tsundoku não é um download em massa e downloads demais podem te banir das "
 "fontes e/ou causar problemas de desempenho.}}"
 
 #: src/features/chapter/Chapter.constants.ts

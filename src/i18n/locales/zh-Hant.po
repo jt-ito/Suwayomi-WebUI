@@ -3109,8 +3109,8 @@ msgid "Could not log in to {trackerName}"
 msgstr "無法登入至 {trackerName}"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "無法登入至 Suwayomi"
+msgid "Could not log in to tsundoku"
+msgstr "無法登入至 tsundoku"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -3527,10 +3527,10 @@ msgstr "{count, plural, one {即將刪除 1 項下載} other {即將刪除 # 項
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
-"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+"tsundoku is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
 "{count, plural, one {即將下載 1 個章節} other {即將下載 # 個章節。\n"
-"Suwayomi 不適合大量下載。下載過多章節可能導致來源網站封鎖，或造成效能問題。}}"
+"tsundoku 不適合大量下載。下載過多章節可能導致來源網站封鎖，或造成效能問題。}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
@@ -3674,10 +3674,10 @@ msgstr "繼續"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"控制 Suwayomi 在 OPDS 條目中為 CBZ 壓縮包發送的 MIME 類型，同時也會影響全域 "
+"控制 tsundoku 在 OPDS 條目中為 CBZ 壓縮包發送的 MIME 類型，同時也會影響全域 "
 "CBZ 下載。\n"
 "Modern 遵循最新的 IANA 標準（2017），而 LEGACY（已棄用的 .cbz MIME 類型）和 "
 "COMPATIBLE（已棄用的所有漫畫壓縮包 MIME 類型）可能對舊版用戶端更相容。"
@@ -4183,9 +4183,9 @@ msgid "Filter manga feed to display only chapters you haven’t read yet."
 msgstr "篩選漫畫動態，只顯示尚未閱讀的章節。"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgid "Flaresolverr is a <0><1>separate</1></0>, tsundoku <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
-"FlareSolverr 是一個<0><1>獨立</1></0>於 Suwayomi 的<2><3>無關</3></2>程式，需"
+"FlareSolverr 是一個<0><1>獨立</1></0>於 tsundoku 的<2><3>無關</3></2>程式，需"
 "要手動<4><5>安裝</5></4>並<6><7>執行</7></6>。<8/>請參閱 <9>FlareSolverr</9>"
 "，了解如何設定。<10/><11/>若未<12><13>正確</13></12>安裝並執行，啟用此設"
 "定<14><15>將不會</15></14>產生任何作用"

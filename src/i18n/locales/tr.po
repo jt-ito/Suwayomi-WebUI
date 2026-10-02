@@ -2763,8 +2763,8 @@ msgid "Could not create backup"
 msgstr "Yedeklenemedi"
 
 #: src/features/authentication/screens/LoginPage.tsx
-msgid "Could not log in to Suwayomi"
-msgstr "Suwayomi'ye giriş yapılamadı"
+msgid "Could not log in to tsundoku"
+msgstr "tsundoku'ye giriş yapılamadı"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Creating backup…"
