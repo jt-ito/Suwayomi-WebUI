@@ -101,7 +101,8 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     mangaGridItemWidth: MANGA_GRID_WIDTH.default,
 };
 
-const AUTH_MODES = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
+// recommended mode right below "None", the legacy ones last
+const AUTH_MODES = [AuthMode.None, AuthMode.UiLogin, AuthMode.BasicAuth, AuthMode.SimpleLogin];
 const AUTH_MODES_TO_TRANSLATION: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
     [AuthMode.None]: {
         text: msg`None`,
@@ -109,16 +110,16 @@ const AUTH_MODES_TO_TRANSLATION: { [mode in AuthMode]: SelectSettingValueDisplay
         disclaimer: msg`Your library will be accessible. Use this only on private networks or when otherwise securing access.`,
     },
     [AuthMode.BasicAuth]: {
-        text: msg`Basic Authentication`,
+        text: msg`Basic Authentication (Legacy)`,
         description: msg`Your browser will prompt you to enter credentials with a dialog.`,
     },
     [AuthMode.SimpleLogin]: {
-        text: msg`Simple Login`,
+        text: msg`Simple Login (Legacy)`,
         description: msg`The login will be handled by the server.`,
         disclaimer: msg`When you enable this, you may need to refresh this tab for the login page to appear.`,
     },
     [AuthMode.UiLogin]: {
-        text: msg`UI Login`,
+        text: msg`UI Login (Recommended)`,
         description: msg`The login will be handled by the client.`,
     },
 };
@@ -218,7 +219,7 @@ export const JWT_ACCESS_TOKEN_EXPIRY = {
 };
 
 export const JWT_REFRESH_TOKEN_EXPIRY = {
-    default: d(60).days.inWholeDays,
+    default: d(180).days.inWholeDays,
     min: d(1).days.inWholeDays,
     max: d(1).years.inWholeDays,
 };

@@ -225,7 +225,6 @@ export const ServerSettings = () => {
 
     const serverSettings = data!.settings;
     const koreaderSyncStatus = koSyncStatus.data!.koSyncStatus;
-    const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
     const isH2Database = serverSettings.databaseType === DatabaseType.H2;
 
     const isCustomSyncInterval = !SYNC_INTERVAL_VALUES.includes(
@@ -339,7 +338,6 @@ export const ServerSettings = () => {
                             AuthManager.setAuthRequired(mode === AuthMode.UiLogin);
                         });
                     }}
-                    disabled={authModeDisabled}
                 />
                 <TextSetting
                     settingName={t`Username`}
@@ -430,7 +428,7 @@ export const ServerSettings = () => {
                                             <u>
                                                 <b>separate</b>
                                             </u>
-                                            , Suwayomi{' '}
+                                            , tsundoku{' '}
                                             <u>
                                                 <b>unrelated</b>
                                             </u>{' '}
@@ -642,7 +640,7 @@ export const ServerSettings = () => {
                 />
                 <SelectSetting<CbzMediaType>
                     settingName={t`CBZ MIME-Type`}
-                    dialogDescription={t`Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\nModern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients.`}
+                    dialogDescription={t`Controls the MimeType that tsundoku sends in OPDS entries for CBZ archives. Also affects global CBZ download.\nModern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients.`}
                     value={serverSettings.opdsCbzMimetype}
                     values={[
                         [
