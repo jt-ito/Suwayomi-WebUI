@@ -21,7 +21,7 @@ import Grid from '@mui/material/Grid';
 import type { BoxProps } from '@mui/material/Box';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
-import type { GridItemProps } from 'react-virtuoso';
+import type { GridItemProps, VirtuosoGridHandle } from 'react-virtuoso';
 import { useLingui } from '@lingui/react/macro';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -175,14 +175,17 @@ const VerticalGrid = ({
     mode,
     ref,
     onMigrateSelect,
+    gridHandleRef,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
+    gridHandleRef?: Ref<VirtuosoGridHandle>;
 }) => (
     <>
         {isLoading && mangas.length === 0 && <MangaGridSkeleton GridItemContainer={GridItemContainer} />}
         <Box ref={ref}>
             <VirtuosoGridPersisted
+                ref={gridHandleRef}
                 persistKey={MANGA_GRID_SNAPSHOT_KEY}
                 useWindowScroll
                 increaseViewportBy={window.innerHeight * 0.5}
@@ -229,6 +232,8 @@ export interface IMangaGridProps
     horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
     gridWrapperProps?: Omit<BoxProps, 'ref'>;
+    /** gives access to the (virtualized) grid, e.g. to scroll to an index */
+    gridHandleRef?: Ref<VirtuosoGridHandle>;
 }
 
 export const MangaGrid: React.FC<IMangaGridProps> = ({
@@ -249,6 +254,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     retry,
     gridWrapperProps,
     onMigrateSelect,
+    gridHandleRef,
 }) => {
     const { t } = useLingui();
 
@@ -396,6 +402,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     handleSelection={handleSelection}
                     mode={mode}
                     onMigrateSelect={onMigrateSelect}
+                    gridHandleRef={gridHandleRef}
                 />
             )}
         </Box>

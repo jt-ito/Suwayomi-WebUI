@@ -10,7 +10,8 @@ import type { ChipProps } from '@mui/material/Chip';
 import Chip from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled, useTheme } from '@mui/material/styles';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import type { VirtuosoGridHandle } from 'react-virtuoso';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
@@ -24,6 +25,7 @@ import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbarMenu.tsx';
 import { LibraryMangaGrid } from '@/features/library/components/LibraryMangaGrid.tsx';
 import { LibraryScrollFab } from '@/features/library/components/LibraryScrollFab.tsx';
+import { LibraryLetterIndex } from '@/features/library/components/LibraryLetterIndex.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
 import { SyncButton } from '@/features/sync/components/SyncButton.tsx';
@@ -117,7 +119,10 @@ export function Library() {
         searchSuggestions,
         showFilteredOutMessage,
         filterKey,
+        isSortedByTitle,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
+    const gridHandleRef = useRef<VirtuosoGridHandle>(null);
+    const titles = useMemo(() => mangas.map((manga) => manga.title), [mangas]);
 
     const getTabCount = (tab: (typeof tabs)[number]) => {
         if (mangaLoading || tab !== activeTab || mangas.length === tab.mangas.totalCount) {
@@ -293,6 +298,7 @@ export function Library() {
                 <LibraryMangaGrid
                     // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                     key={filterKey}
+                    gridHandleRef={gridHandleRef}
                     mangas={mangas}
                     message={mangaError ? t`Could not load manga` : t`Your library is empty`}
                     messageExtra={mangaError?.message}
@@ -304,6 +310,13 @@ export function Library() {
                     retry={mangaError && retryFetchCategoryMangas}
                 />
                 {selectionFab}
+                {!query && (
+                    <LibraryLetterIndex
+                        titles={titles}
+                        gridHandleRef={gridHandleRef}
+                        followListOrder={isSortedByTitle}
+                    />
+                )}
                 <LibraryScrollFab contentKey={filterKey + mangas.length} isRaised={isSelectModeActive} />
             </>
         );
@@ -335,6 +348,7 @@ export function Library() {
                         <LibraryMangaGrid
                             // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                             key={filterKey}
+                            gridHandleRef={gridHandleRef}
                             mangas={mangas}
                             message={mangaError ? t`Could not load manga` : t`The category is empty`}
                             messageExtra={mangaError?.message}
@@ -349,6 +363,14 @@ export function Library() {
                 </TabPanel>
             ))}
             {selectionFab}
+            {!query && (
+                <LibraryLetterIndex
+                    titles={titles}
+                    gridHandleRef={gridHandleRef}
+                    followListOrder={isSortedByTitle}
+                    topOffset={48}
+                />
+            )}
             <LibraryScrollFab contentKey={filterKey + mangas.length} isRaised={isSelectModeActive} />
         </TabsWrapper>
     );

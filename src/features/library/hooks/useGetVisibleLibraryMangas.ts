@@ -341,6 +341,8 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     searchSuggestions: Manga[];
     showFilteredOutMessage: boolean;
     filterKey: string;
+    /** whether the visible mangas are ordered by title (in either direction), so a letter index makes sense */
+    isSortedByTitle: boolean;
 } => {
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const { hasSource: hasSourceFilter, ...options } = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
@@ -431,6 +433,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         visibleMangas,
         searchSuggestions,
         showFilteredOutMessage,
+        isSortedByTitle: (!options.sortBy || options.sortBy === 'alphabetically') && !isFuzzySearchActive,
         filterKey: `${JSON.stringify(options)}${JSON.stringify(hasSource)}${query}${settings.ignoreFilters}${settings.fuzzySearch}`,
     };
 };
