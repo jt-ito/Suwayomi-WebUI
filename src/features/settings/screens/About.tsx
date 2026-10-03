@@ -163,9 +163,6 @@ export function About() {
                 <ListItemLink to="https://github.com/jt-ito/tsundoku-WebUI" target="_blank" rel="noreferrer">
                     <ListItemText primary={t`GitHub WebUI`} secondary="https://github.com/jt-ito/tsundoku-WebUI" />
                 </ListItemLink>
-                <ListItemLink to={aboutServer.discord} target="_blank" rel="noreferrer">
-                    <ListItemText primary={t`Discord`} secondary={aboutServer.discord} />
-                </ListItemLink>
             </List>
             <List
                 subheader={
