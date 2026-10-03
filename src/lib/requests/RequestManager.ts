@@ -7,6 +7,7 @@
  */
 
 import type {
+    ApolloCache,
     ApolloClient,
     DocumentNode,
     InMemoryCache,
@@ -202,6 +203,8 @@ import type {
     CreateUserMutationVariables,
     DeleteUserMutation,
     DeleteUserMutationVariables,
+    UserLogoutMutation,
+    UserLogoutMutationVariables,
     GetMeQuery,
     GetMeQueryVariables,
     GetLibrarySharesQuery,
@@ -212,6 +215,12 @@ import type {
     RespondToLibraryShareMutationVariables,
     CancelLibraryShareMutation,
     CancelLibraryShareMutationVariables,
+    RequestTwoWayLibraryShareMutation,
+    RequestTwoWayLibraryShareMutationVariables,
+    SetLibraryShareAutoSyncMutation,
+    SetLibraryShareAutoSyncMutationVariables,
+    SyncLibraryShareMutation,
+    SyncLibraryShareMutationVariables,
     GetUsersQuery,
     GetUsersQueryVariables,
     UserRefreshMutation,
@@ -364,13 +373,16 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { CREATE_USER, DELETE_USER, USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
+import { CREATE_USER, DELETE_USER, USER_LOGIN, USER_LOGOUT, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
 import { GET_ME, GET_USERS } from '@/lib/graphql/user/UserQuery.ts';
 import { GET_LIBRARY_SHARES } from '@/lib/graphql/libraryShare/LibraryShareQuery.ts';
 import {
     CANCEL_LIBRARY_SHARE,
     CREATE_LIBRARY_SHARE,
+    REQUEST_TWO_WAY_LIBRARY_SHARE,
     RESPOND_TO_LIBRARY_SHARE,
+    SET_LIBRARY_SHARE_AUTO_SYNC,
+    SYNC_LIBRARY_SHARE,
 } from '@/lib/graphql/libraryShare/LibraryShareMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
@@ -497,6 +509,17 @@ export const SPECIAL_ED_SOURCES = {
 };
 
 // TODO - extract logic to reduce the size of this file... grew waaaaaaaaaaaaay too big peepoFat
+/**
+ * Forgets the cached library, so it is fetched again when the library page opens next (it is not open while a share is
+ * answered, and refetching only the queries that are active would leave it stale).
+ */
+const evictLibraryData = (cache: ApolloCache): void => {
+    ['categories', 'category', 'mangas', 'chapters'].forEach((fieldName) =>
+        cache.evict({ id: 'ROOT_QUERY', fieldName }),
+    );
+    cache.gc();
+};
+
 // TODO - correctly update cache after all mutations instead of refetching queries
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
@@ -4021,14 +4044,57 @@ export class RequestManager {
     public respondToLibraryShare(
         id: number,
         accept: boolean,
+        autoSync = false,
         options?: MutationOptions<RespondToLibraryShareMutation, RespondToLibraryShareMutationVariables>,
     ): AbortableApolloMutationResponse<RespondToLibraryShareMutation> {
         return this.doRequest<RespondToLibraryShareMutation, RespondToLibraryShareMutationVariables>(
             GQLMethod.MUTATION,
             RESPOND_TO_LIBRARY_SHARE,
-            { input: { id, accept } },
-            // accepting adds manga and categories to the library, the library page is not mounted so its queries are inactive
-            { refetchQueries: accept ? 'all' : [GET_LIBRARY_SHARES], ...options },
+            { input: { id, accept, autoSync } },
+            // accepting adds manga and categories to the library
+            {
+                refetchQueries: [GET_LIBRARY_SHARES],
+                update: accept ? evictLibraryData : undefined,
+                ...options,
+            },
+        );
+    }
+
+    public setLibraryShareAutoSync(
+        id: number,
+        autoSync: boolean,
+        options?: MutationOptions<SetLibraryShareAutoSyncMutation, SetLibraryShareAutoSyncMutationVariables>,
+    ): AbortableApolloMutationResponse<SetLibraryShareAutoSyncMutation> {
+        return this.doRequest<SetLibraryShareAutoSyncMutation, SetLibraryShareAutoSyncMutationVariables>(
+            GQLMethod.MUTATION,
+            SET_LIBRARY_SHARE_AUTO_SYNC,
+            { input: { id, autoSync } },
+            { refetchQueries: [GET_LIBRARY_SHARES], ...options },
+        );
+    }
+
+    public requestTwoWayLibraryShare(
+        id: number,
+        options?: MutationOptions<RequestTwoWayLibraryShareMutation, RequestTwoWayLibraryShareMutationVariables>,
+    ): AbortableApolloMutationResponse<RequestTwoWayLibraryShareMutation> {
+        return this.doRequest<RequestTwoWayLibraryShareMutation, RequestTwoWayLibraryShareMutationVariables>(
+            GQLMethod.MUTATION,
+            REQUEST_TWO_WAY_LIBRARY_SHARE,
+            { input: { id } },
+            { refetchQueries: [GET_LIBRARY_SHARES], ...options },
+        );
+    }
+
+    public syncLibraryShare(
+        id: number,
+        options?: MutationOptions<SyncLibraryShareMutation, SyncLibraryShareMutationVariables>,
+    ): AbortableApolloMutationResponse<SyncLibraryShareMutation> {
+        return this.doRequest<SyncLibraryShareMutation, SyncLibraryShareMutationVariables>(
+            GQLMethod.MUTATION,
+            SYNC_LIBRARY_SHARE,
+            { input: { id } },
+            // new manga and categories show up in the library
+            { refetchQueries: [GET_LIBRARY_SHARES], update: evictLibraryData, ...options },
         );
     }
 
@@ -4095,6 +4161,19 @@ export class RequestManager {
         options?: MutationOptions<KoSyncLogoutMutation, KoSyncLogoutMutationVariables>,
     ): AbortableApolloMutationResponse<KoSyncLogoutMutation> {
         return this.doRequest(GQLMethod.MUTATION, KO_SYNC_LOGOUT, undefined, options);
+    }
+
+    /** Ends the session of the refresh token on the server, so it can't be used anymore. */
+    public logoutUser(
+        refreshToken: string,
+        options?: MutationOptions<UserLogoutMutation, UserLogoutMutationVariables>,
+    ): AbortableApolloMutationResponse<UserLogoutMutation> {
+        return this.doRequest<UserLogoutMutation, UserLogoutMutationVariables>(
+            GQLMethod.MUTATION,
+            USER_LOGOUT,
+            { refreshToken },
+            options,
+        );
     }
 
     public refreshUser(

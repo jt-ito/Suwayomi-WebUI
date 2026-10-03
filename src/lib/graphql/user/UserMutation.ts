@@ -25,6 +25,14 @@ export const USER_REFRESH = gql`
     }
 `;
 
+export const USER_LOGOUT = gql`
+    mutation USER_LOGOUT($refreshToken: String!) {
+        logout(input: { refreshToken: $refreshToken }) {
+            success
+        }
+    }
+`;
+
 export const CREATE_USER = gql`
     mutation CREATE_USER($username: String!, $password: String!, $role: String!) {
         createUser(input: { username: $username, password: $password, role: $role }) {

@@ -20,5 +20,10 @@ export const LIBRARY_SHARE_FIELDS = gql`
         status
         createdAt
         respondedAt
+        synced
+        autoSync
+        lastSyncedAt
+        pairedWith
+        twoWayStatus
     }
 `;

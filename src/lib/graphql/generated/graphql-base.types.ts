@@ -435,6 +435,7 @@ export type CreateLibraryShareInput = {
     categoryIds: Array<Scalars['Int']['input']>;
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     scope: LibraryShareScope;
+    synced: Scalars['Boolean']['input'];
     username: Scalars['String']['input'];
 };
 
@@ -1202,16 +1203,21 @@ export enum LibraryShareStatus {
 
 export type LibraryShareType = {
     __typename?: 'LibraryShareType';
+    autoSync: Scalars['Boolean']['output'];
     categoryNames: Array<Scalars['String']['output']>;
     createdAt: Scalars['LongString']['output'];
     id: Scalars['Int']['output'];
     incoming: Scalars['Boolean']['output'];
+    lastSyncedAt: Scalars['LongString']['output'];
     mangaCount: Scalars['Int']['output'];
+    pairedWith?: Maybe<Scalars['Int']['output']>;
     recipientUsername: Scalars['String']['output'];
     respondedAt: Scalars['LongString']['output'];
     scope: LibraryShareScope;
     senderUsername: Scalars['String']['output'];
     status: LibraryShareStatus;
+    synced: Scalars['Boolean']['output'];
+    twoWayStatus?: Maybe<LibraryShareStatus>;
 };
 
 export type LibraryUpdateStatus = {
@@ -1279,6 +1285,11 @@ export type LoginTrackerOAuthPayload = {
     tracker: TrackerType;
 };
 
+export type LogoutInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    refreshToken: Scalars['String']['input'];
+};
+
 export type LogoutKoSyncAccountInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1287,6 +1298,12 @@ export type LogoutKoSyncAccountPayload = {
     __typename?: 'LogoutKoSyncAccountPayload';
     clientMutationId?: Maybe<Scalars['String']['output']>;
     status: KoSyncStatusPayload;
+};
+
+export type LogoutPayload = {
+    __typename?: 'LogoutPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    success: Scalars['Boolean']['output'];
 };
 
 export type LogoutTrackerInput = {
@@ -1583,6 +1600,7 @@ export type Mutation = {
     login: LoginPayload;
     loginTrackerCredentials: LoginTrackerCredentialsPayload;
     loginTrackerOAuth: LoginTrackerOAuthPayload;
+    logout: LogoutPayload;
     logoutKoSyncAccount: LogoutKoSyncAccountPayload;
     logoutTracker: LogoutTrackerPayload;
     pullKoSyncProgress?: Maybe<PullKoSyncProgressPayload>;
@@ -1591,6 +1609,7 @@ export type Mutation = {
     removeExtensionStore?: Maybe<RemoveExtensionStorePayload>;
     reorderChapterDownload?: Maybe<ReorderChapterDownloadPayload>;
     reorderChapterDownloads?: Maybe<ReorderChapterDownloadPayload>;
+    requestTwoWayLibraryShare: LibraryShareChangePayload;
     resetSettings: ResetSettingsPayload;
     resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
     respondToLibraryShare: LibraryShareChangePayload;
@@ -1601,6 +1620,7 @@ export type Mutation = {
     setChapterMetas?: Maybe<SetChapterMetasPayload>;
     setGlobalMeta?: Maybe<SetGlobalMetaPayload>;
     setGlobalMetas?: Maybe<SetGlobalMetasPayload>;
+    setLibraryShareAutoSync: LibraryShareChangePayload;
     setMangaMeta?: Maybe<SetMangaMetaPayload>;
     setMangaMetas?: Maybe<SetMangaMetasPayload>;
     setSettings: SetSettingsPayload;
@@ -1609,6 +1629,7 @@ export type Mutation = {
     startDownloader?: Maybe<StartDownloaderPayload>;
     startSync: StartSyncPayload;
     stopDownloader?: Maybe<StopDownloaderPayload>;
+    syncLibraryShare: LibraryShareChangePayload;
     trackProgress?: Maybe<TrackProgressPayload>;
     unbindTrack: UnbindTrackPayload;
     updateCategories?: Maybe<UpdateCategoriesPayload>;
@@ -1800,6 +1821,10 @@ export type MutationLoginTrackerOAuthArgs = {
     input: LoginTrackerOAuthInput;
 };
 
+export type MutationLogoutArgs = {
+    input: LogoutInput;
+};
+
 export type MutationLogoutKoSyncAccountArgs = {
     input: LogoutKoSyncAccountInput;
 };
@@ -1830,6 +1855,10 @@ export type MutationReorderChapterDownloadArgs = {
 
 export type MutationReorderChapterDownloadsArgs = {
     input: ReorderChapterDownloadsInput;
+};
+
+export type MutationRequestTwoWayLibraryShareArgs = {
+    input: RequestTwoWayLibraryShareInput;
 };
 
 export type MutationResetSettingsArgs = {
@@ -1868,6 +1897,10 @@ export type MutationSetGlobalMetasArgs = {
     input: SetGlobalMetasInput;
 };
 
+export type MutationSetLibraryShareAutoSyncArgs = {
+    input: SetLibraryShareAutoSyncInput;
+};
+
 export type MutationSetMangaMetaArgs = {
     input: SetMangaMetaInput;
 };
@@ -1898,6 +1931,10 @@ export type MutationStartSyncArgs = {
 
 export type MutationStopDownloaderArgs = {
     input: StopDownloaderInput;
+};
+
+export type MutationSyncLibraryShareArgs = {
+    input: SyncLibraryShareInput;
 };
 
 export type MutationTrackProgressArgs = {
@@ -2519,6 +2556,11 @@ export type ReorderChapterDownloadsInput = {
     reorders: Array<ChapterDownloadReorderInput>;
 };
 
+export type RequestTwoWayLibraryShareInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+};
+
 export type ResetSettingsInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2531,6 +2573,7 @@ export type ResetSettingsPayload = {
 
 export type RespondToLibraryShareInput = {
     accept: Scalars['Boolean']['input'];
+    autoSync: Scalars['Boolean']['input'];
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     id: Scalars['Int']['input'];
 };
@@ -2646,6 +2689,12 @@ export type SetGlobalMetasPayload = {
     __typename?: 'SetGlobalMetasPayload';
     clientMutationId?: Maybe<Scalars['String']['output']>;
     metas: Array<GlobalMetaType>;
+};
+
+export type SetLibraryShareAutoSyncInput = {
+    autoSync: Scalars['Boolean']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export type SetMangaMetaInput = {
@@ -3247,6 +3296,11 @@ export type SyncConflictInfoType = {
     __typename?: 'SyncConflictInfoType';
     deviceName: Scalars['String']['output'];
     remotePage: Scalars['Int']['output'];
+};
+
+export type SyncLibraryShareInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export enum SyncState {

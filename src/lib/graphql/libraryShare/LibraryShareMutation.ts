@@ -45,3 +45,40 @@ export const CANCEL_LIBRARY_SHARE = gql`
         }
     }
 `;
+
+export const SET_LIBRARY_SHARE_AUTO_SYNC = gql`
+    ${LIBRARY_SHARE_FIELDS}
+
+    mutation SET_LIBRARY_SHARE_AUTO_SYNC($input: SetLibraryShareAutoSyncInput!) {
+        setLibraryShareAutoSync(input: $input) {
+            share {
+                ...LIBRARY_SHARE_FIELDS
+            }
+        }
+    }
+`;
+
+export const SYNC_LIBRARY_SHARE = gql`
+    ${LIBRARY_SHARE_FIELDS}
+
+    mutation SYNC_LIBRARY_SHARE($input: SyncLibraryShareInput!) {
+        syncLibraryShare(input: $input) {
+            addedMangas
+            share {
+                ...LIBRARY_SHARE_FIELDS
+            }
+        }
+    }
+`;
+
+export const REQUEST_TWO_WAY_LIBRARY_SHARE = gql`
+    ${LIBRARY_SHARE_FIELDS}
+
+    mutation REQUEST_TWO_WAY_LIBRARY_SHARE($input: RequestTwoWayLibraryShareInput!) {
+        requestTwoWayLibraryShare(input: $input) {
+            share {
+                ...LIBRARY_SHARE_FIELDS
+            }
+        }
+    }
+`;

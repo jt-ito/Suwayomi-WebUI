@@ -767,29 +767,39 @@ export type LibraryShareChangePayloadFieldPolicy = {
     share?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type LibraryShareTypeKeySpecifier = (
+    | 'autoSync'
     | 'categoryNames'
     | 'createdAt'
     | 'id'
     | 'incoming'
+    | 'lastSyncedAt'
     | 'mangaCount'
+    | 'pairedWith'
     | 'recipientUsername'
     | 'respondedAt'
     | 'scope'
     | 'senderUsername'
     | 'status'
+    | 'synced'
+    | 'twoWayStatus'
     | LibraryShareTypeKeySpecifier
 )[];
 export type LibraryShareTypeFieldPolicy = {
+    autoSync?: FieldPolicy<any> | FieldReadFunction<any>;
     categoryNames?: FieldPolicy<any> | FieldReadFunction<any>;
     createdAt?: FieldPolicy<any> | FieldReadFunction<any>;
     id?: FieldPolicy<any> | FieldReadFunction<any>;
     incoming?: FieldPolicy<any> | FieldReadFunction<any>;
+    lastSyncedAt?: FieldPolicy<any> | FieldReadFunction<any>;
     mangaCount?: FieldPolicy<any> | FieldReadFunction<any>;
+    pairedWith?: FieldPolicy<any> | FieldReadFunction<any>;
     recipientUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     respondedAt?: FieldPolicy<any> | FieldReadFunction<any>;
     scope?: FieldPolicy<any> | FieldReadFunction<any>;
     senderUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     status?: FieldPolicy<any> | FieldReadFunction<any>;
+    synced?: FieldPolicy<any> | FieldReadFunction<any>;
+    twoWayStatus?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type LibraryUpdateStatusKeySpecifier = (
     | 'categoryUpdates'
@@ -866,6 +876,11 @@ export type LogoutKoSyncAccountPayloadKeySpecifier = (
 export type LogoutKoSyncAccountPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     status?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type LogoutPayloadKeySpecifier = ('clientMutationId' | 'success' | LogoutPayloadKeySpecifier)[];
+export type LogoutPayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    success?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type LogoutTrackerPayloadKeySpecifier = (
     | 'clientMutationId'
@@ -1057,6 +1072,7 @@ export type MutationKeySpecifier = (
     | 'login'
     | 'loginTrackerCredentials'
     | 'loginTrackerOAuth'
+    | 'logout'
     | 'logoutKoSyncAccount'
     | 'logoutTracker'
     | 'pullKoSyncProgress'
@@ -1065,6 +1081,7 @@ export type MutationKeySpecifier = (
     | 'removeExtensionStore'
     | 'reorderChapterDownload'
     | 'reorderChapterDownloads'
+    | 'requestTwoWayLibraryShare'
     | 'resetSettings'
     | 'resetWebUIUpdateStatus'
     | 'respondToLibraryShare'
@@ -1075,6 +1092,7 @@ export type MutationKeySpecifier = (
     | 'setChapterMetas'
     | 'setGlobalMeta'
     | 'setGlobalMetas'
+    | 'setLibraryShareAutoSync'
     | 'setMangaMeta'
     | 'setMangaMetas'
     | 'setSettings'
@@ -1083,6 +1101,7 @@ export type MutationKeySpecifier = (
     | 'startDownloader'
     | 'startSync'
     | 'stopDownloader'
+    | 'syncLibraryShare'
     | 'trackProgress'
     | 'unbindTrack'
     | 'updateCategories'
@@ -1149,6 +1168,7 @@ export type MutationFieldPolicy = {
     login?: FieldPolicy<any> | FieldReadFunction<any>;
     loginTrackerCredentials?: FieldPolicy<any> | FieldReadFunction<any>;
     loginTrackerOAuth?: FieldPolicy<any> | FieldReadFunction<any>;
+    logout?: FieldPolicy<any> | FieldReadFunction<any>;
     logoutKoSyncAccount?: FieldPolicy<any> | FieldReadFunction<any>;
     logoutTracker?: FieldPolicy<any> | FieldReadFunction<any>;
     pullKoSyncProgress?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1157,6 +1177,7 @@ export type MutationFieldPolicy = {
     removeExtensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     reorderChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     reorderChapterDownloads?: FieldPolicy<any> | FieldReadFunction<any>;
+    requestTwoWayLibraryShare?: FieldPolicy<any> | FieldReadFunction<any>;
     resetSettings?: FieldPolicy<any> | FieldReadFunction<any>;
     resetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     respondToLibraryShare?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1167,6 +1188,7 @@ export type MutationFieldPolicy = {
     setChapterMetas?: FieldPolicy<any> | FieldReadFunction<any>;
     setGlobalMeta?: FieldPolicy<any> | FieldReadFunction<any>;
     setGlobalMetas?: FieldPolicy<any> | FieldReadFunction<any>;
+    setLibraryShareAutoSync?: FieldPolicy<any> | FieldReadFunction<any>;
     setMangaMeta?: FieldPolicy<any> | FieldReadFunction<any>;
     setMangaMetas?: FieldPolicy<any> | FieldReadFunction<any>;
     setSettings?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1175,6 +1197,7 @@ export type MutationFieldPolicy = {
     startDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
     startSync?: FieldPolicy<any> | FieldReadFunction<any>;
     stopDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncLibraryShare?: FieldPolicy<any> | FieldReadFunction<any>;
     trackProgress?: FieldPolicy<any> | FieldReadFunction<any>;
     unbindTrack?: FieldPolicy<any> | FieldReadFunction<any>;
     updateCategories?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -3104,6 +3127,10 @@ export type StrictTypedTypePolicies = {
             | LogoutKoSyncAccountPayloadKeySpecifier
             | (() => undefined | LogoutKoSyncAccountPayloadKeySpecifier);
         fields?: LogoutKoSyncAccountPayloadFieldPolicy;
+    };
+    LogoutPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | LogoutPayloadKeySpecifier | (() => undefined | LogoutPayloadKeySpecifier);
+        fields?: LogoutPayloadFieldPolicy;
     };
     LogoutTrackerPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | LogoutTrackerPayloadKeySpecifier | (() => undefined | LogoutTrackerPayloadKeySpecifier);

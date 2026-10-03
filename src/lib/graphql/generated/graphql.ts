@@ -2004,6 +2004,11 @@ export type LibraryShareFieldsFragment = {
     status: Types.LibraryShareStatus;
     createdAt: string;
     respondedAt: string;
+    synced: boolean;
+    autoSync: boolean;
+    lastSyncedAt: string;
+    pairedWith: number | null;
+    twoWayStatus: Types.LibraryShareStatus | null;
 };
 
 export type CreateLibraryShareMutationVariables = Exact<{
@@ -2026,6 +2031,11 @@ export type CreateLibraryShareMutation = {
             status: Types.LibraryShareStatus;
             createdAt: string;
             respondedAt: string;
+            synced: boolean;
+            autoSync: boolean;
+            lastSyncedAt: string;
+            pairedWith: number | null;
+            twoWayStatus: Types.LibraryShareStatus | null;
         };
     };
 };
@@ -2051,6 +2061,11 @@ export type RespondToLibraryShareMutation = {
             status: Types.LibraryShareStatus;
             createdAt: string;
             respondedAt: string;
+            synced: boolean;
+            autoSync: boolean;
+            lastSyncedAt: string;
+            pairedWith: number | null;
+            twoWayStatus: Types.LibraryShareStatus | null;
         };
     };
 };
@@ -2075,6 +2090,99 @@ export type CancelLibraryShareMutation = {
             status: Types.LibraryShareStatus;
             createdAt: string;
             respondedAt: string;
+            synced: boolean;
+            autoSync: boolean;
+            lastSyncedAt: string;
+            pairedWith: number | null;
+            twoWayStatus: Types.LibraryShareStatus | null;
+        };
+    };
+};
+
+export type SetLibraryShareAutoSyncMutationVariables = Exact<{
+    input: Types.SetLibraryShareAutoSyncInput;
+}>;
+
+export type SetLibraryShareAutoSyncMutation = {
+    __typename: 'Mutation';
+    setLibraryShareAutoSync: {
+        __typename: 'LibraryShareChangePayload';
+        share: {
+            __typename: 'LibraryShareType';
+            id: number;
+            incoming: boolean;
+            senderUsername: string;
+            recipientUsername: string;
+            scope: Types.LibraryShareScope;
+            categoryNames: Array<string>;
+            mangaCount: number;
+            status: Types.LibraryShareStatus;
+            createdAt: string;
+            respondedAt: string;
+            synced: boolean;
+            autoSync: boolean;
+            lastSyncedAt: string;
+            pairedWith: number | null;
+            twoWayStatus: Types.LibraryShareStatus | null;
+        };
+    };
+};
+
+export type SyncLibraryShareMutationVariables = Exact<{
+    input: Types.SyncLibraryShareInput;
+}>;
+
+export type SyncLibraryShareMutation = {
+    __typename: 'Mutation';
+    syncLibraryShare: {
+        __typename: 'LibraryShareChangePayload';
+        addedMangas: number;
+        share: {
+            __typename: 'LibraryShareType';
+            id: number;
+            incoming: boolean;
+            senderUsername: string;
+            recipientUsername: string;
+            scope: Types.LibraryShareScope;
+            categoryNames: Array<string>;
+            mangaCount: number;
+            status: Types.LibraryShareStatus;
+            createdAt: string;
+            respondedAt: string;
+            synced: boolean;
+            autoSync: boolean;
+            lastSyncedAt: string;
+            pairedWith: number | null;
+            twoWayStatus: Types.LibraryShareStatus | null;
+        };
+    };
+};
+
+export type RequestTwoWayLibraryShareMutationVariables = Exact<{
+    input: Types.RequestTwoWayLibraryShareInput;
+}>;
+
+export type RequestTwoWayLibraryShareMutation = {
+    __typename: 'Mutation';
+    requestTwoWayLibraryShare: {
+        __typename: 'LibraryShareChangePayload';
+        share: {
+            __typename: 'LibraryShareType';
+            id: number;
+            incoming: boolean;
+            senderUsername: string;
+            recipientUsername: string;
+            scope: Types.LibraryShareScope;
+            categoryNames: Array<string>;
+            mangaCount: number;
+            status: Types.LibraryShareStatus;
+            createdAt: string;
+            respondedAt: string;
+            synced: boolean;
+            autoSync: boolean;
+            lastSyncedAt: string;
+            pairedWith: number | null;
+            twoWayStatus: Types.LibraryShareStatus | null;
         };
     };
 };
@@ -2095,6 +2203,11 @@ export type GetLibrarySharesQuery = {
         status: Types.LibraryShareStatus;
         createdAt: string;
         respondedAt: string;
+        synced: boolean;
+        autoSync: boolean;
+        lastSyncedAt: string;
+        pairedWith: number | null;
+        twoWayStatus: Types.LibraryShareStatus | null;
     }>;
 };
 
@@ -5288,6 +5401,12 @@ export type UserRefreshMutation = {
     __typename: 'Mutation';
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
 };
+
+export type UserLogoutMutationVariables = Exact<{
+    refreshToken: string;
+}>;
+
+export type UserLogoutMutation = { __typename: 'Mutation'; logout: { __typename: 'LogoutPayload'; success: boolean } };
 
 export type CreateUserMutationVariables = Exact<{
     username: string;
