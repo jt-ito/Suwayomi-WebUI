@@ -140,6 +140,12 @@ msgstr "{0} / {1}{2}"
 msgid "{0} wants to share {1} with you"
 msgstr "{0} wants to share {1} with you"
 
+#. placeholder {0}: share.senderUsername
+#. placeholder {1}: describe(share)
+#: src/features/library/screens/LibraryShare.tsx
+msgid "{0} wants to sync back: what they add to {1} will be shared with you too"
+msgstr "{0} wants to sync back: what they add to {1} will be shared with you too"
+
 #. placeholder {0}: updateStatus.progress
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{0}% | Updating…"
@@ -406,6 +412,10 @@ msgstr "Accept"
 msgid "Accepted"
 msgstr "Accepted"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Accepted, kept in sync"
+msgstr "Accepted, kept in sync"
+
 #: src/features/authentication/components/UserAccountsDialog.tsx
 #: src/features/authentication/components/UserProfileCard.tsx
 msgid "Accounts"
@@ -446,6 +456,10 @@ msgstr "Add"
 msgid "Add a private note about this manga"
 msgstr "Add a private note about this manga"
 
+#: src/features/authentication/components/UserAccountsDialog.tsx
+msgid "Add account"
+msgstr "Add account"
+
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Add bookmark"
@@ -472,6 +486,10 @@ msgstr "Add tracking"
 #: src/features/library/screens/LibraryShare.tsx
 msgid "Added {added} manga to your library"
 msgstr "Added {added} manga to your library"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Added {added} new manga to your library"
+msgstr "Added {added} new manga to your library"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Added manga to library!"
@@ -548,6 +566,10 @@ msgstr "Artist"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Ascending"
 msgstr "Ascending"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Ask for two-way sync"
+msgstr "Ask for two-way sync"
 
 #: src/features/library/screens/LibraryShare.tsx
 msgid "Ask the other person for their exact username, accounts can't be browsed"
@@ -1079,6 +1101,11 @@ msgstr "Connected as {initialUsername} to {initialServerAddress}"
 msgid "Continue"
 msgstr "Continue"
 
+#. placeholder {0}: account.username
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Continue as {0}"
+msgstr "Continue as {0}"
+
 #: src/features/manga/components/ContinueReadingTooltip.tsx
 msgid "Continue reading\n"
 "#{chapterNumber} — {name}\n"
@@ -1305,6 +1332,10 @@ msgstr "Could not save changes"
 msgid "Could not save notes"
 msgstr "Could not save notes"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Could not save the change"
+msgstr "Could not save the change"
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
@@ -1335,6 +1366,10 @@ msgstr "Could not start sync"
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
 msgstr "Could not stop global update"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Could not sync"
+msgstr "Could not sync"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/components/TrackerSearch.tsx
@@ -2411,6 +2446,10 @@ msgstr "JWT audience claim"
 msgid "JWT refresh token expiry"
 msgstr "JWT refresh token expiry"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Keep in sync: manga and categories you add later are shared too"
+msgstr "Keep in sync: manga and categories you add later are shared too"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Keep local"
 msgstr "Keep local"
@@ -2994,6 +3033,10 @@ msgstr "Notes saved"
 msgid "Nothing is added to your library until you accept"
 msgstr "Nothing is added to your library until you accept"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Nothing is added until you accept. The sender keeps it in sync: manga and categories they add later are shared too. Your reading progress is never shared."
+msgstr "Nothing is added until you accept. The sender keeps it in sync: manga and categories they add later are shared too. Your reading progress is never shared."
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
 msgstr "Novel"
@@ -3372,6 +3415,10 @@ msgstr "Remove bookmarks from selected"
 msgid "Remove from the library"
 msgstr "Remove from the library"
 
+#: src/features/authentication/components/UserAccountsDialog.tsx
+msgid "Remove from this device"
+msgstr "Remove from this device"
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Remove manga from categories when removing them from the library"
 msgstr "Remove manga from categories when removing them from the library"
@@ -3392,6 +3439,7 @@ msgstr "Removed non library manga from categories"
 msgid "Request declined"
 msgstr "Request declined"
 
+#. placeholder {0}: share.senderUsername
 #. placeholder {0}: username.trim()
 #: src/features/library/screens/LibraryShare.tsx
 msgid "Request sent, {0} has to accept it"
@@ -3653,6 +3701,10 @@ msgstr "Select pinned sources"
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Selected"
 msgstr "Selected"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Send as is"
+msgstr "Send as is"
 
 #: src/features/library/screens/LibraryShare.tsx
 msgid "Send request"
@@ -3995,6 +4047,14 @@ msgstr "Static navigation"
 msgid "Status"
 msgstr "Status"
 
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Stay signed in"
+msgstr "Stay signed in"
+
+#: src/features/authentication/components/UserAccountsDialog.tsx
+msgid "Stay signed in on this device"
+msgstr "Stay signed in on this device"
+
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Stop"
 msgstr "Stop"
@@ -4002,6 +4062,10 @@ msgstr "Stop"
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Stop global update"
 msgstr "Stop global update"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Stop syncing"
+msgstr "Stop syncing"
 
 #: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingStretchPage.tsx
@@ -4038,6 +4102,10 @@ msgstr "Switch account"
 msgid "Sync"
 msgstr "Sync"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Sync automatically"
+msgstr "Sync automatically"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Sync data"
 msgstr "Sync data"
@@ -4054,6 +4122,7 @@ msgstr "Sync in progress"
 msgid "Sync interval"
 msgstr "Sync interval"
 
+#: src/features/library/screens/LibraryShare.tsx
 #: src/features/sync/components/SyncButton.tsx
 msgid "Sync now"
 msgstr "Sync now"
@@ -4102,6 +4171,10 @@ msgstr "System"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Tabs"
 msgstr "Tabs"
+
+#: src/features/authentication/components/UserAccountsDialog.tsx
+msgid "Tap to switch"
+msgstr "Tap to switch"
 
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 msgid "Tap zones"
@@ -4155,6 +4228,10 @@ msgid "The next chapter has a different scanlator than the current one.\n"
 msgstr "The next chapter has a different scanlator than the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "The other person can choose to follow it automatically. Reading progress is never shared."
+msgstr "The other person can choose to follow it automatically. Reading progress is never shared."
 
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
@@ -4326,6 +4403,22 @@ msgstr "Tree Frog Green"
 #: src/features/backup/component/BackupFormatDialog.tsx
 msgid "Tsundoku"
 msgstr "Tsundoku"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Two-way request declined"
+msgstr "Two-way request declined"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Two-way request waiting for approval"
+msgstr "Two-way request waiting for approval"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Two-way sync"
+msgstr "Two-way sync"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Two-way sync active"
+msgstr "Two-way sync active"
 
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx

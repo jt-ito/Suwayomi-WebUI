@@ -308,13 +308,15 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                     paintOrder: 'stroke fill',
                 },
                 '& h1.MuiTypography-root': {
-                    WebkitTextStroke: `3px ${alpha(theme.palette.primary.main, 0.55)}`,
-                    paintOrder: 'stroke fill',
-                    // touch browsers (iOS Safari) paint the stroke over the letters instead of under them, which smears the
-                    // title into a blurry halo
-                    '@media (hover: none)': {
-                        WebkitTextStroke: 'none',
-                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',
+                    // Safari (iPhone, iPad and Mac) paints -webkit-text-stroke over the letters instead of under them
+                    // (paint-order only works on SVG there), which smears the title into a blurry halo. So the outline is
+                    // for every other browser only; "font: -apple-system-body" is understood by Safari and nothing else.
+                    // (A "hover: none" check was tried first, it misses Safari whenever it reports a pointer.)
+                    '@supports not (font: -apple-system-body)': {
+                        WebkitTextStroke: `3px ${alpha(theme.palette.primary.main, 0.55)}`,
+                        paintOrder: 'stroke fill',
+                        textShadow: TEXT_SHADOW,
                     },
                 },
                 backdropFilter: 'blur(10px) saturate(150%)',
