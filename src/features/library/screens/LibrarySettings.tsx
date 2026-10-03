@@ -86,8 +86,7 @@ export function LibrarySettings() {
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
-    // -1 for the DEFAULT category
-    const categoryCount = (categories.data?.categories.nodes.length ?? 1) - 1;
+    const categoryCount = categories.data?.categories.nodes.length ?? 0;
 
     const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;
     if (loading) {

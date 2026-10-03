@@ -53,13 +53,7 @@ export function CategorySettings() {
         ComponentProps<typeof CategorySettingsCard>['category'] | null
     >(null);
 
-    const categories = useMemo(() => {
-        const res = [...(data?.categories.nodes ?? [])];
-        if (res.length > 0 && res[0].name === 'Default') {
-            res.shift();
-        }
-        return res;
-    }, [data]);
+    const categories = useMemo(() => data?.categories.nodes ?? [], [data]);
 
     const categoryReorder = (list: CategoryIdInfo[], from: number, to: number) => {
         const reorderedCategory = list[from];
@@ -128,7 +122,11 @@ export function CategorySettings() {
                                 id={category.id}
                                 isDragging={category.id === dndActiveCategory?.id}
                             >
-                                <CategorySettingsCard category={category} onEdit={() => handleDialogOpen(index)} />
+                                <CategorySettingsCard
+                                    category={category}
+                                    onEdit={() => handleDialogOpen(index)}
+                                    canDelete={categories.length > 1}
+                                />
                             </DndSortableItem>
                         ))}
                     </SortableContext>

@@ -22,20 +22,26 @@ import type { CategoryIdInfo, CategoryNameInfo } from '@/features/category/Categ
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { DEFAULT_CATEGORY_ID } from '@/features/category/services/Categories.ts';
 
 export const CategorySettingsCard = ({
     category,
     onEdit,
+    canDelete = true,
 }: {
     category: CategoryIdInfo & CategoryNameInfo;
     onEdit: () => void;
+    canDelete?: boolean;
 }) => {
     const { t } = useLingui();
 
     const deleteCategory = async () => {
         await Confirmation.show({
             title: t`Are you sure?`,
-            message: t`You are about to delete category "${category.name}"`,
+            message:
+                category.id === DEFAULT_CATEGORY_ID
+                    ? t`You are about to delete category "${category.name}". Its manga will move to your first other category.`
+                    : t`You are about to delete category "${category.name}"`,
         });
 
         try {
@@ -59,11 +65,13 @@ export const CategorySettingsCard = ({
                                 <EditIcon />
                             </IconButton>
                         </CustomTooltip>
-                        <CustomTooltip title={t`Delete`}>
-                            <IconButton component={Box} onClick={deleteCategory}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </CustomTooltip>
+                        {canDelete && (
+                            <CustomTooltip title={t`Delete`}>
+                                <IconButton component={Box} onClick={deleteCategory}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </CustomTooltip>
+                        )}
                     </Stack>
                 </ListCardContent>
             </Card>

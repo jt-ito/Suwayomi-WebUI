@@ -3128,6 +3128,8 @@ export class RequestManager {
                 updateCache(cache) {
                     cache.evict({ id: cache.identify({ __typename: 'CategoryType', id: categoryId.toString() }) });
                 },
+                // deleting the default category moves its manga into another category
+                include: categoryId === 0 ? 'active' : undefined,
             });
         });
 

@@ -21,6 +21,7 @@ import type { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/fe
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { DEFAULT_CATEGORY_ID } from '@/features/category/services/Categories.ts';
 
 export const CreateOrEditCategoryDialog = ({
     category,
@@ -48,7 +49,10 @@ export const CreateOrEditCategoryDialog = ({
 
         if (isEditMode) {
             requestManager
-                .updateCategory(category.id, { name: newName, default: dialogDefault })
+                .updateCategory(
+                    category.id,
+                    category.id === DEFAULT_CATEGORY_ID ? { name: newName } : { name: newName, default: dialogDefault },
+                )
                 .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
             return;
@@ -75,10 +79,14 @@ export const CreateOrEditCategoryDialog = ({
                     error={isInvalidName}
                     helperText={isInvalidName ? t`Invalid input` : undefined}
                 />
-                <FormControlLabel
-                    control={<Checkbox checked={dialogDefault} onChange={(e) => setDialogDefault(e.target.checked)} />}
-                    label={t`Default category when adding new manga to the library`}
-                />
+                {category?.id !== DEFAULT_CATEGORY_ID && (
+                    <FormControlLabel
+                        control={
+                            <Checkbox checked={dialogDefault} onChange={(e) => setDialogDefault(e.target.checked)} />
+                        }
+                        label={t`Default category when adding new manga to the library`}
+                    />
+                )}
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">

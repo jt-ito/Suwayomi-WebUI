@@ -4546,6 +4546,11 @@ msgstr "Ying & Yang"
 msgid "You are about to delete category \"{0}\""
 msgstr "You are about to delete category \"{0}\""
 
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\". Its manga will move to your first other category."
+msgstr "You are about to delete category \"{0}\". Its manga will move to your first other category."
+
 #. placeholder {0}: user.username
 #: src/features/authentication/components/UserAccountsDialog.tsx
 msgid "You are about to delete the account \"{0}\". Its personal library and reading progress will be removed permanently."
