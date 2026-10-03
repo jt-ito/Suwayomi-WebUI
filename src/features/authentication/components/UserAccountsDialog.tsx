@@ -32,6 +32,8 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { GetMeQuery } from '@/lib/graphql/generated/graphql.ts';
 
@@ -62,8 +64,9 @@ const SwitchAccount = ({ onDone }: { onDone: () => void }) => {
 
             AuthManager.setTokens(data.login.accessToken, data.login.refreshToken);
             onDone();
-            // drop everything that was loaded for the previous account
-            window.location.reload();
+            // drop everything that was loaded for the previous account, and start on the library instead of whatever page
+            // the previous account was on
+            window.location.assign(`${SubpathUtil.getSubpath()}${AppRoutes.library.path()}`);
         } catch (e) {
             makeToast(t`Could not log in to tsundoku`, 'error', getErrorMessage(e));
         }
