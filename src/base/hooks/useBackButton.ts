@@ -14,6 +14,9 @@ import { useAppPageHistoryContext } from '@/base/contexts/AppPageHistoryContext.
 export const READER_REGEX = /\/manga\/[0-9]+\/chapter\/[0-9]+/g;
 const PAGES_TO_IGNORE: readonly RegExp[] = [READER_REGEX];
 
+// the history entries contain the search params (e.g. "?tab=migrate"), the location's pathname does not
+const getPathname = (page: string) => page.split('?')[0];
+
 export const useBackButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -27,14 +30,14 @@ export const useBackButton = () => {
             }
 
             const isLastPageInHistoryCurrentPage =
-                historyToCheck.length === 1 && historyToCheck[0] === location.pathname;
+                historyToCheck.length === 1 && getPathname(historyToCheck[0]) === location.pathname;
             if (isLastPageInHistoryCurrentPage) {
                 return 0;
             }
 
             const [previousPage] = historyToCheck.slice(-2);
 
-            const isPreviousPageCurrentPage = previousPage === location.pathname;
+            const isPreviousPageCurrentPage = getPathname(previousPage) === location.pathname;
             const ignorePreviousPage = PAGES_TO_IGNORE.some((page) => !!previousPage.match(page));
 
             const skipPreviousPage = isPreviousPageCurrentPage || ignorePreviousPage;

@@ -52,7 +52,8 @@ export const Migration = () => {
         }
 
         if (isMigrationPage && phase === MigrationPhase.IDLE) {
-            ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE));
+            // replace, otherwise going back would land on "/migrate" again, which redirects here again
+            ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE), { replace: true });
         }
     }, [phase]);
 
