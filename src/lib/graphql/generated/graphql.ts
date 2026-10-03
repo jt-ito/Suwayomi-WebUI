@@ -13,6 +13,15 @@ export type CreateBackupMutation = {
     createBackup: { __typename: 'CreateBackupPayload'; url: string };
 };
 
+export type CreateServerBackupMutationVariables = Exact<{
+    input: Types.CreateServerBackupInput;
+}>;
+
+export type CreateServerBackupMutation = {
+    __typename: 'Mutation';
+    createServerBackup: { __typename: 'CreateBackupPayload'; url: string };
+};
+
 export type RestoreBackupMutationVariables = Exact<{
     backup: unknown;
     flags?: Types.PartialBackupFlagsInput | null | undefined;

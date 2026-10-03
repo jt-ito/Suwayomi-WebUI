@@ -988,6 +988,7 @@ export type MutationKeySpecifier = (
     | 'connectKoSyncAccount'
     | 'createBackup'
     | 'createCategory'
+    | 'createServerBackup'
     | 'createUser'
     | 'deleteCategory'
     | 'deleteCategoryMeta'
@@ -1076,6 +1077,7 @@ export type MutationFieldPolicy = {
     connectKoSyncAccount?: FieldPolicy<any> | FieldReadFunction<any>;
     createBackup?: FieldPolicy<any> | FieldReadFunction<any>;
     createCategory?: FieldPolicy<any> | FieldReadFunction<any>;
+    createServerBackup?: FieldPolicy<any> | FieldReadFunction<any>;
     createUser?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteCategoryMeta?: FieldPolicy<any> | FieldReadFunction<any>;

@@ -36,6 +36,8 @@ import type {
     ClearServerCacheMutationVariables,
     CreateBackupMutation,
     CreateBackupMutationVariables,
+    CreateServerBackupMutation,
+    CreateServerBackupMutationVariables,
     CreateCategoryMutation,
     CreateCategoryMutationVariables,
     DeleteCategoryMutation,
@@ -215,6 +217,7 @@ import type {
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
     CreateBackupInput,
+    CreateServerBackupInput,
     CreateCategoryInput,
     DeleteCategoryMetasInput,
     DeleteChapterMetasInput,
@@ -318,7 +321,7 @@ import {
 import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/updater/UpdaterMutation.ts';
 import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/updater/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
-import { CREATE_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/backup/BackupMutation.ts';
+import { CREATE_BACKUP, CREATE_SERVER_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/backup/BackupMutation.ts';
 import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/backup/BackupQuery.ts';
 import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/download/DownloaderSubscription.ts';
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/updater/UpdaterSubscription.ts';
@@ -3303,6 +3306,20 @@ export class RequestManager {
         return this.doRequest<CreateBackupMutation, CreateBackupMutationVariables>(
             GQLMethod.MUTATION,
             CREATE_BACKUP,
+            { input },
+            {
+                ...options,
+            },
+        );
+    }
+
+    public createServerBackupFile(
+        input: CreateServerBackupInput,
+        options?: MutationOptions<CreateServerBackupMutation, CreateServerBackupMutationVariables>,
+    ): AbortableApolloMutationResponse<CreateServerBackupMutation> {
+        return this.doRequest<CreateServerBackupMutation, CreateServerBackupMutationVariables>(
+            GQLMethod.MUTATION,
+            CREATE_SERVER_BACKUP,
             { input },
             {
                 ...options,

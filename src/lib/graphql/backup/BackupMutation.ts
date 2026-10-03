@@ -16,6 +16,14 @@ export const CREATE_BACKUP = gql`
     }
 `;
 
+export const CREATE_SERVER_BACKUP = gql`
+    mutation CREATE_SERVER_BACKUP($input: CreateServerBackupInput!) {
+        createServerBackup(input: $input) {
+            url
+        }
+    }
+`;
+
 export const RESTORE_BACKUP = gql`
     mutation RESTORE_BACKUP($backup: Upload!, $flags: PartialBackupFlagsInput) {
         restoreBackup(input: { backup: $backup, flags: $flags }) {

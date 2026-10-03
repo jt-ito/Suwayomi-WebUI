@@ -426,6 +426,11 @@ export type CreateCategoryPayload = {
     clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
+export type CreateServerBackupInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    flags?: InputMaybe<PartialBackupFlagsInput>;
+};
+
 export type CreateUserInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     password: Scalars['String']['input'];
@@ -1498,6 +1503,7 @@ export type Mutation = {
     connectKoSyncAccount: KoSyncConnectPayload;
     createBackup: CreateBackupPayload;
     createCategory?: Maybe<CreateCategoryPayload>;
+    createServerBackup: CreateBackupPayload;
     createUser: CreateUserPayload;
     deleteCategory?: Maybe<DeleteCategoryPayload>;
     deleteCategoryMeta?: Maybe<DeleteCategoryMetaPayload>;
@@ -1612,6 +1618,10 @@ export type MutationCreateBackupArgs = {
 
 export type MutationCreateCategoryArgs = {
     input: CreateCategoryInput;
+};
+
+export type MutationCreateServerBackupArgs = {
+    input?: InputMaybe<CreateServerBackupInput>;
 };
 
 export type MutationCreateUserArgs = {

@@ -31,6 +31,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
+import { BackupFormatDialog } from '@/features/backup/component/BackupFormatDialog.tsx';
 import { BackupValidationDialog } from '@/features/backup/component/BackupValidationDialog.tsx';
 import {
     convertToAutoBackupFlags,
@@ -55,6 +56,8 @@ export function Backup() {
     useAppTitle(t`Backup`);
 
     const { data: settingsData, loading, error, refetch } = requestManager.useGetServerSettings();
+    const { data: meData } = requestManager.useGetMe();
+    const isAdmin = meData?.me?.role === 'ADMIN';
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const { data } = requestManager.useGetBackupRestoreStatus(backupRestoreId ?? '', {
@@ -116,17 +119,28 @@ export function Backup() {
         }
     }, [data?.restoreStatus?.state]);
 
-    const createBackup = async () => {
+    const createBackup = async (isServerBackup = false) => {
+        // a backup of an account is either a full tsundoku backup, or one the official Suwayomi server can restore too
+        const format = isServerBackup ? 'tsundoku' : await AwaitableComponent.show(BackupFormatDialog, {});
+
         const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
-            title: t`Create backup`,
+            title: isServerBackup ? t`Create server backup` : t`Create backup`,
+            // the server settings and extensions belong to the server: not in a Suwayomi backup, nor in the backup of a
+            // member
+            hiddenFlags: format === 'suwayomi' || !isAdmin ? ['includeServerSettings', 'includeExtensions'] : undefined,
         });
 
         makeToast(t`Creating backup…`, 'info');
 
         try {
-            const backupFileResponse = await requestManager.createBackupFile({ flags }).response;
+            const backupFileResponse = isServerBackup
+                ? await requestManager.createServerBackupFile({ flags }).response
+                : await requestManager.createBackupFile({ flags }).response;
 
-            const backupFileUrl = backupFileResponse.data?.createBackup.url;
+            const backupFileUrl =
+                backupFileResponse.data && 'createServerBackup' in backupFileResponse.data
+                    ? backupFileResponse.data.createServerBackup.url
+                    : backupFileResponse.data?.createBackup.url;
             if (!backupFileUrl) {
                 makeToast(t`Could not create backup`, 'error', getErrorMessage(backupFileResponse.error));
                 return;
@@ -206,13 +220,15 @@ export function Backup() {
             return;
         }
 
-        const isValidFilename = file.name.toLowerCase().match(/proto\.gz$|tachibk$/g);
+        // a backup of the whole server is a zip file, only admins can restore it and it has no source/tracker check
+        const isServerBackup = file.name.toLowerCase().endsWith('.zip');
+        const isValidFilename = isServerBackup || file.name.toLowerCase().match(/proto\.gz$|tachibk$/g);
         if (!isValidFilename) {
             makeToast(t`Invalid filetype`, 'error');
             return;
         }
 
-        const isBackupValid = await validateBackup(file);
+        const isBackupValid = isServerBackup || (await validateBackup(file));
         if (isBackupValid) {
             await restoreBackup(file);
         }
@@ -256,13 +272,28 @@ export function Backup() {
     return (
         <>
             <List sx={CARD_LIST_SX}>
-                <ListItemButton onClick={createBackup}>
-                    <ListItemText primary={t`Create backup`} secondary={t`Back up library as a Tachiyomi backup`} />
+                <ListItemButton onClick={() => createBackup()}>
+                    <ListItemText
+                        primary={t`Create backup`}
+                        secondary={t`Back up your library as a Tachiyomi backup`}
+                    />
                 </ListItemButton>
+                {isAdmin && (
+                    <ListItemButton onClick={() => createBackup(true)}>
+                        <ListItemText
+                            primary={t`Create server backup`}
+                            secondary={t`Back up every account and the server settings in one file (includes the logins, keep it private)`}
+                        />
+                    </ListItemButton>
+                )}
                 <ListItemButton onClick={() => inputRef.current?.click()} disabled={!!backupRestoreId}>
                     <ListItemText
                         primary={t`Restore Backup`}
-                        secondary={t`You can also drag and drop the backup file here to restore it`}
+                        secondary={
+                            isAdmin
+                                ? t`You can also drag and drop the backup file here to restore it. A server backup (.zip) restores every account.`
+                                : t`You can also drag and drop the backup file here to restore it`
+                        }
                     />
                     {backupRestoreId ? (
                         <ListItemIcon>
