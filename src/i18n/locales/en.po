@@ -614,8 +614,12 @@ msgid "Available"
 msgstr "Available"
 
 #: src/features/backup/screens/Backup.tsx
-msgid "Back up library as a Tachiyomi backup"
-msgstr "Back up library as a Tachiyomi backup"
+msgid "Back up every account and the server settings in one file (includes the logins, keep it private)"
+msgstr "Back up every account and the server settings in one file (includes the logins, keep it private)"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Back up your library as a Tachiyomi backup"
+msgstr "Back up your library as a Tachiyomi backup"
 
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "Background color"
@@ -792,6 +796,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/base/components/settings/text/TextSettingDialog.tsx
 #: src/base/components/settings/TimeSetting.tsx
 #: src/features/backup/component/BackupFlagInclusionDialog.tsx
+#: src/features/backup/component/BackupFormatDialog.tsx
 #: src/features/backup/component/BackupValidationDialog.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
@@ -1317,9 +1322,14 @@ msgstr "Create"
 msgid "Create account"
 msgstr "Create account"
 
+#: src/features/backup/component/BackupFormatDialog.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Create backup"
 msgstr "Create backup"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Create server backup"
+msgstr "Create server backup"
 
 #: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
@@ -1558,10 +1568,6 @@ msgstr "Disconnect from KOReader Sync server"
 msgid "Disconnected"
 msgstr "Disconnected"
 
-#: src/features/settings/screens/About.tsx
-msgid "Discord"
-msgstr "Discord"
-
 #: src/base/components/GridLayouts.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -1785,6 +1791,10 @@ msgstr "Every 6 hours"
 #: src/features/settings/Settings.constants.ts
 msgid "Every hour"
 msgstr "Every hour"
+
+#: src/features/backup/component/BackupFormatDialog.tsx
+msgid "Everything in this app, including the extensions and repositories"
+msgstr "Everything in this app, including the extensions and repositories"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
@@ -3922,6 +3932,10 @@ msgstr "Successfully migrated"
 msgid "Successfully migrated manga"
 msgstr "Successfully migrated manga"
 
+#: src/features/backup/component/BackupFormatDialog.tsx
+msgid "Suwayomi"
+msgstr "Suwayomi"
+
 #: src/features/authentication/components/UserAccountsDialog.tsx
 msgid "Switch account"
 msgstr "Switch account"
@@ -4199,6 +4213,10 @@ msgstr "Tracking"
 #: src/features/theme/Themes.ts
 msgid "Tree Frog Green"
 msgstr "Tree Frog Green"
+
+#: src/features/backup/component/BackupFormatDialog.tsx
+msgid "Tsundoku"
+msgstr "Tsundoku"
 
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -4507,6 +4525,10 @@ msgstr "with results"
 msgid "With unread chapter(s)"
 msgstr "With unread chapter(s)"
 
+#: src/features/backup/component/BackupFormatDialog.tsx
+msgid "Without the extensions, repositories and server settings, so the official Suwayomi server can restore it"
+msgstr "Without the extensions, repositories and server settings, so the official Suwayomi server can restore it"
+
 #: src/base/utils/DateHelper.ts
 msgid "Yesterday"
 msgstr "Yesterday"
@@ -4545,6 +4567,10 @@ msgstr "You are not logged in to these trackers. Their data is restored, but syn
 #: src/features/backup/screens/Backup.tsx
 msgid "You can also drag and drop the backup file here to restore it"
 msgstr "You can also drag and drop the backup file here to restore it"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "You can also drag and drop the backup file here to restore it. A server backup (.zip) restores every account."
+msgstr "You can also drag and drop the backup file here to restore it. A server backup (.zip) restores every account."
 
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."

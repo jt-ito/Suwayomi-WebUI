@@ -159,6 +159,9 @@ export const APP_METADATA: Record<
     serverInformVersionUpdated: {
         convert: convertToBoolean,
     },
+    serverAnnouncedVersion: {
+        convert: convertToString,
+    },
     readerWidth: {
         convert: convertToObject<IReaderSettings['readerWidth']>,
     },
@@ -504,6 +507,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'webUIInformVersionUpdated',
     'serverInformAvailableUpdate',
     'serverInformVersionUpdated',
+    'serverAnnouncedVersion',
 
     // sources
     'savedSearches',

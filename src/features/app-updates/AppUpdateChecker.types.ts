@@ -11,4 +11,5 @@ export type MetadataUpdateSettings = {
     webUIInformVersionUpdated: boolean;
     serverInformAvailableUpdate: boolean;
     serverInformVersionUpdated: boolean;
+    serverAnnouncedVersion: string;
 };

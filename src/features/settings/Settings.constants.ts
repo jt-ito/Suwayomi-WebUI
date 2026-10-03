@@ -89,6 +89,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     webUIInformVersionUpdated: true,
     serverInformAvailableUpdate: true,
     serverInformVersionUpdated: true,
+    serverAnnouncedVersion: '',
 
     // themes
     locale: getPreferredISOLanguageCodes()[0],

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,8 +17,10 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { VersionUpdateInfoDialog } from '@/features/app-updates/components/VersionUpdateInfoDialog.tsx';
-import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import {
+    updateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
@@ -28,11 +30,11 @@ const disabledUpdateCheck = () => Promise.resolve();
 export const ServerUpdateChecker = () => {
     const { t } = useLingui();
 
-    const [serverVersion, setServerVersion] = useLocalStorage<string>('serverVersion');
+    const lastSavedVersion = useRef<string | undefined>(undefined);
     const [open, setOpen] = useState(false);
 
     const {
-        settings: { serverInformAvailableUpdate, serverInformVersionUpdated },
+        settings: { serverInformAvailableUpdate, serverInformVersionUpdated, serverAnnouncedVersion: serverVersion },
         loading: areMetadataServerSettingsLoading,
     } = useMetadataServerSettings();
 
@@ -65,19 +67,27 @@ export const ServerUpdateChecker = () => {
             ? `https://github.com/jt-ito/tsundoku/releases/tag/${aboutServer.version}`
             : 'https://github.com/jt-ito/tsundoku/releases';
 
-    const isSameAsCurrent = !version || !serverVersion || serverVersion === version;
-
-    const saveInitialVersion = !serverVersion && !!version;
-    if (saveInitialVersion) {
-        setServerVersion(version);
-    }
-
-    if (!areMetadataServerSettingsLoading && !isSameAsCurrent && !open) {
-        if (serverInformVersionUpdated) {
-            setOpen(true);
-        } else {
-            setServerVersion(version);
+    // the announced version lives on the server, so every browser and device announces a release only once
+    const saveVersion = (newVersion: string) => {
+        if (lastSavedVersion.current === newVersion) {
+            return;
         }
+        lastSavedVersion.current = newVersion;
+        updateMetadataServerSettings('serverAnnouncedVersion', newVersion).catch(() => {
+            lastSavedVersion.current = undefined;
+        });
+    };
+
+    if (
+        !areMetadataServerSettingsLoading &&
+        version &&
+        (!serverVersion || version.localeCompare(serverVersion, undefined, { numeric: true }) > 0)
+    ) {
+        // every commit bumps the preview version, so only announce tagged (stable) releases, never the first one seen or a downgrade (the recorded version only ever goes up)
+        if (serverVersion && !open && serverInformVersionUpdated && aboutServer?.buildType.toLowerCase() === 'stable') {
+            setOpen(true);
+        }
+        saveVersion(version);
     }
 
     if (isCheckingForServerUpdate) {
@@ -128,13 +138,7 @@ export const ServerUpdateChecker = () => {
                         {t`Changelog`}
                     </Button>
                 )}
-                <Button
-                    onClick={() => {
-                        setServerVersion(version);
-                        setOpen(false);
-                    }}
-                    variant="contained"
-                >
+                <Button onClick={() => setOpen(false)} variant="contained">
                     {t`Ok`}
                 </Button>
             </DialogActions>
