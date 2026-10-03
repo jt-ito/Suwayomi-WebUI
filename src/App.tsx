@@ -94,6 +94,7 @@ const { LibraryDuplicates } = loadable(
     () => import('@/features/library/screens/LibraryDuplicates.tsx'),
     lazyLoadFallback,
 );
+const { LibraryShare } = loadable(() => import('@/features/library/screens/LibraryShare.tsx'), lazyLoadFallback);
 const { Appearance } = loadable(() => import('@/features/settings/screens/Appearance.tsx'), lazyLoadFallback);
 const { GlobalReaderSettings } = loadable(
     () => import('@/features/reader/settings/screens/GlobalReaderSettings.tsx'),
@@ -306,6 +307,10 @@ const MainApp = () => {
                                 <Route
                                     path={AppRoutes.settings.children.library.children.duplicates.match}
                                     element={<LibraryDuplicates />}
+                                />
+                                <Route
+                                    path={AppRoutes.settings.children.library.children.share.match}
+                                    element={<LibraryShare />}
                                 />
                             </Route>
                             <Route path={AppRoutes.settings.children.download.match}>

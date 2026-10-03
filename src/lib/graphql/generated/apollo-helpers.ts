@@ -755,6 +755,42 @@ export type LastUpdateTimestampPayloadKeySpecifier = ('timestamp' | LastUpdateTi
 export type LastUpdateTimestampPayloadFieldPolicy = {
     timestamp?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type LibraryShareChangePayloadKeySpecifier = (
+    | 'addedMangas'
+    | 'clientMutationId'
+    | 'share'
+    | LibraryShareChangePayloadKeySpecifier
+)[];
+export type LibraryShareChangePayloadFieldPolicy = {
+    addedMangas?: FieldPolicy<any> | FieldReadFunction<any>;
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    share?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type LibraryShareTypeKeySpecifier = (
+    | 'categoryNames'
+    | 'createdAt'
+    | 'id'
+    | 'incoming'
+    | 'mangaCount'
+    | 'recipientUsername'
+    | 'respondedAt'
+    | 'scope'
+    | 'senderUsername'
+    | 'status'
+    | LibraryShareTypeKeySpecifier
+)[];
+export type LibraryShareTypeFieldPolicy = {
+    categoryNames?: FieldPolicy<any> | FieldReadFunction<any>;
+    createdAt?: FieldPolicy<any> | FieldReadFunction<any>;
+    id?: FieldPolicy<any> | FieldReadFunction<any>;
+    incoming?: FieldPolicy<any> | FieldReadFunction<any>;
+    mangaCount?: FieldPolicy<any> | FieldReadFunction<any>;
+    recipientUsername?: FieldPolicy<any> | FieldReadFunction<any>;
+    respondedAt?: FieldPolicy<any> | FieldReadFunction<any>;
+    scope?: FieldPolicy<any> | FieldReadFunction<any>;
+    senderUsername?: FieldPolicy<any> | FieldReadFunction<any>;
+    status?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type LibraryUpdateStatusKeySpecifier = (
     | 'categoryUpdates'
     | 'jobsInfo'
@@ -982,12 +1018,14 @@ export type MutationKeySpecifier = (
     | 'addExtensionStore'
     | 'bindTrack'
     | 'bindTrackRecord'
+    | 'cancelLibraryShare'
     | 'clearCachedImages'
     | 'clearCookiesAndCache'
     | 'clearDownloader'
     | 'connectKoSyncAccount'
     | 'createBackup'
     | 'createCategory'
+    | 'createLibraryShare'
     | 'createServerBackup'
     | 'createUser'
     | 'deleteCategory'
@@ -1029,6 +1067,7 @@ export type MutationKeySpecifier = (
     | 'reorderChapterDownloads'
     | 'resetSettings'
     | 'resetWebUIUpdateStatus'
+    | 'respondToLibraryShare'
     | 'restoreBackup'
     | 'setCategoryMeta'
     | 'setCategoryMetas'
@@ -1071,12 +1110,14 @@ export type MutationFieldPolicy = {
     addExtensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     bindTrack?: FieldPolicy<any> | FieldReadFunction<any>;
     bindTrackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
+    cancelLibraryShare?: FieldPolicy<any> | FieldReadFunction<any>;
     clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>;
     clearCookiesAndCache?: FieldPolicy<any> | FieldReadFunction<any>;
     clearDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
     connectKoSyncAccount?: FieldPolicy<any> | FieldReadFunction<any>;
     createBackup?: FieldPolicy<any> | FieldReadFunction<any>;
     createCategory?: FieldPolicy<any> | FieldReadFunction<any>;
+    createLibraryShare?: FieldPolicy<any> | FieldReadFunction<any>;
     createServerBackup?: FieldPolicy<any> | FieldReadFunction<any>;
     createUser?: FieldPolicy<any> | FieldReadFunction<any>;
     deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1118,6 +1159,7 @@ export type MutationFieldPolicy = {
     reorderChapterDownloads?: FieldPolicy<any> | FieldReadFunction<any>;
     resetSettings?: FieldPolicy<any> | FieldReadFunction<any>;
     resetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
+    respondToLibraryShare?: FieldPolicy<any> | FieldReadFunction<any>;
     restoreBackup?: FieldPolicy<any> | FieldReadFunction<any>;
     setCategoryMeta?: FieldPolicy<any> | FieldReadFunction<any>;
     setCategoryMetas?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1431,6 +1473,7 @@ export type QueryKeySpecifier = (
     | 'koSyncStatus'
     | 'lastSyncStatus'
     | 'lastUpdateTimestamp'
+    | 'libraryShares'
     | 'libraryUpdateStatus'
     | 'manga'
     | 'mangas'
@@ -1470,6 +1513,7 @@ export type QueryFieldPolicy = {
     koSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     lastSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     lastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>;
+    libraryShares?: FieldPolicy<any> | FieldReadFunction<any>;
     libraryUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     manga?: FieldPolicy<any> | FieldReadFunction<any>;
     mangas?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -3016,6 +3060,17 @@ export type StrictTypedTypePolicies = {
             | LastUpdateTimestampPayloadKeySpecifier
             | (() => undefined | LastUpdateTimestampPayloadKeySpecifier);
         fields?: LastUpdateTimestampPayloadFieldPolicy;
+    };
+    LibraryShareChangePayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | LibraryShareChangePayloadKeySpecifier
+            | (() => undefined | LibraryShareChangePayloadKeySpecifier);
+        fields?: LibraryShareChangePayloadFieldPolicy;
+    };
+    LibraryShareType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | LibraryShareTypeKeySpecifier | (() => undefined | LibraryShareTypeKeySpecifier);
+        fields?: LibraryShareTypeFieldPolicy;
     };
     LibraryUpdateStatus?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | LibraryUpdateStatusKeySpecifier | (() => undefined | LibraryUpdateStatusKeySpecifier);

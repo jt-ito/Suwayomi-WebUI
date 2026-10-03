@@ -1992,6 +1992,112 @@ export type GetKoSyncStatusQuery = {
     };
 };
 
+export type LibraryShareFieldsFragment = {
+    __typename: 'LibraryShareType';
+    id: number;
+    incoming: boolean;
+    senderUsername: string;
+    recipientUsername: string;
+    scope: Types.LibraryShareScope;
+    categoryNames: Array<string>;
+    mangaCount: number;
+    status: Types.LibraryShareStatus;
+    createdAt: string;
+    respondedAt: string;
+};
+
+export type CreateLibraryShareMutationVariables = Exact<{
+    input: Types.CreateLibraryShareInput;
+}>;
+
+export type CreateLibraryShareMutation = {
+    __typename: 'Mutation';
+    createLibraryShare: {
+        __typename: 'LibraryShareChangePayload';
+        share: {
+            __typename: 'LibraryShareType';
+            id: number;
+            incoming: boolean;
+            senderUsername: string;
+            recipientUsername: string;
+            scope: Types.LibraryShareScope;
+            categoryNames: Array<string>;
+            mangaCount: number;
+            status: Types.LibraryShareStatus;
+            createdAt: string;
+            respondedAt: string;
+        };
+    };
+};
+
+export type RespondToLibraryShareMutationVariables = Exact<{
+    input: Types.RespondToLibraryShareInput;
+}>;
+
+export type RespondToLibraryShareMutation = {
+    __typename: 'Mutation';
+    respondToLibraryShare: {
+        __typename: 'LibraryShareChangePayload';
+        addedMangas: number;
+        share: {
+            __typename: 'LibraryShareType';
+            id: number;
+            incoming: boolean;
+            senderUsername: string;
+            recipientUsername: string;
+            scope: Types.LibraryShareScope;
+            categoryNames: Array<string>;
+            mangaCount: number;
+            status: Types.LibraryShareStatus;
+            createdAt: string;
+            respondedAt: string;
+        };
+    };
+};
+
+export type CancelLibraryShareMutationVariables = Exact<{
+    input: Types.CancelLibraryShareInput;
+}>;
+
+export type CancelLibraryShareMutation = {
+    __typename: 'Mutation';
+    cancelLibraryShare: {
+        __typename: 'LibraryShareChangePayload';
+        share: {
+            __typename: 'LibraryShareType';
+            id: number;
+            incoming: boolean;
+            senderUsername: string;
+            recipientUsername: string;
+            scope: Types.LibraryShareScope;
+            categoryNames: Array<string>;
+            mangaCount: number;
+            status: Types.LibraryShareStatus;
+            createdAt: string;
+            respondedAt: string;
+        };
+    };
+};
+
+export type GetLibrarySharesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetLibrarySharesQuery = {
+    __typename: 'Query';
+    libraryShares: Array<{
+        __typename: 'LibraryShareType';
+        id: number;
+        incoming: boolean;
+        senderUsername: string;
+        recipientUsername: string;
+        scope: Types.LibraryShareScope;
+        categoryNames: Array<string>;
+        mangaCount: number;
+        status: Types.LibraryShareStatus;
+        createdAt: string;
+        respondedAt: string;
+    }>;
+};
+
 export type MangaMetaFieldsFragment = { __typename: 'MangaMetaType'; mangaId: number; key: string; value: string };
 
 export type MangaBaseFieldsFragment = {

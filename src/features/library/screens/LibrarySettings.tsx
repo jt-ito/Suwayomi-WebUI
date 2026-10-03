@@ -208,6 +208,12 @@ export function LibrarySettings() {
                         secondary={t`Remove non library manga from categories`}
                     />
                 </ListItemButton>
+                <ListItemLink to={AppRoutes.settings.children.library.children.share.path}>
+                    <ListItemText
+                        primary={t`Share library`}
+                        secondary={t`Send your library or some categories to another account`}
+                    />
+                </ListItemLink>
                 <ListItemLink to={AppRoutes.settings.children.library.children.duplicates.path}>
                     <ListItemText
                         primary={t`Duplicated entries`}

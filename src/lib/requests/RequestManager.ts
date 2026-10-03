@@ -204,6 +204,14 @@ import type {
     DeleteUserMutationVariables,
     GetMeQuery,
     GetMeQueryVariables,
+    GetLibrarySharesQuery,
+    GetLibrarySharesQueryVariables,
+    CreateLibraryShareMutation,
+    CreateLibraryShareMutationVariables,
+    RespondToLibraryShareMutation,
+    RespondToLibraryShareMutationVariables,
+    CancelLibraryShareMutation,
+    CancelLibraryShareMutationVariables,
     GetUsersQuery,
     GetUsersQueryVariables,
     UserRefreshMutation,
@@ -358,6 +366,12 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { CREATE_USER, DELETE_USER, USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
 import { GET_ME, GET_USERS } from '@/lib/graphql/user/UserQuery.ts';
+import { GET_LIBRARY_SHARES } from '@/lib/graphql/libraryShare/LibraryShareQuery.ts';
+import {
+    CANCEL_LIBRARY_SHARE,
+    CREATE_LIBRARY_SHARE,
+    RESPOND_TO_LIBRARY_SHARE,
+} from '@/lib/graphql/libraryShare/LibraryShareMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
@@ -3987,6 +4001,47 @@ export class RequestManager {
         options?: MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>,
     ): AbortableApolloUseMutationResponse<DeleteUserMutation, DeleteUserMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, DELETE_USER, undefined, options);
+    }
+
+    public useGetLibraryShares(
+        options?: QueryHookOptions<GetLibrarySharesQuery, GetLibrarySharesQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetLibrarySharesQuery, GetLibrarySharesQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_LIBRARY_SHARES, {}, options);
+    }
+
+    public useCreateLibraryShare(
+        options?: MutationHookOptions<CreateLibraryShareMutation, CreateLibraryShareMutationVariables>,
+    ): AbortableApolloUseMutationResponse<CreateLibraryShareMutation, CreateLibraryShareMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, CREATE_LIBRARY_SHARE, undefined, {
+            refetchQueries: [GET_LIBRARY_SHARES],
+            ...options,
+        });
+    }
+
+    public respondToLibraryShare(
+        id: number,
+        accept: boolean,
+        options?: MutationOptions<RespondToLibraryShareMutation, RespondToLibraryShareMutationVariables>,
+    ): AbortableApolloMutationResponse<RespondToLibraryShareMutation> {
+        return this.doRequest<RespondToLibraryShareMutation, RespondToLibraryShareMutationVariables>(
+            GQLMethod.MUTATION,
+            RESPOND_TO_LIBRARY_SHARE,
+            { input: { id, accept } },
+            // accepting adds manga and categories to the library, the library page is not mounted so its queries are inactive
+            { refetchQueries: accept ? 'all' : [GET_LIBRARY_SHARES], ...options },
+        );
+    }
+
+    public cancelLibraryShare(
+        id: number,
+        options?: MutationOptions<CancelLibraryShareMutation, CancelLibraryShareMutationVariables>,
+    ): AbortableApolloMutationResponse<CancelLibraryShareMutation> {
+        return this.doRequest<CancelLibraryShareMutation, CancelLibraryShareMutationVariables>(
+            GQLMethod.MUTATION,
+            CANCEL_LIBRARY_SHARE,
+            { input: { id } },
+            { refetchQueries: [GET_LIBRARY_SHARES], ...options },
+        );
     }
 
     public startSync(

@@ -67,6 +67,10 @@ export const AppRoutes = {
                         match: 'duplicates',
                         path: '/settings/library/duplicates',
                     },
+                    share: {
+                        match: 'share',
+                        path: '/settings/library/share',
+                    },
                 },
             },
             download: {

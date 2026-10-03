@@ -113,6 +113,11 @@ export type BooleanFilterInput = {
     notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
+export type CancelLibraryShareInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
+};
+
 export type CategoryConditionInput = {
     default?: InputMaybe<Scalars['Boolean']['input']>;
     id?: InputMaybe<Scalars['Int']['input']>;
@@ -424,6 +429,13 @@ export type CreateCategoryPayload = {
     __typename?: 'CreateCategoryPayload';
     category: CategoryType;
     clientMutationId?: Maybe<Scalars['String']['output']>;
+};
+
+export type CreateLibraryShareInput = {
+    categoryIds: Array<Scalars['Int']['input']>;
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    scope: LibraryShareScope;
+    username: Scalars['String']['input'];
 };
 
 export type CreateServerBackupInput = {
@@ -1169,6 +1181,39 @@ export type LastUpdateTimestampPayload = {
     timestamp: Scalars['LongString']['output'];
 };
 
+export type LibraryShareChangePayload = {
+    __typename?: 'LibraryShareChangePayload';
+    addedMangas: Scalars['Int']['output'];
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    share: LibraryShareType;
+};
+
+export enum LibraryShareScope {
+    Categories = 'CATEGORIES',
+    Library = 'LIBRARY',
+}
+
+export enum LibraryShareStatus {
+    Accepted = 'ACCEPTED',
+    Cancelled = 'CANCELLED',
+    Declined = 'DECLINED',
+    Pending = 'PENDING',
+}
+
+export type LibraryShareType = {
+    __typename?: 'LibraryShareType';
+    categoryNames: Array<Scalars['String']['output']>;
+    createdAt: Scalars['LongString']['output'];
+    id: Scalars['Int']['output'];
+    incoming: Scalars['Boolean']['output'];
+    mangaCount: Scalars['Int']['output'];
+    recipientUsername: Scalars['String']['output'];
+    respondedAt: Scalars['LongString']['output'];
+    scope: LibraryShareScope;
+    senderUsername: Scalars['String']['output'];
+    status: LibraryShareStatus;
+};
+
 export type LibraryUpdateStatus = {
     __typename?: 'LibraryUpdateStatus';
     categoryUpdates: Array<CategoryUpdateType>;
@@ -1497,12 +1542,14 @@ export type Mutation = {
     addExtensionStore?: Maybe<AddExtensionStorePayload>;
     bindTrack: BindTrackPayload;
     bindTrackRecord?: Maybe<BindTrackRecordPayload>;
+    cancelLibraryShare: LibraryShareChangePayload;
     clearCachedImages: ClearCachedImagesPayload;
     clearCookiesAndCache: ClearCookiesAndCachePayload;
     clearDownloader?: Maybe<ClearDownloaderPayload>;
     connectKoSyncAccount: KoSyncConnectPayload;
     createBackup: CreateBackupPayload;
     createCategory?: Maybe<CreateCategoryPayload>;
+    createLibraryShare: LibraryShareChangePayload;
     createServerBackup: CreateBackupPayload;
     createUser: CreateUserPayload;
     deleteCategory?: Maybe<DeleteCategoryPayload>;
@@ -1546,6 +1593,7 @@ export type Mutation = {
     reorderChapterDownloads?: Maybe<ReorderChapterDownloadPayload>;
     resetSettings: ResetSettingsPayload;
     resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
+    respondToLibraryShare: LibraryShareChangePayload;
     restoreBackup: RestoreBackupPayload;
     setCategoryMeta?: Maybe<SetCategoryMetaPayload>;
     setCategoryMetas?: Maybe<SetCategoryMetasPayload>;
@@ -1596,6 +1644,10 @@ export type MutationBindTrackRecordArgs = {
     input: BindTrackRecordInput;
 };
 
+export type MutationCancelLibraryShareArgs = {
+    input: CancelLibraryShareInput;
+};
+
 export type MutationClearCachedImagesArgs = {
     input: ClearCachedImagesInput;
 };
@@ -1618,6 +1670,10 @@ export type MutationCreateBackupArgs = {
 
 export type MutationCreateCategoryArgs = {
     input: CreateCategoryInput;
+};
+
+export type MutationCreateLibraryShareArgs = {
+    input: CreateLibraryShareInput;
 };
 
 export type MutationCreateServerBackupArgs = {
@@ -1778,6 +1834,10 @@ export type MutationReorderChapterDownloadsArgs = {
 
 export type MutationResetSettingsArgs = {
     input: ResetSettingsInput;
+};
+
+export type MutationRespondToLibraryShareArgs = {
+    input: RespondToLibraryShareInput;
 };
 
 export type MutationRestoreBackupArgs = {
@@ -2247,6 +2307,7 @@ export type Query = {
     koSyncStatus: KoSyncStatusPayload;
     lastSyncStatus?: Maybe<SyncStatus>;
     lastUpdateTimestamp: LastUpdateTimestampPayload;
+    libraryShares: Array<LibraryShareType>;
     libraryUpdateStatus: LibraryUpdateStatus;
     manga: MangaType;
     mangas: MangaNodeList;
@@ -2466,6 +2527,12 @@ export type ResetSettingsPayload = {
     __typename?: 'ResetSettingsPayload';
     clientMutationId?: Maybe<Scalars['String']['output']>;
     settings: SettingsType;
+};
+
+export type RespondToLibraryShareInput = {
+    accept: Scalars['Boolean']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    id: Scalars['Int']['input'];
 };
 
 export type RestoreBackupInput = {

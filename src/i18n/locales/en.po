@@ -134,6 +134,12 @@ msgstr "{0} / {1}"
 msgid "{0} / {1}{2}"
 msgstr "{0} / {1}{2}"
 
+#. placeholder {0}: share.senderUsername
+#. placeholder {1}: describe(share)
+#: src/features/library/screens/LibraryShare.tsx
+msgid "{0} wants to share {1} with you"
+msgstr "{0} wants to share {1} with you"
+
 #. placeholder {0}: updateStatus.progress
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{0}% | Updating…"
@@ -351,6 +357,11 @@ msgstr "{ttl, plural, one {Delete backups that are older than # day} other {Dele
 msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
 msgstr "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
 
+#. placeholder {0}: share.mangaCount
+#: src/features/library/screens/LibraryShare.tsx
+msgid "{what} ({0} manga)"
+msgstr "{what} ({0} manga)"
+
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: Active setting"
@@ -386,6 +397,14 @@ msgstr "Aborted"
 #: src/features/settings/screens/About.tsx
 msgid "About"
 msgstr "About"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Accept"
+msgstr "Accept"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Accepted"
+msgstr "Accepted"
 
 #: src/features/authentication/components/UserAccountsDialog.tsx
 #: src/features/authentication/components/UserProfileCard.tsx
@@ -449,6 +468,10 @@ msgstr "Add To Library"
 #: src/features/tracker/components/cards/TrackerUntrackedCard.tsx
 msgid "Add tracking"
 msgstr "Add tracking"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Added {added} manga to your library"
+msgstr "Added {added} manga to your library"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Added manga to library!"
@@ -525,6 +548,10 @@ msgstr "Artist"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Ascending"
 msgstr "Ascending"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Ask the other person for their exact username, accounts can't be browsed"
+msgstr "Ask the other person for their exact username, accounts can't be browsed"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Authentication"
@@ -802,6 +829,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/library/screens/LibraryShare.tsx
 #: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
@@ -829,6 +857,7 @@ msgstr "Cancel download"
 msgid "Cancel downloads of selected"
 msgstr "Cancel downloads of selected"
 
+#: src/features/library/screens/LibraryShare.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Cancelled"
@@ -1102,6 +1131,14 @@ msgstr "Could not add extension store"
 msgid "Could not add manga to library!"
 msgstr "Could not add manga to library!"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Could not answer the request"
+msgstr "Could not answer the request"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Could not cancel the request"
+msgstr "Could not cancel the request"
+
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Could not check for duplicated manga in your library.\n"
 "\n"
@@ -1286,6 +1323,10 @@ msgstr "Could not save theme changes"
 msgid "Could not search source"
 msgstr "Could not search source"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Could not send the request"
+msgstr "Could not send the request"
+
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/sync/components/SyncButton.tsx
 msgid "Could not start sync"
@@ -1444,6 +1485,14 @@ msgstr "Day"
 #: src/features/settings/screens/About.tsx
 msgid "Debug information"
 msgstr "Debug information"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Decline"
+msgstr "Decline"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Declined"
+msgstr "Declined"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Decrease auto scroll speed"
@@ -1745,6 +1794,10 @@ msgstr "Enabled languages"
 msgid "Enabled languages and sources"
 msgstr "Enabled languages and sources"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Entire library"
+msgstr "Entire library"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -2035,6 +2088,12 @@ msgstr "Forget manga categories"
 msgid "Fourth to last read chapter"
 msgstr "Fourth to last read chapter"
 
+#. placeholder {0}: share.senderUsername
+#. placeholder {1}: describe(share)
+#: src/features/library/screens/LibraryShare.tsx
+msgid "From {0}: {1}"
+msgstr "From {0}: {1}"
+
 #: src/features/reader/settings/general/ReaderGeneralSettings.tsx
 msgid "Fullscreen"
 msgstr "Fullscreen"
@@ -2131,6 +2190,7 @@ msgstr "Hikari connection pool"
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
+#: src/features/library/screens/LibraryShare.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/Settings.tsx
 msgid "History"
@@ -2930,6 +2990,10 @@ msgstr "Notes"
 msgid "Notes saved"
 msgstr "Notes saved"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Nothing is added to your library until you accept"
+msgstr "Nothing is added to your library until you accept"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
 msgstr "Novel"
@@ -3000,6 +3064,10 @@ msgstr "Ongoing"
 #: src/features/migration/Migration.constants.ts
 msgid "Only outdated matches found"
 msgstr "Only outdated matches found"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Only some categories"
+msgstr "Only some categories"
 
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Only works if the current chapter plus the next chapter are already downloaded."
@@ -3320,6 +3388,15 @@ msgstr "Remove selected from the library"
 msgid "Removed non library manga from categories"
 msgstr "Removed non library manga from categories"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Request declined"
+msgstr "Request declined"
+
+#. placeholder {0}: username.trim()
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Request sent, {0} has to accept it"
+msgstr "Request sent, {0} has to accept it"
+
 #: src/base/components/buttons/ResetButton.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
@@ -3577,6 +3654,14 @@ msgstr "Select pinned sources"
 msgid "Selected"
 msgstr "Selected"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Send request"
+msgstr "Send request"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Send your library or some categories to another account"
+msgstr "Send your library or some categories to another account"
+
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"
@@ -3654,6 +3739,15 @@ msgstr "Settings"
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
 msgid "Share"
 msgstr "Share"
+
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Share library"
+msgstr "Share library"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Share with another account"
+msgstr "Share with another account"
 
 #: src/features/settings/components/DebugInformation.tsx
 msgid "Show"
@@ -4029,6 +4123,11 @@ msgstr "The address of the FlareSolverr server"
 msgid "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
 msgstr "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
 
+#. placeholder {0}: share.categoryNames.join(', ')
+#: src/features/library/screens/LibraryShare.tsx
+msgid "the categories {0}"
+msgstr "the categories {0}"
+
 #: src/features/library/screens/Library.tsx
 msgid "The category is empty"
 msgstr "The category is empty"
@@ -4085,6 +4184,10 @@ msgstr "The previous chapter has a different scanlator than the current one.\n"
 msgid "The theme name must be unique and has a limit of 16 characters"
 msgstr "The theme name must be unique and has a limit of 16 characters"
 
+#: src/features/library/screens/LibraryShare.tsx
+msgid "the whole library"
+msgstr "the whole library"
+
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
@@ -4138,6 +4241,12 @@ msgstr "This will remove the tracking locally."
 #: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
 msgid "Tiny"
 msgstr "Tiny"
+
+#. placeholder {0}: share.recipientUsername
+#. placeholder {1}: describe(share)
+#: src/features/library/screens/LibraryShare.tsx
+msgid "To {0}: {1}"
+msgstr "To {0}: {1}"
 
 #: src/base/utils/DateHelper.ts
 msgid "Today"
@@ -4242,6 +4351,7 @@ msgstr "UI Login (Recommended)"
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/LibraryDuplicates.tsx
 #: src/features/library/screens/LibrarySettings.tsx
+#: src/features/library/screens/LibraryShare.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/migration/screens/MigrationSelectMangas.tsx
 #: src/features/migration/screens/MigrationSelectSource.tsx
@@ -4416,6 +4526,7 @@ msgstr "Use the version that was delivered with the server release"
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/authentication/components/UserAccountsDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx
+#: src/features/library/screens/LibraryShare.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Username"
 msgstr "Username"
@@ -4439,6 +4550,14 @@ msgstr "Vertical"
 #: src/features/settings/Settings.constants.ts
 msgid "VUI"
 msgstr "VUI"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Waiting for approval"
+msgstr "Waiting for approval"
+
+#: src/features/library/screens/LibraryShare.tsx
+msgid "Waiting for your approval"
+msgstr "Waiting for your approval"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
