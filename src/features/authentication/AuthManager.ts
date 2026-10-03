@@ -11,8 +11,22 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 let notifierValue = 0;
 
+/** An account that stays signed in on this device, so it can be switched to without typing the password again. */
+export type SavedAccount = { userId: number; username: string; refreshToken: string };
+
+const decodeTokenPayload = (token: string): Record<string, unknown> | null => {
+    try {
+        const payload = token.split('.')[1].replaceAll('-', '+').replaceAll('_', '/');
+        return JSON.parse(atob(payload));
+    } catch {
+        return null;
+    }
+};
+
 export class AuthManager {
     static readonly REFRESH_TOKEN_KEY = 'auth-refresh-token';
+
+    static readonly SAVED_ACCOUNTS_KEY = 'auth-saved-accounts';
 
     private static subscribedCount: number = 0;
 
@@ -92,8 +106,48 @@ export class AuthManager {
         return AuthManager.accessToken;
     }
 
+    /** A login without "stay signed in" lives in the session storage and ends with the browser session. */
     static getRefreshToken(): string | null {
-        return AppStorage.local.getItemParsed(AuthManager.REFRESH_TOKEN_KEY, null);
+        return (
+            AppStorage.session.getItemParsed<string | null>(AuthManager.REFRESH_TOKEN_KEY, null) ??
+            AppStorage.local.getItemParsed<string | null>(AuthManager.REFRESH_TOKEN_KEY, null)
+        );
+    }
+
+    static getSavedAccounts(): SavedAccount[] {
+        return AppStorage.local.getItemParsed<SavedAccount[]>(AuthManager.SAVED_ACCOUNTS_KEY, []);
+    }
+
+    private static setSavedAccounts(accounts: SavedAccount[]): void {
+        AppStorage.local.setItem(AuthManager.SAVED_ACCOUNTS_KEY, accounts.length ? accounts : undefined);
+        AuthManager.notify();
+    }
+
+    static saveAccount(refreshToken: string): void {
+        const payload = decodeTokenPayload(refreshToken);
+        const userId = payload?.user_id;
+        const username = payload?.username;
+        if (typeof userId !== 'number' || typeof username !== 'string') {
+            return;
+        }
+
+        AuthManager.setSavedAccounts([
+            ...AuthManager.getSavedAccounts().filter((account) => account.userId !== userId),
+            { userId, username, refreshToken },
+        ]);
+    }
+
+    /** Takes the account off this device. The caller ends its session on the server. */
+    static forgetAccount(userId: number): void {
+        AuthManager.setSavedAccounts(AuthManager.getSavedAccounts().filter((account) => account.userId !== userId));
+    }
+
+    /** Makes a saved account the active one. The page has to be reloaded afterwards, so nothing of the previous one stays. */
+    static activateSavedAccount(account: SavedAccount): void {
+        AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
+        AppStorage.local.setItem(AuthManager.REFRESH_TOKEN_KEY, account.refreshToken);
+        AuthManager.accessToken = null;
+        AuthManager.notify();
     }
 
     static getTokens(): { accessToken: string | null; refreshToken: string | null } {
@@ -123,14 +177,20 @@ export class AuthManager {
         AuthManager.notify();
     }
 
-    static setRefreshToken(token: string): void {
-        AppStorage.local.setItem(AuthManager.REFRESH_TOKEN_KEY, token);
+    static setRefreshToken(token: string, stayLoggedIn = true): void {
+        if (stayLoggedIn) {
+            AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
+            AppStorage.local.setItem(AuthManager.REFRESH_TOKEN_KEY, token);
+            AuthManager.saveAccount(token);
+        } else {
+            AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, token);
+        }
         AuthManager.notify();
     }
 
-    static setTokens(accessToken: string, refreshToken: string): void {
+    static setTokens(accessToken: string, refreshToken: string, stayLoggedIn = true): void {
         AuthManager.setAccessToken(accessToken);
-        AuthManager.setRefreshToken(refreshToken);
+        AuthManager.setRefreshToken(refreshToken, stayLoggedIn);
     }
 
     static removeAccessToken(): void {
@@ -138,7 +198,14 @@ export class AuthManager {
         AuthManager.notify();
     }
 
+    /** The token was rejected or the user signed out: the account does not stay signed in on this device either. */
     static removeRefreshToken(): void {
+        const token = AuthManager.getRefreshToken();
+        const saved = AuthManager.getSavedAccounts().find((account) => account.refreshToken === token);
+        if (saved) {
+            AuthManager.forgetAccount(saved.userId);
+        }
+        AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
         AppStorage.local.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
         AuthManager.notify();
     }

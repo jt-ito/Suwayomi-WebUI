@@ -9,7 +9,10 @@
 import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import ListItemButton from '@mui/material/ListItemButton';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -49,11 +52,67 @@ const UserAvatar = ({ username, size = 40 }: { username: string; size?: number }
     </Avatar>
 );
 
-const SwitchAccount = ({ onDone }: { onDone: () => void }) => {
+const goToLibrary = () => {
+    // drop everything that was loaded for the previous account, and start on the library instead of whatever page the
+    // previous account was on
+    window.location.assign(`${SubpathUtil.getSubpath()}${AppRoutes.library.path()}`);
+};
+
+/** The accounts that stay signed in on this device: one tap switches, no password. */
+const SavedAccounts = ({ currentUserId, onDone }: { currentUserId: number; onDone: () => void }) => {
+    const { t } = useLingui();
+    AuthManager.useSession();
+
+    const accounts = AuthManager.getSavedAccounts().filter((account) => account.userId !== currentUserId);
+
+    if (!accounts.length) {
+        return null;
+    }
+
+    return (
+        <List dense sx={{ pt: 2 }}>
+            {accounts.map((account) => (
+                <ListItem
+                    key={account.userId}
+                    disablePadding
+                    secondaryAction={
+                        <IconButton
+                            edge="end"
+                            title={t`Remove from this device`}
+                            onClick={() => {
+                                // ends the session on the server, so the saved token is worthless afterwards
+                                requestManager.logoutUser(account.refreshToken).response.catch(() => {});
+                                AuthManager.forgetAccount(account.userId);
+                            }}
+                        >
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                    }
+                >
+                    <ListItemButton
+                        onClick={() => {
+                            AuthManager.activateSavedAccount(account);
+                            onDone();
+                            goToLibrary();
+                        }}
+                    >
+                        <ListItemAvatar>
+                            <UserAvatar username={account.username} size={32} />
+                        </ListItemAvatar>
+                        <ListItemText primary={account.username} secondary={t`Tap to switch`} />
+                    </ListItemButton>
+                </ListItem>
+            ))}
+        </List>
+    );
+};
+
+const SwitchAccount = ({ currentUserId, onDone }: { currentUserId: number; onDone: () => void }) => {
     const { t } = useLingui();
     const [loginUser, { loading }] = requestManager.useLoginUser();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [stayLoggedIn, setStayLoggedIn] = useState(true);
 
     const switchAccount = async () => {
         try {
@@ -62,37 +121,42 @@ const SwitchAccount = ({ onDone }: { onDone: () => void }) => {
                 return;
             }
 
-            AuthManager.setTokens(data.login.accessToken, data.login.refreshToken);
+            AuthManager.setTokens(data.login.accessToken, data.login.refreshToken, stayLoggedIn);
             onDone();
-            // drop everything that was loaded for the previous account, and start on the library instead of whatever page
-            // the previous account was on
-            window.location.assign(`${SubpathUtil.getSubpath()}${AppRoutes.library.path()}`);
+            goToLibrary();
         } catch (e) {
             makeToast(t`Could not log in to tsundoku`, 'error', getErrorMessage(e));
         }
     };
 
     return (
-        <Stack
-            component="form"
-            sx={{ gap: 2, pt: 2 }}
-            onSubmit={(e) => {
-                e.preventDefault();
-                switchAccount();
-            }}
-        >
-            <TextField
-                label={t`Username`}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
-                fullWidth
-            />
-            <PasswordTextField value={password} onChange={(e) => setPassword(e.target.value)} fullWidth />
-            <Button type="submit" variant="contained" disabled={loading || !isValidCredentials(username, password)}>
-                {t`Switch account`}
-            </Button>
-        </Stack>
+        <>
+            <SavedAccounts currentUserId={currentUserId} onDone={onDone} />
+            <Stack
+                component="form"
+                sx={{ gap: 2, pt: 2 }}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    switchAccount();
+                }}
+            >
+                <TextField
+                    label={t`Username`}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    autoComplete="username"
+                    fullWidth
+                />
+                <PasswordTextField value={password} onChange={(e) => setPassword(e.target.value)} fullWidth />
+                <FormControlLabel
+                    label={t`Stay signed in on this device`}
+                    control={<Checkbox checked={stayLoggedIn} onChange={(e) => setStayLoggedIn(e.target.checked)} />}
+                />
+                <Button type="submit" variant="contained" disabled={loading || !isValidCredentials(username, password)}>
+                    {t`Add account`}
+                </Button>
+            </Stack>
+        </>
     );
 };
 
@@ -263,6 +327,11 @@ export const UserAccountsDialog = ({
                             size="small"
                             onClick={() => {
                                 onClose();
+                                // ends the session on the server first, so the refresh token is worthless afterwards
+                                const refreshTokenToEnd = AuthManager.getRefreshToken();
+                                if (refreshTokenToEnd) {
+                                    requestManager.logoutUser(refreshTokenToEnd).response.catch(() => {});
+                                }
                                 // clears the tokens and all cached data, which brings up the login page (or, if the
                                 // server does not require a login, the default account)
                                 requestManager.reset();
@@ -281,7 +350,7 @@ export const UserAccountsDialog = ({
                 {tab === 'manage' && isAdmin ? (
                     <ManageAccounts currentUserId={user.id} />
                 ) : (
-                    <SwitchAccount onDone={onClose} />
+                    <SwitchAccount currentUserId={user.id} onDone={onClose} />
                 )}
             </DialogContent>
         </Dialog>

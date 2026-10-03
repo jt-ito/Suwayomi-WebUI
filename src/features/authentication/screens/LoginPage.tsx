@@ -11,6 +11,11 @@ import type { FormEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -49,13 +54,16 @@ export const LoginPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [stayLoggedIn, setStayLoggedIn] = useState(true);
+    AuthManager.useSession();
+    const savedAccounts = AuthManager.getSavedAccounts();
 
     const doLogin = async () => {
         try {
             const { data } = await loginUser({ variables: { username, password } });
 
             if (data) {
-                AuthManager.setTokens(data.login.accessToken, data.login.refreshToken);
+                AuthManager.setTokens(data.login.accessToken, data.login.refreshToken, stayLoggedIn);
                 requestManager.processQueues();
                 navigate(redirect ?? AppRoutes.root.path);
             }
@@ -158,6 +166,21 @@ export const LoginPage = () => {
                             {t`Log in to your tsundoku server.`}
                         </Typography>
                     </Stack>
+                    {savedAccounts.length > 0 && (
+                        <List dense disablePadding>
+                            {savedAccounts.map((account) => (
+                                <ListItemButton
+                                    key={account.userId}
+                                    onClick={() => {
+                                        AuthManager.activateSavedAccount(account);
+                                        window.location.assign(redirect ?? AppRoutes.root.path);
+                                    }}
+                                >
+                                    <ListItemText primary={t`Continue as ${account.username}`} />
+                                </ListItemButton>
+                            ))}
+                        </List>
+                    )}
                     <Stack sx={{ gap: 2 }}>
                         <TextField
                             autoFocus
@@ -175,6 +198,12 @@ export const LoginPage = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </Stack>
+                    <FormControlLabel
+                        label={t`Stay signed in`}
+                        control={
+                            <Checkbox checked={stayLoggedIn} onChange={(e) => setStayLoggedIn(e.target.checked)} />
+                        }
+                    />
                     <Button
                         type="submit"
                         size="large"
