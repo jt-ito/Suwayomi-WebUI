@@ -14,40 +14,50 @@ import React, { type JSX } from 'react';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { DEFAULT_FAB_STYLE } from '@/base/components/buttons/StyledFab.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 interface SelectionFABProps {
     children: (handleClose: () => void, setHideMenu: (hide: boolean) => void) => JSX.Element;
     title: string;
 }
 
-const FabContainer = styled(Box)(({ theme }) => ({
+const FabContainer = styled(Box)({
     ...DEFAULT_FAB_STYLE,
     height: `calc(${DEFAULT_FAB_STYLE.height} + 1)`,
     paddingTop: '8px',
     zIndex: 1, // the "Checkbox" (MUI) component of the "ChapterCard" has z-index 1, which causes it to take over the mouse events
-    [theme.breakpoints.down('md')]: {
-        marginBottom: '64px',
-    },
-}));
+});
 
-export const SelectionFAB: React.FC<SelectionFABProps> = ({ children, title }) => (
-    <PopupState variant="popover" popupId="selection-fab-menu">
-        {(popupState) => (
-            <>
-                <FabContainer {...bindTrigger(popupState)}>
-                    <Fab variant="extended" color="primary">
-                        {title}
-                        <MoreHoriz sx={{ ml: 1 }} />
-                    </Fab>
-                </FabContainer>
-                <Menu
-                    {...bindMenu(popupState)}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                >
-                    {(onClose, setHideMenu) => children(onClose, setHideMenu)}
-                </Menu>
-            </>
-        )}
-    </PopupState>
-);
+export const SelectionFAB: React.FC<SelectionFABProps> = ({ children, title }) => {
+    const { bottomBarHeight } = useNavBarContext();
+
+    return (
+        <PopupState variant="popover" popupId="selection-fab-menu">
+            {(popupState) => (
+                <>
+                    <FabContainer
+                        {...bindTrigger(popupState)}
+                        // on phones the floating navigation bar sits at the bottom: stay above it
+                        sx={(theme) => ({
+                            [theme.breakpoints.down('md')]: {
+                                bottom: `calc(${bottomBarHeight}px + env(safe-area-inset-bottom) + 16px)`,
+                            },
+                        })}
+                    >
+                        <Fab variant="extended" color="primary">
+                            {title}
+                            <MoreHoriz sx={{ ml: 1 }} />
+                        </Fab>
+                    </FabContainer>
+                    <Menu
+                        {...bindMenu(popupState)}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                        {(onClose, setHideMenu) => children(onClose, setHideMenu)}
+                    </Menu>
+                </>
+            )}
+        </PopupState>
+    );
+};

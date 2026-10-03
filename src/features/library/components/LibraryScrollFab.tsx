@@ -11,6 +11,7 @@ import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 import { DEFAULT_FAB_STYLE, StyledFab } from '@/base/components/buttons/StyledFab.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 type ScrollTarget = 'top' | 'bottom' | null;
 
@@ -33,6 +34,7 @@ const scrollTo = (target: 'top' | 'bottom') => {
 /** One FAB that jumps to the top when in the lower half of the page, otherwise to the bottom. */
 export const LibraryScrollFab = ({ contentKey, isRaised }: { contentKey: unknown; isRaised?: boolean }) => {
     const { t } = useLingui();
+    const { bottomBarHeight } = useNavBarContext();
     const [target, setTarget] = useState<ScrollTarget>(null);
 
     useEffect(() => {
@@ -67,7 +69,10 @@ export const LibraryScrollFab = ({ contentKey, isRaised }: { contentKey: unknown
                 zIndex: 1,
                 transition: 'transform 0.15s cubic-bezier(0.23, 1, 0.32, 1)',
                 '&:active': { transform: 'scale(0.96)' },
-                [theme.breakpoints.down('md')]: { marginBottom: '64px' },
+                // on phones the floating navigation bar sits at the bottom: stay above it
+                [theme.breakpoints.down('md')]: {
+                    bottom: `calc(${bottomBarHeight}px + env(safe-area-inset-bottom) + 16px${isRaised ? ` + ${DEFAULT_FAB_STYLE.height} + 16px` : ''})`,
+                },
             })}
         >
             {target === 'top' ? <KeyboardArrowUp /> : <KeyboardArrowDown />}

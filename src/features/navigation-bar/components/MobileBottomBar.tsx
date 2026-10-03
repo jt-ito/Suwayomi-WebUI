@@ -18,8 +18,9 @@ import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.t
 import { NavigationBarItem } from '@/features/navigation-bar/components/NavigationBarItem.tsx';
 import Stack from '@mui/material/Stack';
 
-// gap between the floating pill and the viewport edges
-const BOTTOM_BAR_GAP = 12;
+// gap between the floating pill and the bottom / side edges of the viewport
+const BOTTOM_BAR_GAP = 4;
+const SIDE_BAR_GAP = 12;
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const theme = useTheme();
@@ -29,9 +30,11 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
     useResizeObserver(
         ref,
         useCallback(() => {
-            // distance from the viewport bottom to the pill's top: pill height + floating gap + safe area
+            // pill height + floating gap. The safe area is not part of it: it changes when the browser's toolbar
+            // slides away, without the pill changing size, so everything that sits above the pill adds
+            // env(safe-area-inset-bottom) itself
             setBottomBarHeight(
-                ref.current ? Math.ceil(window.innerHeight - ref.current.getBoundingClientRect().top) : 0,
+                ref.current ? Math.ceil(ref.current.getBoundingClientRect().height) + BOTTOM_BAR_GAP : 0,
             );
         }, [ref.current]),
     );
@@ -43,8 +46,8 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
             sx={{
                 position: 'fixed',
                 bottom: `calc(${BOTTOM_BAR_GAP}px + env(safe-area-inset-bottom))`,
-                left: `calc(${BOTTOM_BAR_GAP}px + env(safe-area-inset-left))`,
-                right: `calc(${BOTTOM_BAR_GAP}px + env(safe-area-inset-right))`,
+                left: `calc(${SIDE_BAR_GAP}px + env(safe-area-inset-left))`,
+                right: `calc(${SIDE_BAR_GAP}px + env(safe-area-inset-right))`,
                 borderRadius: 9999,
                 overflow: 'hidden',
                 zIndex: theme.zIndex.drawer - 1,

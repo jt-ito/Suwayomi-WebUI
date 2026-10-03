@@ -40,7 +40,8 @@ export const StyledGroupedVirtuoso = <ItemData = any, Context = any>({
             }}
             style={{
                 ...style,
-                height: `calc(100vh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px - ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
+                // dvh: the visible height on phones, vh is the one with the browser toolbars hidden
+                height: `calc(100dvh - ${heightToSubtract}px - ${appBarHeight}px - ${bottomBarHeight}px - env(safe-area-inset-bottom))`,
             }}
         />
     );

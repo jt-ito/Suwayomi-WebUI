@@ -264,13 +264,18 @@ const MainApp = () => {
             id="appMainContainer"
             component="main"
             sx={{
-                minHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px)`,
+                minHeight: `calc(100vh - ${appBarHeight + bottomBarHeight}px - env(safe-area-inset-bottom))`,
+                // 100vh is the tallest the screen gets (browser toolbars hidden) so on phones the page could always be
+                // scrolled a bit, which left the top of every page under the app bar
+                '@supports (height: 100dvh)': {
+                    minHeight: `calc(100dvh - ${appBarHeight + bottomBarHeight}px - env(safe-area-inset-bottom))`,
+                },
                 width: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 minWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 maxWidth: `calc(100vw - (100vw - 100%) - ${navBarWidth}px)`,
                 position: 'relative',
                 mt: `${appBarHeight}px`,
-                pb: `calc(${bottomBarHeight}px + ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
+                pb: `calc(${bottomBarHeight}px + env(safe-area-inset-bottom))`,
                 pr: 'env(safe-area-inset-right)',
             }}
         >
@@ -421,7 +426,14 @@ export const App: React.FC = () => (
 
                 <Box sx={{ display: 'flex' }}>
                     <OffsetContainerRoot>
-                        <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                        <Box
+                            sx={{
+                                flexShrink: 0,
+                                position: 'relative',
+                                height: '100vh',
+                                '@supports (height: 100dvh)': { height: '100dvh' },
+                            }}
+                        >
                             <DefaultNavBar />
                         </Box>
                         <Routes>

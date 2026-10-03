@@ -310,6 +310,12 @@ export const FORK_COMPONENT_OVERRIDES: Components<Theme> = {
                 '& h1.MuiTypography-root': {
                     WebkitTextStroke: `3px ${alpha(theme.palette.primary.main, 0.55)}`,
                     paintOrder: 'stroke fill',
+                    // touch browsers (iOS Safari) paint the stroke over the letters instead of under them, which smears the
+                    // title into a blurry halo
+                    '@media (hover: none)': {
+                        WebkitTextStroke: 'none',
+                        textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',
+                    },
                 },
                 backdropFilter: 'blur(10px) saturate(150%)',
                 WebkitBackdropFilter: 'blur(10px) saturate(150%)',
