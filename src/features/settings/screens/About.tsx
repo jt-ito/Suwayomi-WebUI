@@ -109,7 +109,7 @@ export function About() {
                 <ListItem>
                     <ListItemText
                         primary={t`Build time`}
-                        secondary={epochToDate(Number(aboutServer.buildTime)).toString()}
+                        secondary={epochToDate(Number(aboutServer.buildTime)).toDate().toLocaleString()}
                     />
                 </ListItem>
             </List>
