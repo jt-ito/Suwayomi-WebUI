@@ -10,13 +10,15 @@ import Box from '@mui/material/Box';
 import { alpha, useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import type { PointerEvent, RefObject } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { VirtuosoGridHandle } from 'react-virtuoso';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { darkPanelColor, ELEVATION } from '@/features/theme/services/ForkComponentOverrides.ts';
 
 const MIN_MANGAS_FOR_INDEX = 20;
 const OTHER = '#';
+// the bubble goes away this long after the last jump, even when the browser never reports the finger lifting
+const BUBBLE_HIDE_DELAY_MS = 600;
 
 /** "Ärger" -> "A", "007" -> "#", "ネ" -> "#" */
 const getLetter = (title: string): string => {
@@ -26,10 +28,9 @@ const getLetter = (title: string): string => {
 };
 
 /**
- * Letters in the order they first appear in the (title sorted) list, each with the index of its first manga.
- * The order follows the list, so a descending sort shows Z first.
+ * Letters from # to Z, each with the index of its first manga in the (title sorted) list.
  */
-const getLetterStarts = (titles: string[], followListOrder: boolean): [string, number][] => {
+const getLetterStarts = (titles: string[]): [string, number][] => {
     const starts = new Map<string, number>();
     titles.forEach((title, index) => {
         const letter = getLetter(title);
@@ -38,27 +39,24 @@ const getLetterStarts = (titles: string[], followListOrder: boolean): [string, n
         }
     });
 
-    const entries = [...starts.entries()];
-    // in any other sort order the list order says nothing about the alphabet: show # then A-Z
+    // always # then A-Z from top to bottom, also in a Z-A library (the jump goes to wherever that letter starts in the list)
     const rank = (letter: string) => (letter === OTHER ? '' : letter);
 
-    return followListOrder ? entries : entries.sort(([a], [b]) => rank(a).localeCompare(rank(b)));
+    return [...starts.entries()].sort(([a], [b]) => rank(a).localeCompare(rank(b)));
 };
 
 /**
  * A strip of letters at the right edge of the library: tap or drag over a letter to jump to the first series that
- * starts with it.
+ * starts with it. Only meant for a library sorted by title, in any other order the series next to the jump target
+ * would not start with that letter.
  */
 export const LibraryLetterIndex = ({
     titles,
     gridHandleRef,
-    followListOrder = true,
     topOffset = 0,
 }: {
     titles: string[];
     gridHandleRef: RefObject<VirtuosoGridHandle | null>;
-    /** the list is in title order; otherwise a jump goes to the first series with that letter, wherever it is */
-    followListOrder?: boolean;
     /** space taken by sticky elements above the list (tabs); the app bar is added on top */
     topOffset?: number;
 }) => {
@@ -69,14 +67,27 @@ export const LibraryLetterIndex = ({
     const stripRef = useRef<HTMLDivElement>(null);
     const [activeLetter, setActiveLetter] = useState<string | null>(null);
     const lastJumpRef = useRef<string | null>(null);
+    const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-    const letters = useMemo(() => getLetterStarts(titles, followListOrder), [titles, followListOrder]);
+    useEffect(() => () => clearTimeout(hideTimeoutRef.current), []);
+
+    const letters = useMemo(() => getLetterStarts(titles), [titles]);
 
     if (titles.length < MIN_MANGAS_FOR_INDEX || letters.length < 2) {
         return null;
     }
 
+    const hideBubbleSoon = () => {
+        clearTimeout(hideTimeoutRef.current);
+        // touch browsers can lose the pointer-up when the list scrolls under the finger, which left the bubble stuck
+        hideTimeoutRef.current = setTimeout(() => {
+            lastJumpRef.current = null;
+            setActiveLetter(null);
+        }, BUBBLE_HIDE_DELAY_MS);
+    };
+
     const jumpTo = (letter: string) => {
+        hideBubbleSoon();
         if (lastJumpRef.current === letter) {
             return;
         }
@@ -112,6 +123,7 @@ export const LibraryLetterIndex = ({
     };
 
     const finishPointer = () => {
+        clearTimeout(hideTimeoutRef.current);
         lastJumpRef.current = null;
         setActiveLetter(null);
     };
@@ -161,6 +173,7 @@ export const LibraryLetterIndex = ({
                 }}
                 onPointerUp={finishPointer}
                 onPointerCancel={finishPointer}
+                onLostPointerCapture={finishPointer}
                 sx={{
                     position: 'fixed',
                     right: { xs: 2, md: 18 },

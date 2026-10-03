@@ -310,13 +310,7 @@ export function Library() {
                     retry={mangaError && retryFetchCategoryMangas}
                 />
                 {selectionFab}
-                {!query && (
-                    <LibraryLetterIndex
-                        titles={titles}
-                        gridHandleRef={gridHandleRef}
-                        followListOrder={isSortedByTitle}
-                    />
-                )}
+                {!query && isSortedByTitle && <LibraryLetterIndex titles={titles} gridHandleRef={gridHandleRef} />}
                 <LibraryScrollFab contentKey={filterKey + mangas.length} isRaised={isSelectModeActive} />
             </>
         );
@@ -363,13 +357,8 @@ export function Library() {
                 </TabPanel>
             ))}
             {selectionFab}
-            {!query && (
-                <LibraryLetterIndex
-                    titles={titles}
-                    gridHandleRef={gridHandleRef}
-                    followListOrder={isSortedByTitle}
-                    topOffset={48}
-                />
+            {!query && isSortedByTitle && (
+                <LibraryLetterIndex titles={titles} gridHandleRef={gridHandleRef} topOffset={48} />
             )}
             <LibraryScrollFab contentKey={filterKey + mangas.length} isRaised={isSelectModeActive} />
         </TabsWrapper>
